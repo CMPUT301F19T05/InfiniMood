@@ -1,1 +1,1 @@
-# SentiMap
+# InfiniMood
