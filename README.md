@@ -1,3 +1,5 @@
 # InfiniMood
 
-Mood
+![InfiniMood Logo](/img/logo.png)
+
+Mood tracking tool
