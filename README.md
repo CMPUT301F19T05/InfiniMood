@@ -1,5 +1,5 @@
-![InfiniMood Logo](/img/logo.png)
+# InfiniMood
 
----
+![InfiniMood Logo](/img/logo.png)
 
 Mood tracking tool
