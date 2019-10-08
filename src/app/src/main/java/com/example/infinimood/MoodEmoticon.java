@@ -6,6 +6,8 @@ public class MoodEmoticon {
 
     private final String emoticion;
 
+    // Background color?
+
     public MoodEmoticon(String key, String emoticon) {
         this.key = key;
         this.emoticion = emoticon;
