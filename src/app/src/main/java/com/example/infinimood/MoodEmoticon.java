@@ -4,21 +4,21 @@ public class MoodEmoticon {
 
     private final String key;
 
-    private final String emoticion;
+    private final String emoticon;
 
     // Background color?
 
     public MoodEmoticon(String key, String emoticon) {
         this.key = key;
-        this.emoticion = emoticon;
+        this.emoticon = emoticon;
     }
 
     public String getKey() {
         return key;
     }
 
-    public String getEmoticion() {
-        return emoticion;
+    public String getEmoticon() {
+        return emoticon;
     }
 
 }
