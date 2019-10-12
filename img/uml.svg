@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="185cm" height="101cm" viewBox="-501 80 3685 2005" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="-498.25" y="101" width="3673.13" height="537"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-498.25" y="101" width="3673.13" height="537"/>
+    <rect style="fill: #ffffff" x="-498.25" y="81" width="165.7" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-498.25" y="81" width="165.7" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-496.25" y="95">View (User Interface)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-499.25" y="682.5" width="3677.13" height="567.5"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-499.25" y="682.5" width="3677.13" height="567.5"/>
+    <rect style="fill: #ffffff" x="-499.25" y="662.5" width="211.9" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-499.25" y="662.5" width="211.9" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-497.25" y="676.5">Controller (Business Logic)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-499.25" y="1341" width="3682.13" height="742.25"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-499.25" y="1341" width="3682.13" height="742.25"/>
+    <rect style="fill: #ffffff" x="-499.25" y="1321" width="42.5" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-499.25" y="1321" width="42.5" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-497.25" y="1335">Model</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="348" y="113.5" width="164.25" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="348" y="113.5" width="164.25" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="430.125" y="133.5">AppCompatActivity</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="218" y="1377" width="433.5" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="218" y="1377" width="433.5" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="434.75" y="1397">MoodEntry</text>
+    <rect style="fill: #ffffff" x="218" y="1405" width="433.5" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="218" y="1405" width="433.5" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1418.2">-id: String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1434.2">-date: Date</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1450.2">-reason: String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1466.2">-location: Location</text>
+    <rect style="fill: #ffffff" x="218" y="1473" width="433.5" height="228"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="218" y="1473" width="433.5" height="228"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1486.2">+setId(newId:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1502.2">+setDate(newDate:Date)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1518.2">+setMood(newMood:MoodEnum)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1534.2">+setSocialSituation(newSocialSituation:SocialSituation)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1550.2">+setReason(newReason:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1566.2">+setImage(newImage:MoodImage)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1582.2">+setLocation(newLocation:Location)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1598.2">+getId(): String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1614.2">+getDate(): Date</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1630.2">+getMood(): MoodEnum</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1646.2">+getSocialSituation(): SocialSituation</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1662.2">+getReason(): String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1678.2">+getImage(): MoodImage</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="221" y="1694.2">+getLocation(): Location</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1213.5" y="1412.5" width="225.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1213.5" y="1412.5" width="225.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1326.3" y="1432.5">ImageReference</text>
+    <rect style="fill: #ffffff" x="1213.5" y="1440.5" width="225.6" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1213.5" y="1440.5" width="225.6" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1216.5" y="1453.7">+reference: String</text>
+    <rect style="fill: #ffffff" x="1213.5" y="1460.5" width="225.6" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1213.5" y="1460.5" width="225.6" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1216.5" y="1473.7">+MoodImage()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1216.5" y="1489.7">+MoodImage(reference:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1216.5" y="1505.7">+getReference(): String</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="676.672,1701 727.655,1701 727.655,1855.12 789.81,1855.12 "/>
+    <polygon style="fill: #ffffff" points="651.5,1701 665.5,1696.2 679.5,1701 665.5,1705.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="651.5,1701 665.5,1696.2 679.5,1701 665.5,1705.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.655" y="1774.06"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="683.5" y="1697">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="785.81" y="1851.12">0..1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-296.5" y="1915.5" width="325.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-296.5" y="1915.5" width="325.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-133.65" y="1935.5">MoodEmoticon</text>
+    <rect style="fill: #ffffff" x="-296.5" y="1943.5" width="325.7" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-296.5" y="1943.5" width="325.7" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-293.5" y="1956.7">-key: String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-293.5" y="1972.7">-emoticon: String</text>
+    <rect style="fill: #ffffff" x="-296.5" y="1979.5" width="325.7" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-296.5" y="1979.5" width="325.7" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-293.5" y="1992.7">+MoodEmoticon(key:String,emoticon:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-293.5" y="2008.7">+getKey(): String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-293.5" y="2024.7">+getEmoticon(): String</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="2065" y="1574" width="256.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2065" y="1574" width="256.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2193.2" y="1594">UserProfile</text>
+    <rect style="fill: #ffffff" x="2065" y="1602" width="256.4" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2065" y="1602" width="256.4" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2068" y="1615.2">-username: String</text>
+    <rect style="fill: #ffffff" x="2065" y="1622" width="256.4" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2065" y="1622" width="256.4" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2068" y="1635.2">+setUsername(newUsername:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2068" y="1651.2">+setImage(newImage:ProfileImage)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2068" y="1667.2">+getUsername(): String</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2068" y="1683.2">+getImage(): ProfileImage</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="2096.42" y="750.834" width="256.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2096.42" y="750.834" width="256.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2224.62" y="770.834">UserProfileController</text>
+    <rect style="fill: #ffffff" x="2096.42" y="778.834" width="256.4" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2096.42" y="778.834" width="256.4" height="8"/>
+    <rect style="fill: #ffffff" x="2096.42" y="786.834" width="256.4" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2096.42" y="786.834" width="256.4" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2099.42" y="800.034">+updateImage(image:ProfileImage)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="377.75" y="234.25" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="377.75" y="234.25" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="571.4" y="254.25">MoodHistoryActivity</text>
+    <rect style="fill: #ffffff" x="377.75" y="262.25" width="387.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="377.75" y="262.25" width="387.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="380.75" y="275.45">-moodList: ListView</text>
+    <rect style="fill: #ffffff" x="377.75" y="282.25" width="387.3" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="377.75" y="282.25" width="387.3" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="380.75" y="295.45">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="380.75" y="311.45">+setAdapter(adapter:ArrayAdapter&lt;MoodEntry&gt;)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="380.75" y="327.45">+onSwitchModeClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="380.75" y="343.45">+onNetworkError(message:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.297,160.741 430.561,211.868 571.4,211.868 571.4,233.249 "/>
+    <polygon style="fill: #ffffff" points="438.297,160.7 430.214,144.741 422.297,160.783 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.297,160.7 430.214,144.741 422.297,160.783 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="288.75" y="744" width="225.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="288.75" y="744" width="225.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="401.55" y="764">MoodHistoryController</text>
+    <rect style="fill: #ffffff" x="288.75" y="772" width="225.6" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="288.75" y="772" width="225.6" height="8"/>
+    <rect style="fill: #ffffff" x="288.75" y="780" width="225.6" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="288.75" y="780" width="225.6" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="291.75" y="793.2">+switchMode(isPersonal:bool)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="401.55,717.821 401.55,540.125 571.4,540.125 571.4,351.257 "/>
+    <polygon style="fill: #000000" points="401.55,742.993 396.75,728.993 401.55,714.993 406.35,728.993 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="401.55,742.993 396.75,728.993 401.55,714.993 406.35,728.993 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="486.475" y="536.125"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="412.55" y="738.993">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="575.4" y="363.257">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="514.35,825.172 514.35,1166.12 434.75,1166.12 434.75,1375.99 "/>
+    <polygon style="fill: #ffffff" points="514.35,800 519.15,814 514.35,828 509.55,814 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="514.35,800 519.15,814 514.35,828 509.55,814 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="474.55" y="1162.12"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="525.35" y="812">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="438.75" y="1371.99">0..*</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="814.906" y="238.26" width="487.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="814.906" y="238.26" width="487.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1058.61" y="258.26">MoodCreateEditActivity</text>
+    <rect style="fill: #ffffff" x="814.906" y="266.26" width="487.4" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="814.906" y="266.26" width="487.4" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="279.46">-datePicker: DatePicker</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="295.46">-moodPicker: Spinner</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="311.46">-reasonInput: TextEdit</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="327.46">-socialSituationPicker: Spinner</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="343.46">-imageInput: TextEdit</text>
+    <rect style="fill: #ffffff" x="814.906" y="350.26" width="487.4" height="148"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="814.906" y="350.26" width="487.4" height="148"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="363.46">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="379.46">+setInitialData(date:Date,mood:MoodEnum,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="395.46">                reason:String,socialSituation:SocialSituation,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="411.46">                image:String)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="427.46">+setDeleteButtonVisibility(isVisible:boolean)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="443.46">+onSubmitClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="459.46">+onDeleteClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="475.46">+onSuccess()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="817.906" y="491.46">+onFailure(message:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.295,160.735 430.558,212.238 1058.61,212.238 1058.61,237.254 "/>
+    <polygon style="fill: #ffffff" points="438.295,160.694 430.213,144.735 422.295,160.776 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.295,160.694 430.213,144.735 422.295,160.776 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="563.24" y="744.26" width="418.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="563.24" y="744.26" width="418.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="772.29" y="764.26">MoodCreateEditController</text>
+    <rect style="fill: #ffffff" x="563.24" y="772.26" width="418.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="563.24" y="772.26" width="418.1" height="8"/>
+    <rect style="fill: #ffffff" x="563.24" y="780.26" width="418.1" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="563.24" y="780.26" width="418.1" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="566.24" y="793.46">+submitChanges(date:Date,mood:MoodEnum,reason:String,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="566.24" y="809.46">               socialSituation:SocialSituation,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="566.24" y="825.46">               image:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="772.29,718.11 772.29,542.124 1058.61,542.124 1058.61,499.263 "/>
+    <polygon style="fill: #000000" points="772.29,743.281 767.49,729.281 772.29,715.281 777.09,729.281 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="772.29,743.281 767.49,729.281 772.29,715.281 777.09,729.281 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="915.448" y="538.124"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="783.29" y="739.281">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1062.61" y="511.263">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-471.928" y="233.428" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-471.928" y="233.428" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-278.278" y="253.428">LoginActivity</text>
+    <rect style="fill: #ffffff" x="-471.928" y="261.428" width="387.3" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-471.928" y="261.428" width="387.3" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="274.628">-usernameField: TextEdit</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="290.628">-passwordField: TextEdit</text>
+    <rect style="fill: #ffffff" x="-471.928" y="297.428" width="387.3" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-471.928" y="297.428" width="387.3" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="310.628">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="326.628">+onLoginClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="342.628">+onLoginSuccess()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-468.928" y="358.628">+onLoginFailure(message:String)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="2737.88" y="238.928" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2737.88" y="238.928" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2931.53" y="258.928">FollowRequestActivity</text>
+    <rect style="fill: #ffffff" x="2737.88" y="266.928" width="387.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2737.88" y="266.928" width="387.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="280.128">-requestList: ListView</text>
+    <rect style="fill: #ffffff" x="2737.88" y="286.928" width="387.3" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2737.88" y="286.928" width="387.3" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="300.128">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="316.128">+setRequests(requests:ArrayAdapter&lt;UserProfile&gt;)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="332.128">+onGrantClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="348.128">+onDismissClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="364.128">+onSuccess()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2740.88" y="380.128">+onFailure(reason:String)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-50.927" y="234.428" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-50.927" y="234.428" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="142.723" y="254.428">CreateAccountActivity</text>
+    <rect style="fill: #ffffff" x="-50.927" y="262.428" width="387.3" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-50.927" y="262.428" width="387.3" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="275.628">-usernameField: TextEdit</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="291.628">-passwordField: TextEdit</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="307.628">-passwordConfirmField: TextEdit</text>
+    <rect style="fill: #ffffff" x="-50.927" y="314.428" width="387.3" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-50.927" y="314.428" width="387.3" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="327.628">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="343.628">+onSubmitClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="359.628">+onCreateAccountSuccess()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-47.927" y="375.628">+onCreateAccountFailure(message:String)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="2259.58" y="241.428" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2259.58" y="241.428" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2453.23" y="261.428">UserProfileActivity</text>
+    <rect style="fill: #ffffff" x="2259.58" y="269.428" width="387.3" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2259.58" y="269.428" width="387.3" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="282.628">-profileImageView: ImageView</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="298.628">-profileImageInput: TextEdit</text>
+    <rect style="fill: #ffffff" x="2259.58" y="305.428" width="387.3" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2259.58" y="305.428" width="387.3" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="318.628">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="334.628">+setImageInputVisibility(isVisible:boolean)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="350.628">+onImageUpdateClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="366.628">+onUpdateSuccess()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2262.58" y="382.628">+onUpdateFailure(message:String)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1354.57" y="236.928" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1354.57" y="236.928" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1548.22" y="256.928">MoodMapActivity</text>
+    <rect style="fill: #ffffff" x="1354.57" y="264.928" width="387.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1354.57" y="264.928" width="387.3" height="8"/>
+    <rect style="fill: #ffffff" x="1354.57" y="272.928" width="387.3" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1354.57" y="272.928" width="387.3" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1357.57" y="286.128">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1357.57" y="302.128">+setPins(locations:ArrayList&lt;Location&gt;)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1357.57" y="318.128">+onNetworkError(message:String)</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1815.07" y="238.928" width="387.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1815.07" y="238.928" width="387.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2008.72" y="258.928">SearchUserActivity</text>
+    <rect style="fill: #ffffff" x="1815.07" y="266.928" width="387.3" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1815.07" y="266.928" width="387.3" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="280.128">-usersList: ListView</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="296.128">-searchBox: TextEdit</text>
+    <rect style="fill: #ffffff" x="1815.07" y="302.928" width="387.3" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1815.07" y="302.928" width="387.3" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="316.128">+&lt;&lt;Override&gt;&gt; onCreate(savedInstanceState:Bundle)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="332.128">+setResults(results:ArrayAdapter&lt;UserProfile&gt;)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="348.128">+onSearchClicked(view:View)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="364.128">+onNoResult()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1818.07" y="380.128">+onNetworkError(message:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.182,160.742 430.271,212.106 1548.22,212.106 1548.22,235.923 "/>
+    <polygon style="fill: #ffffff" points="438.182,160.729 430.155,144.742 422.182,160.756 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.182,160.729 430.155,144.742 422.182,160.756 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.296,160.742 430.559,212.106 2931.53,212.106 2931.53,237.939 "/>
+    <polygon style="fill: #ffffff" points="438.296,160.701 430.214,144.742 422.296,160.783 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.296,160.701 430.214,144.742 422.296,160.783 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.297,160.742 430.562,212.106 2008.72,212.106 2008.72,237.939 "/>
+    <polygon style="fill: #ffffff" points="438.296,160.701 430.214,144.742 422.297,160.784 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.296,160.701 430.214,144.742 422.297,160.784 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.295,160.742 430.558,212.106 2453.22,212.106 2453.22,240.434 "/>
+    <polygon style="fill: #ffffff" points="438.295,160.701 430.213,144.742 422.295,160.783 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.295,160.701 430.213,144.742 422.295,160.783 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.286,160.742 430.535,212.106 -278.278,212.106 -278.278,232.434 "/>
+    <polygon style="fill: #ffffff" points="438.286,160.704 430.208,144.742 422.286,160.781 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.286,160.704 430.208,144.742 422.286,160.781 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="430.292,160.742 430.551,212.106 142.723,212.106 142.723,233.435 "/>
+    <polygon style="fill: #ffffff" points="438.292,160.702 430.212,144.742 422.292,160.783 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.292,160.702 430.212,144.742 422.292,160.783 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-424.178" y="743.428" width="310.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-424.178" y="743.428" width="310.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-269.028" y="763.428">LoginController</text>
+    <rect style="fill: #ffffff" x="-424.178" y="771.428" width="310.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-424.178" y="771.428" width="310.3" height="8"/>
+    <rect style="fill: #ffffff" x="-424.178" y="779.428" width="310.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-424.178" y="779.428" width="310.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-421.178" y="792.628">+login(username:String,password:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-269.028,717.249 -269.028,547.429 -278.278,547.429 -278.278,366.436 "/>
+    <polygon style="fill: #000000" points="-269.028,742.421 -273.828,728.421 -269.028,714.421 -264.228,728.421 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-269.028,742.421 -273.828,728.421 -269.028,714.421 -264.228,728.421 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="-273.653" y="543.429"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-258.028" y="738.421">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-274.278" y="378.436">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-75.177" y="744.428" width="318" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-75.177" y="744.428" width="318" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="83.823" y="764.428">CreateAccountController</text>
+    <rect style="fill: #ffffff" x="-75.177" y="772.428" width="318" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-75.177" y="772.428" width="318" height="8"/>
+    <rect style="fill: #ffffff" x="-75.177" y="780.428" width="318" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-75.177" y="780.428" width="318" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-72.177" y="793.628">+submit(username:String,password:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="83.823,718.249 83.823,556.429 142.723,556.429 142.723,383.437 "/>
+    <polygon style="fill: #000000" points="83.823,743.421 79.023,729.421 83.823,715.421 88.623,729.421 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="83.823,743.421 79.023,729.421 83.823,715.421 88.623,729.421 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="113.273" y="552.429"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="94.823" y="739.421">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="146.723" y="395.437">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1725.32" y="745.428" width="181.9" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1725.32" y="745.428" width="181.9" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1816.27" y="765.428">SearchUserController</text>
+    <rect style="fill: #ffffff" x="1725.32" y="773.428" width="181.9" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1725.32" y="773.428" width="181.9" height="8"/>
+    <rect style="fill: #ffffff" x="1725.32" y="781.428" width="181.9" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1725.32" y="781.428" width="181.9" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1728.32" y="794.628">+search(query:String)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1816.27,719.249 1816.27,559.179 2008.72,559.179 2008.72,387.937 "/>
+    <polygon style="fill: #000000" points="1816.27,744.421 1811.47,730.421 1816.27,716.421 1821.07,730.421 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1816.27,744.421 1811.47,730.421 1816.27,716.421 1821.07,730.421 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1912.5" y="555.179"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1827.27" y="740.421">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2012.72" y="399.937">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2224.62,724.655 2224.62,563.132 2453.23,563.132 2453.23,390.437 "/>
+    <polygon style="fill: #000000" points="2224.62,749.827 2219.82,735.827 2224.62,721.827 2229.42,735.827 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2224.62,749.827 2219.82,735.827 2224.62,721.827 2229.42,735.827 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2338.92" y="559.132"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2235.62" y="745.827">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2457.23" y="402.437">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="2513.32" y="743.428" width="264.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2513.32" y="743.428" width="264.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2645.37" y="763.428">FollowRequestController</text>
+    <rect style="fill: #ffffff" x="2513.32" y="771.428" width="264.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2513.32" y="771.428" width="264.1" height="8"/>
+    <rect style="fill: #ffffff" x="2513.32" y="779.428" width="264.1" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2513.32" y="779.428" width="264.1" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2516.32" y="792.628">+grantAccess(user:UserProfile)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2516.32" y="808.628">+dismissRequest(user:UserProfile)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2645.37,717.247 2645.37,558.178 2931.53,558.178 2931.53,387.937 "/>
+    <polygon style="fill: #000000" points="2645.37,742.419 2640.57,728.419 2645.37,714.419 2650.17,728.419 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2645.37,742.419 2640.57,728.419 2645.37,714.419 2650.17,728.419 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2788.45" y="554.178"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2656.37" y="738.419">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2935.53" y="399.937">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1308.32" y="742.428" width="168.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1308.32" y="742.428" width="168.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1392.62" y="762.428">MoodMapController</text>
+    <rect style="fill: #ffffff" x="1308.32" y="770.428" width="168.6" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1308.32" y="770.428" width="168.6" height="8"/>
+    <rect style="fill: #ffffff" x="1308.32" y="778.428" width="168.6" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1308.32" y="778.428" width="168.6" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1392.62,716.258 1392.62,502.124 1548.22,502.124 1548.22,325.926 "/>
+    <polygon style="fill: #000000" points="1392.62,741.43 1387.82,727.43 1392.62,713.43 1397.42,727.43 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1392.62,741.43 1387.82,727.43 1392.62,713.43 1397.42,727.43 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1470.42" y="498.124"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1403.62" y="737.43">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1552.22" y="337.926">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2224.62,832.998 2224.62,1152.13 2193.2,1152.13 2193.2,1573 "/>
+    <polygon style="fill: #ffffff" points="2224.62,807.827 2229.42,821.827 2224.62,835.827 2219.82,821.827 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2224.62,807.827 2229.42,821.827 2224.62,835.827 2219.82,821.827 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2208.91" y="1148.13"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2235.62" y="819.827">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2197.2" y="1569">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="369" y="1942.5" width="130.95" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="369" y="1942.5" width="130.95" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="434.475" y="1957.7">&lt;&lt;enumeration&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="434.475" y="1978.5">SocialSituation</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="434.75,1727.18 434.75,1828.75 434.475,1828.75 434.475,1941.49 "/>
+    <polygon style="fill: #ffffff" points="434.75,1702.01 439.55,1716.01 434.75,1730.01 429.95,1716.01 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="434.75,1702.01 439.55,1716.01 434.75,1730.01 429.95,1716.01 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="434.613" y="1824.75"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="445.75" y="1714.01">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="438.475" y="1937.49">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-171.25" y="1053.13" width="541.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-171.25" y="1053.13" width="541.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="99.4" y="1073.13">MoodHistoryAdapter</text>
+    <rect style="fill: #ffffff" x="-171.25" y="1081.13" width="541.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-171.25" y="1081.13" width="541.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-168.25" y="1094.33">+context: Context</text>
+    <rect style="fill: #ffffff" x="-171.25" y="1101.13" width="541.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-171.25" y="1101.13" width="541.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-168.25" y="1114.33">+MoodHistoryAdapter(context:Context,moodEntries:ArrayList&lt;MoodEntry&gt;)</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="99.4,1147.29 99.4,1166.12 218,1166.12 218,1377 "/>
+    <polygon style="fill: #ffffff" points="99.4,1122.12 104.2,1136.12 99.4,1150.12 94.6,1136.12 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="99.4,1122.12 104.2,1136.12 99.4,1150.12 94.6,1136.12 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="158.7" y="1162.12"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="110.4" y="1134.12">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="222" y="1373">0..*</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="40.75" y="981.124" width="117.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="40.75" y="981.124" width="117.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="99.55" y="1001.12">ArrayAdapter</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="99.55,1028.37 99.55,1039.12 99.4,1039.12 99.4,1052.12 "/>
+    <polygon style="fill: #ffffff" points="107.55,1028.37 99.55,1012.37 91.55,1028.37 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="107.55,1028.37 99.55,1012.37 91.55,1028.37 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="288.75,825.172 288.75,933.563 370.05,933.563 370.05,1053.13 "/>
+    <polygon style="fill: #000000" points="288.75,800 293.55,814 288.75,828 283.95,814 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="288.75,800 293.55,814 288.75,828 283.95,814 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="329.4" y="929.563"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="299.75" y="812">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="374.05" y="1049.13">1</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="129.208" y="1938.13" width="125.5" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="129.208" y="1938.13" width="125.5" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="191.958" y="1953.33">&lt;&lt;enumeration&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="191.958" y="1974.13">MoodEnum</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="103.033,1960.13 75.2366,1960.12 75.2366,1929.5 29.2,1929.5 "/>
+    <polygon style="fill: #000000" points="128.204,1960.13 114.204,1964.93 100.204,1960.13 114.204,1955.33 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="128.204,1960.13 114.204,1964.93 100.204,1960.13 114.204,1955.33 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="77.2366" y="1940.81"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="96.2043" y="1956.13">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="33.2" y="1925.5">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="218,1726.17 218,1826.06 191.958,1826.06 191.958,1937.12 "/>
+    <polygon style="fill: #ffffff" points="218,1701 222.8,1715 218,1729 213.2,1715 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="218,1701 222.8,1715 218,1729 213.2,1715 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="204.979" y="1822.06"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="229" y="1713">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="195.958" y="1933.12">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="772.29,858.437 772.29,1112.13 651.5,1112.13 651.5,1377 "/>
+    <polygon style="fill: #ffffff" points="772.29,833.265 777.09,847.265 772.29,861.265 767.49,847.265 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="772.29,833.265 777.09,847.265 772.29,861.265 767.49,847.265 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="711.895" y="1108.13"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="783.29" y="845.265">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="655.5" y="1373">1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1283.15,756.428 1142.94,756.428 1142.94,1391 651.5,1391 "/>
+    <polygon style="fill: #ffffff" points="1308.32,756.428 1294.32,761.228 1280.32,756.428 1294.32,751.628 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1308.32,756.428 1294.32,761.228 1280.32,756.428 1294.32,751.628 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1144.94" y="1069.71"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="1276.32" y="752.428">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="655.5" y="1387">0..*</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1933.4,773.428 1993.61,773.428 1993.61,1574 2065,1574 "/>
+    <polygon style="fill: #ffffff" points="1908.23,773.428 1922.23,768.628 1936.23,773.428 1922.23,778.228 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1908.23,773.428 1922.23,768.628 1936.23,773.428 1922.23,778.228 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1995.61" y="1169.71"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1940.23" y="769.428">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="2061" y="1570">0..*</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="789.81" y="1841.12" width="106.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="789.81" y="1841.12" width="106.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="842.96" y="1861.12">MoodImage</text>
+    <rect style="fill: #ffffff" x="789.81" y="1869.12" width="106.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="789.81" y="1869.12" width="106.3" height="8"/>
+    <rect style="fill: #ffffff" x="789.81" y="1877.12" width="106.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="789.81" y="1877.12" width="106.3" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1194.26,1462.5 1046.8,1462.5 1046.8,1863.12 897.117,1863.12 "/>
+    <polygon style="fill: #ffffff" points="1194.26,1470.5 1210.26,1462.5 1194.26,1454.5 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1194.26,1470.5 1210.26,1462.5 1194.26,1454.5 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1690.88" y="1843.13" width="114.8" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1690.88" y="1843.13" width="114.8" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1748.28" y="1863.13">ProfileImage</text>
+    <rect style="fill: #ffffff" x="1690.88" y="1871.13" width="114.8" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1690.88" y="1871.13" width="114.8" height="8"/>
+    <rect style="fill: #ffffff" x="1690.88" y="1879.13" width="114.8" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1690.88" y="1879.13" width="114.8" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1458.34,1462.5 1572.99,1462.5 1572.99,1865.13 1689.87,1865.13 "/>
+    <polygon style="fill: #ffffff" points="1458.34,1454.5 1442.34,1462.5 1458.34,1470.5 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1458.34,1454.5 1442.34,1462.5 1458.34,1470.5 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2065,1715.17 2065,1773.06 1748.28,1773.06 1748.28,1842.12 "/>
+    <polygon style="fill: #ffffff" points="2065,1690 2069.8,1704 2065,1718 2060.2,1704 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2065,1690 2069.8,1704 2065,1718 2060.2,1704 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1906.64" y="1769.06"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2076" y="1702">1</text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1752.28" y="1838.12">0..1</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2487.14,779.428 2409.86,779.428 2409.86,1574 2321.4,1574 "/>
+    <polygon style="fill: #ffffff" points="2512.31,779.428 2498.31,784.228 2484.31,779.428 2498.31,774.628 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2512.31,779.428 2498.31,784.228 2484.31,779.428 2498.31,774.628 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2411.86" y="1172.71"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="2480.31" y="775.428"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2325.4" y="1570"></text>
+  </g>
+</svg>
