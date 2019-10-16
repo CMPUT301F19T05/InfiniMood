@@ -1,4 +1,4 @@
-package com.example.infinimood;
+package com.example.infinimood.model;
 
 public class MoodEmoticon {
 
