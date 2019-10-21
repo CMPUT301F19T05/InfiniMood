@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">InfiniMood</string>
+    <string name="emoji_prompt">Choose an Emotion</string>
+
+    <string-array name="emojis_array">
+        <item>Happy</item>
+        <item>Sad</item>
+        <item>Angry</item>
+        <item>Afraid</item>
+        <item>Crying</item>
+        <item>In Love</item>
+        <item>Sleepy</item>
+    </string-array>
 </resources>
