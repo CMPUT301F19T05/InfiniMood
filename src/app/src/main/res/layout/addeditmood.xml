@@ -14,8 +14,10 @@ android:layout_height="match_parent">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ems="10"
-    style="@android:style/Widget.Holo.Spinner" />
-<!--        android:inputType="date" -->
+    android:inputType="datetime"
+    style="@android:style/Widget.Holo.Spinner"/>
+
+<!--    android:inputType="date" -->
 
 <Spinner
     android:id="@+id/emojis-spinner"
