@@ -4,16 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 public class MainActivity extends MoodCompatActivity {
 
-    TextView signUpTextView;
+    FrameLayout progressBarContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
+
+        progressBarContainer = findViewById(R.id.progress_bar_container);
 
         // Already logged in?
         if (firebaseUser != null) {
@@ -38,6 +41,7 @@ public class MainActivity extends MoodCompatActivity {
     }
 
     public void onLoginClicked(View view) {
+        progressBarContainer.setVisibility(View.VISIBLE);
 
     }
 
