@@ -1,5 +1,7 @@
-package com.example.infinimood;
-import com.example.infinimood.view.MoodCreateEditActivity;
+package com.example.infinimood.view;
+
+import com.example.infinimood.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

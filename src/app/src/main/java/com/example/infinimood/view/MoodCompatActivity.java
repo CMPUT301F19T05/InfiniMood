@@ -1,4 +1,4 @@
-package com.example.infinimood;
+package com.example.infinimood.view;
 
 import android.content.Intent;
 import android.widget.Toast;
