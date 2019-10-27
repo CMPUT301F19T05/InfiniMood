@@ -62,10 +62,13 @@ public class MainActivity extends MoodCompatActivity {
         final String password = editTextPassword.getText().toString();
 
         if (email.isEmpty()) {
-            toast("Please enter email");
+            toast("Please enter your email");
+            editTextEmail.requestFocus();
+        } else if (!email.contains("@")) {
+            toast("Please enter a valid email");
             editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
-            toast("Please enter password");
+            toast("Please enter your password");
             editTextPassword.requestFocus();
         } else {
             progressBarContainer.setVisibility(View.VISIBLE);
