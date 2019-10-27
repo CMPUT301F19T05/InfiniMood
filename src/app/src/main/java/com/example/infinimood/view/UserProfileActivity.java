@@ -67,7 +67,6 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     public void onLogoutClicked(View view) {
         firebaseAuth.signOut();
-        firebaseUser = null;
         startActivityNoHistory(MainActivity.class);
     }
 
