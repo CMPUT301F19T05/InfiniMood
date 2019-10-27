@@ -3,8 +3,17 @@ package com.example.infinimood;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 public class CreateAccountActivity extends MoodCompatActivity {
+
+    FrameLayout progressBarContainer;
 
     EditText editTextUsername;
     EditText editTextEmail;
@@ -15,6 +24,8 @@ public class CreateAccountActivity extends MoodCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
+
+        progressBarContainer = findViewById(R.id.progress_bar_container);
 
         editTextUsername = findViewById(R.id.edit_text_username);
         editTextEmail = findViewById(R.id.edit_text_email);
@@ -44,7 +55,22 @@ public class CreateAccountActivity extends MoodCompatActivity {
             toast("Please enter the same password");
             editTextPasswordRepeat.requestFocus();
         } else {
+            progressBarContainer.setVisibility(View.VISIBLE);
 
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                firebaseUser = firebaseAuth.getCurrentUser();
+                                startActivityNoHistory(AddEditMood.class);
+                            } else {
+                                toast("Account creation failed");
+                            }
+
+                            progressBarContainer.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 
