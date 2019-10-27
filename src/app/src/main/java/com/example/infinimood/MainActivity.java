@@ -15,6 +15,12 @@ public class MainActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
+        // Already logged in?
+        if (firebaseUser != null) {
+            toast("Welcome back!");
+            startActivityNoHistory(AddEditMood.class);
+        }
+
         // TODO: Debug only
         Button test_addEdit = findViewById(R.id.test_add_edit);
         test_addEdit.setOnClickListener(new View.OnClickListener() {
@@ -24,17 +30,15 @@ public class MainActivity extends MoodCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // Already logged in?
-        if (firebaseUser != null) {
-            toast("Welcome back!");
-            startActivityNoHistory(AddEditMood.class);
-        }
     }
 
     public void onCreateAccountClicked(View view) {
         final Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
+    }
+
+    public void onLoginClicked(View view) {
+
     }
 
 }
