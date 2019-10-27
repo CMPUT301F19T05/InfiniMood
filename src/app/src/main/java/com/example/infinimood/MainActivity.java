@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.infinimood.view.MoodCreateEditActivity;
+
 public class MainActivity extends AppCompatActivity {
     Button test_addEdit;
     TextView signUpTextView;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         test_addEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddEditMood.class);
+                Intent intent = new Intent(getApplicationContext(), MoodCreateEditActivity.class);
                 startActivity(intent);
             }
         });

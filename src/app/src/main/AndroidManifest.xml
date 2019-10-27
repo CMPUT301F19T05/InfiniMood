@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddEditMood" />
+        <activity android:name=".view.MoodCreateEditActivity" />
     </application>
 
 </manifest>
