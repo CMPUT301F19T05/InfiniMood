@@ -11,6 +11,7 @@
     <string name="create_account_title">Create Account</string>
     <string name="email">Email</string>
     <string name="password_repeat">Confirm Password</string>
+    <string name="submit">Submit</string>
 
     <string-array name="emojis_array">
         <item>Happy</item>

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class CreateAccountActivity extends MoodCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
