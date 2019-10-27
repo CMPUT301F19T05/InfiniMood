@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.example.infinimood.view.MoodCreateEditActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -63,7 +64,7 @@ public class CreateAccountActivity extends MoodCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 firebaseUser = firebaseAuth.getCurrentUser();
-                                startActivityNoHistory(AddEditMood.class);
+                                startActivityNoHistory(MoodCreateEditActivity.class);
                             } else {
                                 toast("Account creation failed");
                             }

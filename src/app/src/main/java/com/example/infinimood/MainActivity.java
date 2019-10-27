@@ -47,7 +47,7 @@ public class MainActivity extends MoodCompatActivity {
 
         if (firebaseUser != null) {
             toast("Welcome back!");
-            startActivityNoHistory(AddEditMood.class);
+            startActivityNoHistory(MoodCreateEditActivity.class);
         }
     }
 
@@ -75,7 +75,7 @@ public class MainActivity extends MoodCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                startActivityNoHistory(AddEditMood.class);
+                                startActivityNoHistory(MoodCreateEditActivity.class);
                             } else {
                                 toast("Login failed, please try again");
                                 editTextPassword.requestFocus();
