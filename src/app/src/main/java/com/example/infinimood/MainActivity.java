@@ -31,12 +31,6 @@ public class MainActivity extends MoodCompatActivity {
         editTextUsername = findViewById(R.id.edit_text_username);
         editTextPassword = findViewById(R.id.edit_text_password);
 
-        // Already logged in?
-        if (firebaseUser != null) {
-            toast("Welcome back!");
-            startActivityNoHistory(AddEditMood.class);
-        }
-
         // TODO: Debug only
         Button test_addEdit = findViewById(R.id.test_add_edit);
         test_addEdit.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +40,16 @@ public class MainActivity extends MoodCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (firebaseUser != null) {
+            toast("Welcome back!");
+            startActivityNoHistory(AddEditMood.class);
+        }
     }
 
     public void onCreateAccountClicked(View view) {
