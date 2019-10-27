@@ -12,6 +12,14 @@ public class MoodEntry {
     private MoodImage image;
     private Location location;
 
+    // temporary constructor for MoodEntry
+    public MoodEntry(Date date, Mood emotionalState, String reason, SocialSituation socialSituation) {
+        this.date = date;
+        this.emotionalState = emotionalState;
+        this.reason = reason;
+        this.socialSituation = socialSituation;
+    }
+
     public Date getDate() {
         return date;
     }
