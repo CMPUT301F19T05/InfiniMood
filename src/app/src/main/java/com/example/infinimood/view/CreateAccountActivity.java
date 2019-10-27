@@ -12,6 +12,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CreateAccountActivity extends MoodCompatActivity {
 
     FrameLayout progressBarContainer;
@@ -64,12 +67,27 @@ public class CreateAccountActivity extends MoodCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 firebaseUser = firebaseAuth.getCurrentUser();
-                                startActivityNoHistory(MoodCreateEditActivity.class);
+
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("username", username);
+
+                                firebaseFirestore.collection("users")
+                                        .document(firebaseUser.getUid())
+                                        .set(map)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (!task.isSuccessful()) {
+                                                    toast("Could not save username, you can set it later");
+                                                }
+                                                startActivityNoHistory(UserProfileActivity.class);
+                                                progressBarContainer.setVisibility(View.GONE);
+                                            }
+                                        });
                             } else {
                                 toast("Account creation failed");
+                                progressBarContainer.setVisibility(View.GONE);
                             }
-
-                            progressBarContainer.setVisibility(View.GONE);
                         }
                     });
         }
