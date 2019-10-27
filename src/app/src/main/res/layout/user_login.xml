@@ -5,45 +5,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="15sp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/image_view_logo"
             android:layout_width="match_parent"
             android:layout_height="100sp"
             android:padding="10sp"
             app:srcCompat="@drawable/logo" />
 
         <EditText
-            android:id="@+id/userEditText"
+            android:id="@+id/edit_text_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Username"
+            android:hint="@string/username"
             android:inputType="textPersonName"
             android:padding="15sp" />
 
         <EditText
-            android:id="@+id/PassEditText"
+            android:id="@+id/edit_text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
-            android:inputType="textPersonName"
+            android:hint="@string/password"
+            android:inputType="textPassword"
             android:padding="15sp" />
 
         <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onLoginClicked"
             android:padding="15sp"
-            android:text="Login" />
+            android:text="@string/login" />
 
         <TextView
             android:id="@+id/signUpTextView"
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content"
             android:onClick="onCreateAccountClicked"
             android:padding="15sp"
-            android:text="Don't have an account? Sign up here"
+            android:text="@string/login_page_signup_prompt"
             android:textSize="14sp" />
 
         <Button
@@ -66,8 +65,8 @@
         android:id="@+id/progress_bar_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.4"
-        android:background="#000000"
+        android:alpha="0.5"
+        android:background="#FFFFFF"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone">

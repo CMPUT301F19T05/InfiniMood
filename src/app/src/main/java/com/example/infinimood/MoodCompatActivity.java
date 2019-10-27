@@ -33,6 +33,10 @@ public class MoodCompatActivity extends AppCompatActivity {
         toast.show();
     }
 
+    protected void toast(int id) {
+        toast(getString(id));
+    }
+
     protected void startActivityNoHistory(Class<?> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);

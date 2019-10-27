@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">InfiniMood</string>
     <string name="emoji_prompt">Choose an Emotion</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_page_signup_prompt">Don\'t have an account? Sign up here</string>
 
     <string-array name="emojis_array">
         <item>Happy</item>
