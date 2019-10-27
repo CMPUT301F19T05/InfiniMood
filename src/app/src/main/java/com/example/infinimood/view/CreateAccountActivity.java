@@ -1,4 +1,4 @@
-package com.example.infinimood;
+package com.example.infinimood.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.example.infinimood.view.MoodCreateEditActivity;
+import com.example.infinimood.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
