@@ -7,7 +7,7 @@
     tools:context=".view.UserProfileActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/image_view_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -18,5 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

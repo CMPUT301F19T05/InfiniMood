@@ -53,7 +53,7 @@ public class MainActivity extends MoodCompatActivity {
     }
 
     public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, UserProfileActivity.class);
+        final Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }
 
