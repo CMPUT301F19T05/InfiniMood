@@ -43,7 +43,8 @@
         android:layout_height="wrap_content"
         android:padding="15sp"
         android:text="Don't have an account? Sign up here"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:onClick="onCreateAccountClicked"/>
 
     <Button
         android:id="@+id/test_add_edit"

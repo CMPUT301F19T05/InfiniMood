@@ -1,16 +1,13 @@
 package com.example.infinimood;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MoodCompatActivity {
 
-    Button test_addEdit;
     TextView signUpTextView;
 
     @Override
@@ -18,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
-        test_addEdit = findViewById(R.id.test_add_edit);
+        // TODO: Debug only
+        Button test_addEdit = findViewById(R.id.test_add_edit);
         test_addEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -27,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        signUpTextView = findViewById(R.id.signUpTextView);
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Already logged in?
+        if (firebaseUser != null) {
+            toast("Welcome back!");
+            startActivityNoHistory(AddEditMood.class);
+        }
+    }
+
+    public void onCreateAccountClicked(View view) {
+        final Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 
 }
