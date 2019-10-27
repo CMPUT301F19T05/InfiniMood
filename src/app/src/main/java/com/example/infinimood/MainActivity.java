@@ -65,6 +65,7 @@ public class MainActivity extends MoodCompatActivity {
             editTextPassword.requestFocus();
         } else {
             progressBarContainer.setVisibility(View.VISIBLE);
+            progressBarContainer.bringToFront();
 
             firebaseAuth.signInWithEmailAndPassword(username, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
