@@ -1,90 +1,82 @@
 package com.example.infinimood;
-import com.example.infinimood.view.MoodCreateEditActivity;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.example.infinimood.view.MoodCreateEditActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
-public class MainActivity extends MoodCompatActivity {
+public class CreateAccountActivity extends MoodCompatActivity {
 
     FrameLayout progressBarContainer;
 
     EditText editTextUsername;
+    EditText editTextEmail;
     EditText editTextPassword;
+    EditText editTextPasswordRepeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_login);
+        setContentView(R.layout.create_account);
 
         progressBarContainer = findViewById(R.id.progress_bar_container);
 
         editTextUsername = findViewById(R.id.edit_text_username);
+        editTextEmail = findViewById(R.id.edit_text_email);
         editTextPassword = findViewById(R.id.edit_text_password);
-
-        // TODO: Debug only
-        Button test_addEdit = findViewById(R.id.test_add_edit);
-        test_addEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MoodCreateEditActivity.class);
-                startActivity(intent);
-            }
-        });
+        editTextPasswordRepeat = findViewById(R.id.edit_text_password_repeat);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (firebaseUser != null) {
-            toast("Welcome back!");
-            startActivityNoHistory(MoodCreateEditActivity.class);
-        }
-    }
-
-    public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLoginClicked(View view) {
+    public void onSubmitClicked(View view) {
         final String username = editTextUsername.getText().toString();
+        final String email = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
+        final String passwordRepeat = editTextPasswordRepeat.getText().toString();
 
         if (username.isEmpty()) {
-            toast("Please enter username");
+            toast("Please enter a username");
             editTextUsername.requestFocus();
+        } else if (!email.contains("@")) {
+            toast("Please enter a valid email");
+            editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
-            toast("Please enter password");
+            toast("Please enter a password");
             editTextPassword.requestFocus();
+        } else if (password.length() < 6) {
+            toast("Please enter a longer password");
+            editTextPassword.requestFocus();
+        } else if (!password.equals(passwordRepeat)) {
+            toast("Please enter the same password");
+            editTextPasswordRepeat.requestFocus();
         } else {
             progressBarContainer.setVisibility(View.VISIBLE);
-            progressBarContainer.bringToFront();
 
-            firebaseAuth.signInWithEmailAndPassword(username, password)
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                firebaseUser = firebaseAuth.getCurrentUser();
                                 startActivityNoHistory(MoodCreateEditActivity.class);
                             } else {
-                                toast("Login failed, please try again");
-                                editTextPassword.requestFocus();
+                                toast("Account creation failed");
                             }
 
                             progressBarContainer.setVisibility(View.GONE);
                         }
                     });
         }
+    }
+
+    public void onBackClicked(View view) {
+        finish();
     }
 
 }
