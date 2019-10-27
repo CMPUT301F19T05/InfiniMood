@@ -15,6 +15,10 @@
     <string name="login_page_signup_prompt">Don\'t have an account? Sign up here</string>
 
     <string name="user_profile_welcome">Welcome back!</string>
+    <string name="logout">Logout</string>
+    <string name="goto_mood_history">Mood History</string>
+    <string name="goto_add_moood">Add Mood</string>
+    <string name="default_username">Anonymous</string>
 
     <string-array name="emojis_array">
         <item>Happy</item>

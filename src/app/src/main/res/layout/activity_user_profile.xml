@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".view.UserProfileActivity">
 
+    <TextView
+        android:id="@+id/text_view_welcome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/user_profile_welcome"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image_view_avatar"
         android:layout_width="100sp"
@@ -17,24 +34,51 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_welcome"
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/text_view_welcome"
+        android:id="@+id/text_view_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="@string/user_profile_welcome"
         android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_view_avatar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onAddMoodClicked"
+            android:text="@string/goto_add_moood" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onMoodHistoryClicked"
+            android:text="@string/goto_mood_history" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onLogoutClicked"
+            android:text="@string/logout" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
