@@ -19,7 +19,7 @@ public class MainActivity extends MoodCompatActivity {
 
     FrameLayout progressBarContainer;
 
-    EditText editTextUsername;
+    EditText editTextEmail;
     EditText editTextPassword;
 
     @Override
@@ -29,7 +29,7 @@ public class MainActivity extends MoodCompatActivity {
 
         progressBarContainer = findViewById(R.id.progress_bar_container);
 
-        editTextUsername = findViewById(R.id.edit_text_username);
+        editTextEmail = findViewById(R.id.edit_text_email);
         editTextPassword = findViewById(R.id.edit_text_password);
 
         // TODO: Debug only
@@ -48,23 +48,22 @@ public class MainActivity extends MoodCompatActivity {
         super.onStart();
 
         if (firebaseUser != null) {
-            toast("Welcome back!");
-            startActivityNoHistory(MoodCreateEditActivity.class);
+            startActivityNoHistory(UserProfileActivity.class);
         }
     }
 
     public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, CreateAccountActivity.class);
+        final Intent intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);
     }
 
     public void onLoginClicked(View view) {
-        final String username = editTextUsername.getText().toString();
+        final String email = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
 
-        if (username.isEmpty()) {
-            toast("Please enter username");
-            editTextUsername.requestFocus();
+        if (email.isEmpty()) {
+            toast("Please enter email");
+            editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
             toast("Please enter password");
             editTextPassword.requestFocus();
@@ -72,12 +71,12 @@ public class MainActivity extends MoodCompatActivity {
             progressBarContainer.setVisibility(View.VISIBLE);
             progressBarContainer.bringToFront();
 
-            firebaseAuth.signInWithEmailAndPassword(username, password)
+            firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                startActivityNoHistory(MoodCreateEditActivity.class);
+                                startActivityNoHistory(UserProfileActivity.class);
                             } else {
                                 toast("Login failed, please try again");
                                 editTextPassword.requestFocus();

@@ -64,7 +64,7 @@ public class CreateAccountActivity extends MoodCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 firebaseUser = firebaseAuth.getCurrentUser();
-                                startActivityNoHistory(MoodCreateEditActivity.class);
+                                startActivityNoHistory(UserProfileActivity.class);
                             } else {
                                 toast("Account creation failed");
                             }
