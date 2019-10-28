@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="-70dp"
             android:layout_marginTop="-50dp"
-            android:layout_marginBottom="-50dp"
             android:layout_marginRight="-20dp"
+            android:layout_marginBottom="-50dp"
 
             android:clipToPadding="true"
             android:scaleX="0.65"
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@+id/add-edit-title" />
     </LinearLayout>
 
-    <EditText
+    <Spinner
         android:id="@+id/social-situ-field"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -76,20 +76,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:ems="10"
-        android:hint="Social Situation (Optional)"
+        android:entries="@array/situations_array"
         android:inputType="text"
         android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reason-field" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/reason-field"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
@@ -102,7 +101,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/social-situ-field" />
 
     <Spinner
         android:id="@+id/emojis-spinner"

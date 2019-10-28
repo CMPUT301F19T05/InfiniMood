@@ -4,15 +4,17 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.example.infinimood.R;
 
 public class MoodCreateEditActivity extends MoodCompatActivity {
 
     DatePicker datePicker;
+    TimePicker timePicker;
     Spinner moodSpinner;
     EditText reasonInput;
-    EditText socialSituInput;
+    Spinner socialSituInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
