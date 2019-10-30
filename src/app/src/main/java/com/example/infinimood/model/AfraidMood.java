@@ -1,6 +1,7 @@
 package com.example.infinimood.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.media.Image;
 
@@ -8,15 +9,17 @@ import com.example.infinimood.R;
 
 import java.util.Date;
 
+import androidx.core.content.ContextCompat;
+
 
 public class AfraidMood extends Mood {
     private String moodIcon;
-    private String moodColor;
+    private int moodColor;
 
     public AfraidMood(String id, Context c) {
         super(id);
         this.moodIcon = c.getString(R.string.afraid_icon);
-        this.moodColor = c.getString(R.string.afraid_color);
+        this.moodColor = ContextCompat.getColor(c, R.color.afraid_color);
     }
 
     public AfraidMood(String id,
@@ -27,16 +30,15 @@ public class AfraidMood extends Mood {
                       Context c)
     {
         super(id, date, reason, location, image);
-
         this.moodIcon = c.getString(R.string.afraid_icon);
-        this.moodColor = c.getString(R.string.afraid_color);
+        this.moodColor = ContextCompat.getColor(c, R.color.afraid_color);
     }
 
 
     public String getMoodIcon() {
         return this.moodIcon;
     }
-    public String getMoodColor() {
+    public int getMoodColor() {
         return this.moodColor;
     }
 }

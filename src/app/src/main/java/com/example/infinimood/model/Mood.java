@@ -75,7 +75,7 @@ public abstract class Mood {
 
     // For the mood subclasses to implement depending on the mood
     public abstract String getMoodIcon();
-    public abstract String getMoodColor();
+    public abstract int getMoodColor();
 
     //TODO: Implement these function once Firebase is working
     public void commitToDatabase() {
