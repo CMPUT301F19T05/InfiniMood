@@ -12,6 +12,8 @@ public abstract class Mood {
     private Date date;
     private String reason;
     private Location location;
+    private String social_situation;
+    private String moodString;
     private Image image;
 
     public Mood(String id)
@@ -30,6 +32,17 @@ public abstract class Mood {
         this.reason = reason;
         this.location = location;
         this.image = image;
+    }
+
+    public Mood(String id,
+                Date date,
+                String reason,
+                String social_situation)
+    {
+        this.id = id;
+        this.date = date;
+        this.reason = reason;
+        this.social_situation = social_situation;
     }
 
     // Getters & Setters
@@ -85,5 +98,4 @@ public abstract class Mood {
     public void loadFromDatabase(String id) {
 
     }
-
 }

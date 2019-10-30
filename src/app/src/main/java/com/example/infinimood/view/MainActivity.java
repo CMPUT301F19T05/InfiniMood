@@ -37,7 +37,7 @@ public class MainActivity extends MoodCompatActivity {
         test_addEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MoodCreateEditActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddEditMoodActivity.class);
                 startActivity(intent);
             }
         });
