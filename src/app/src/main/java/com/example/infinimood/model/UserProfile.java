@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class UserProfile {
 
-    private ArrayList<MoodEntry> moodHistory = new ArrayList<>();
+    private ArrayList<Mood> moodHistory = new ArrayList<>();
 
-    public void addMood(MoodEntry entry) {
+    public void addMood(Mood entry) {
         moodHistory.add(entry);
     }
 
