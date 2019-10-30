@@ -102,7 +102,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         social_situations.add("With several others");
         social_situations.add("In a crowd");
 
-        String mood_id = String.valueOf(random.nextInt());
+        String mood_id = String.valueOf(Math.abs(random.nextInt()));
         String mood_emotion = emotions.get(Math.abs(random.nextInt() % emotions.size()));
         String mood_social_situation = social_situations.get(Math.abs(random.nextInt() % social_situations.size()));
         Date mood_date = new Date();
