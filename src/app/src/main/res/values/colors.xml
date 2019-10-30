@@ -5,4 +5,13 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <!-- Mood Color Definitions -->
+    <color name="happy_color">#78ff78</color>
+    <color name="sad_color">#63c1ff</color>
+    <color name="angry_color">#d94848</color>
+    <color name="crying_color">#4d6ec9</color>
+    <color name="in_love_color">#fb91ff</color>
+    <color name="sleepy_color">#a9b1c9</color>
+    <color name="afraid_color">#b68fff</color>
 </resources>

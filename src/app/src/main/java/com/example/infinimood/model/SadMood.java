@@ -8,14 +8,16 @@ import com.example.infinimood.R;
 
 import java.util.Date;
 
+import androidx.core.content.ContextCompat;
+
 public class SadMood extends Mood {
     private String moodIcon;
-    private String moodColor;
+    private int moodColor;
 
     public SadMood(String id, Context c) {
         super(id);
         this.moodIcon = c.getString(R.string.sad_icon);
-        this.moodColor = c.getString(R.string.sad_color);
+        this.moodColor = ContextCompat.getColor(c, R.color.sad_color);
     }
 
     public SadMood(String id,
@@ -28,14 +30,14 @@ public class SadMood extends Mood {
         super(id, date, reason, location, image);
 
         this.moodIcon = c.getString(R.string.sad_icon);
-        this.moodColor = c.getString(R.string.sad_color);
+        this.moodColor = ContextCompat.getColor(c, R.color.sad_color);
     }
 
 
     public String getMoodIcon() {
         return this.moodIcon;
     }
-    public String getMoodColor() {
+    public int getMoodColor() {
         return this.moodColor;
     }
 }

@@ -39,15 +39,6 @@
     <string name="sleepy_icon">U+1F634</string>
     <string name="afraid_icon">U+1F628</string>
 
-    <!-- Mood Icons Definitions -->
-    <string name="happy_color">#78ff78</string>
-    <string name="sad_color">#63c1ff</string>
-    <string name="angry_color">#d94848</string>
-    <string name="crying_color">#4d6ec9</string>
-    <string name="in_love_color">#fb91ff</string>
-    <string name="sleepy_color">#a9b1c9</string>
-    <string name="afraid_color">#b68fff</string>
-
     <!-- Situation definitions -->
     <string-array name="situations_array">
         <item>Alone</item>
