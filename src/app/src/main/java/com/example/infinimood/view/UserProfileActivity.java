@@ -99,8 +99,8 @@ public class UserProfileActivity extends MoodCompatActivity {
         social_situations.add("In a crowd");
 
         String mood_id = String.valueOf(random.nextInt());
-        String mood_emotion = emotions.get(random.nextInt() % emotions.size());
-        String mood_social_situation = social_situations.get(random.nextInt() % social_situations.size());
+        String mood_emotion = emotions.get(Math.abs(random.nextInt() % emotions.size()));
+        String mood_social_situation = social_situations.get(Math.abs(random.nextInt() % social_situations.size()));
         String mood_date = new Date().toString();
 
         Map<String, Object> mood = new HashMap<>();
