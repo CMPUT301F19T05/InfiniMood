@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.infinimood"
-        minSdkVersion 16
+        minSdkVersion 23
         multiDexEnabled true
         targetSdkVersion 29
         versionCode 1

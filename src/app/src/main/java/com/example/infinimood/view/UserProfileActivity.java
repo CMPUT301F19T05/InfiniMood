@@ -72,7 +72,7 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onAddMoodClicked(View view) {
-        final Intent intent = new Intent(this, MoodCreateEditActivity.class);
+        final Intent intent = new Intent(this, AddEditMoodActivity.class);
         startActivity(intent);
     }
 
@@ -107,7 +107,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         String mood_social_situation = social_situations.get(Math.abs(random.nextInt() % social_situations.size()));
         Date mood_date = new Date();
 
-        addMoodEventToDB(mood_id, mood_emotion, mood_social_situation, mood_date);
+        addMoodEventToDB(mood_id, mood_emotion, mood_social_situation, "", mood_date);
     }
 
     // print all of the current user's mood events to console
@@ -125,39 +125,5 @@ public class UserProfileActivity extends MoodCompatActivity {
                 }
             }
         });
-    }
-
-    public void addMoodEventToDB(String mood_id, String mood_emotion, String mood_social_situation, Date mood_date) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
-
-        Map<String, Object> mood = new HashMap<>();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
-
-        mood.put("id", mood_id);
-        mood.put("mood", mood_emotion);
-        mood.put("social_situation", mood_social_situation);
-        mood.put("date", dateFormat.format(mood_date));
-        mood.put("timestamp", dateFormat.format(new Date()));
-
-        firebaseFirestore
-                .collection("users")
-                .document(uid)
-                .collection("moods")
-                .document(mood_id)
-                .set(mood)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
     }
 }

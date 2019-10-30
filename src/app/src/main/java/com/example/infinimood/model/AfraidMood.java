@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 
 public class AfraidMood extends Mood {
+    private String moodString = "Afraid";
     private String moodIcon;
     private int moodColor;
 
@@ -34,6 +35,10 @@ public class AfraidMood extends Mood {
         this.moodColor = ContextCompat.getColor(c, R.color.afraid_color);
     }
 
+    public AfraidMood(String id, Date date, String reason, String social_situation)
+    {
+        super(id, date, reason, social_situation);
+    }
 
     public String getMoodIcon() {
         return this.moodIcon;

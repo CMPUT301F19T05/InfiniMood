@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.CreateAccountActivity" />
-        <activity android:name=".view.MoodCreateEditActivity" />
+        <activity android:name=".view.AddEditMoodActivity" />
     </application>
 
 </manifest>
