@@ -2,6 +2,7 @@ package com.example.infinimood.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,24 +10,28 @@ import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 public class UserProfileActivity extends MoodCompatActivity {
 
+    private static final String TAG = "UserProfileActivity";
+
     TextView textViewUsername;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         if (firebaseUser == null) {
             startActivityNoHistory(MainActivity.class);
         } else {
-            db.collection("users")
+            firebaseFirestore.collection("users")
                     .document(firebaseUser.getUid())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -82,7 +87,6 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     // generate a random new mood event for the user
     public void onGenerateMoodClicked(View view) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         Random random = new Random();
 
         ArrayList<String> emotions = new ArrayList<String>();
@@ -98,23 +102,17 @@ public class UserProfileActivity extends MoodCompatActivity {
         social_situations.add("With several others");
         social_situations.add("In a crowd");
 
-        String mood_id = String.valueOf(random.nextInt());
+        String mood_id = String.valueOf(Math.abs(random.nextInt()));
         String mood_emotion = emotions.get(Math.abs(random.nextInt() % emotions.size()));
         String mood_social_situation = social_situations.get(Math.abs(random.nextInt() % social_situations.size()));
-        String mood_date = new Date().toString();
+        Date mood_date = new Date();
 
-        Map<String, Object> mood = new HashMap<>();
-        mood.put("id", mood_id);
-        mood.put("mood", mood_emotion);
-        mood.put("social_situation", mood_social_situation);
-        mood.put("date", mood_date);
-
-        db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).collection("moods").add(mood);
+        addMoodEventToDB(mood_id, mood_emotion, mood_social_situation, mood_date);
     }
 
     // print all of the current user's mood events to console
     public void onPrintMoodsClicked(View view) {
-        CollectionReference moods = db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).collection("moods");
+        CollectionReference moods = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).collection("moods");
         moods.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -127,5 +125,39 @@ public class UserProfileActivity extends MoodCompatActivity {
                 }
             }
         });
+    }
+
+    public void addMoodEventToDB(String mood_id, String mood_emotion, String mood_social_situation, Date mood_date) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+
+        Map<String, Object> mood = new HashMap<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
+
+        mood.put("id", mood_id);
+        mood.put("mood", mood_emotion);
+        mood.put("social_situation", mood_social_situation);
+        mood.put("date", dateFormat.format(mood_date));
+        mood.put("timestamp", dateFormat.format(new Date()));
+
+        firebaseFirestore
+                .collection("users")
+                .document(uid)
+                .collection("moods")
+                .document(mood_id)
+                .set(mood)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 }
