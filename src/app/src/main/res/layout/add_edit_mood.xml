@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--    android:inputType="date" -->
+
+    <DatePicker
+        android:id="@+id/addEditDatePicker"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/addEditTimePicker"
+        app:layout_constraintEnd_toEndOf="@+id/addEditSocialSituationSpinner"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/addEditSocialSituationSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/addEditTitleTextView" />
+
+    <TimePicker
+        android:id="@+id/addEditTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:clipToPadding="true"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
+        app:layout_constraintEnd_toEndOf="@+id/addEditDatePicker"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/addEditDatePicker"
+        app:layout_constraintTop_toBottomOf="@+id/addEditDatePicker" />
+
+    <Button
+        android:id="@+id/addEditSubmitButton"
+        android:layout_width="283dp"
+        android:layout_height="wrap_content"
+        android:onClick="onSubmitClicked"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditReasonEditText"
+        tools:layout_editor_absoluteX="64dp" />
+
+    <Spinner
+        android:id="@+id/addEditSocialSituationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:ems="10"
+        android:entries="@array/situations_array"
+        android:inputType="text"
+        android:maxLength="20"
+        app:layout_constraintBottom_toTopOf="@+id/addEditReasonEditText"
+        app:layout_constraintEnd_toEndOf="@+id/addEditReasonEditText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/addEditReasonEditText"
+        app:layout_constraintTop_toBottomOf="@+id/addEditTimePicker" />
+
+    <EditText
+        android:id="@+id/addEditReasonEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Reason (Optional)"
+        android:inputType="text"
+        android:maxLength="20"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSubmitButton"
+        app:layout_constraintEnd_toEndOf="@+id/addEditSubmitButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/addEditSubmitButton"
+        app:layout_constraintTop_toBottomOf="@+id/addEditSocialSituationSpinner" />
+
+    <Spinner
+        android:id="@+id/addEditMoodSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:entries="@array/emojis_array"
+        android:prompt="@string/emoji_prompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addEditTitleTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addEditTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Add/Edit Mood"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/addEditDatePicker"
+        app:layout_constraintEnd_toStartOf="@+id/addEditMoodSpinner"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

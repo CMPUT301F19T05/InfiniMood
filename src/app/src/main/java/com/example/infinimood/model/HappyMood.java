@@ -11,6 +11,7 @@ import java.util.Date;
 import androidx.core.content.ContextCompat;
 
 public class HappyMood extends Mood {
+    private String moodString = "Happy";
     private String moodIcon;
     private int moodColor;
 
@@ -33,6 +34,10 @@ public class HappyMood extends Mood {
         this.moodColor = ContextCompat.getColor(c, R.color.happy_color);
     }
 
+    public HappyMood(String id, Date date, String reason, String social_situation)
+    {
+        super(id, date, reason, social_situation);
+    }
 
     public String getMoodIcon() {
         return this.moodIcon;
