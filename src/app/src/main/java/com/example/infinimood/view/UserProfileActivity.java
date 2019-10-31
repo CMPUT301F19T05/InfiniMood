@@ -1,6 +1,8 @@
 package com.example.infinimood.view;
 
 import android.content.Intent;
+import android.location.Location;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,22 +13,10 @@ import androidx.annotation.NonNull;
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 
 public class UserProfileActivity extends MoodCompatActivity {
 
@@ -88,18 +78,11 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     // print all of the current user's mood events to console
     public void onPrintMoodsClicked(View view) {
-        CollectionReference moods = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).collection("moods");
-        moods.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        System.out.println(document.getId() + " => " + document.getData());
-                    }
-                } else {
-                    System.out.println("Error getting documents");
-                }
-            }
-        });
+        refreshUserMoods();
+        Log.i("", "===========================================");
+        for (int i = 0; i < moods.size(); i++) {
+            moods.get(i).print();
+            Log.i("", "===========================================");
+        }
     }
 }
