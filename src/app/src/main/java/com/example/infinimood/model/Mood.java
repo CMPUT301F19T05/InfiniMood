@@ -3,6 +3,7 @@ package com.example.infinimood.model;
 import android.graphics.Color;
 import android.location.Location;
 import android.media.Image;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -106,6 +107,14 @@ public abstract class Mood {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void print() {
+        Log.i("", "ID : " + this.id);
+        Log.i("", "Mood : " + this.mood);
+        Log.i("", "Social Situation : " + this.social_situation);
+        Log.i("", "Reason : " + this.reason);
+        Log.i("", "Date : " + this.date.toString());
     }
 
     //TODO: Implement these function once Firebase is working
