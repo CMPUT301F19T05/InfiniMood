@@ -10,42 +10,32 @@ public abstract class Mood {
 
     private String id;
     private Date date;
-    private String reason;
-    private Location location;
+    private String reason = "";
+    private Location location = null;
     private String social_situation;
-    private String moodString;
-    private Image image;
+    private Image image = null;
 
-    public Mood(String id)
-    {
-        this.loadFromDatabase(id);
-    }
+    private String mood = "";
+    private String icon = "";
+    private String color;
+
+    public Mood() {}
 
     public Mood(String id,
                 Date date,
                 String reason,
                 Location location,
+                String social_situation,
                 Image image)
     {
         this.id = id;
         this.date = date;
         this.reason = reason;
         this.location = location;
+        this.social_situation = social_situation;
         this.image = image;
     }
 
-    public Mood(String id,
-                Date date,
-                String reason,
-                String social_situation)
-    {
-        this.id = id;
-        this.date = date;
-        this.reason = reason;
-        this.social_situation = social_situation;
-    }
-
-    // Getters & Setters
     public String getId() {
         return id;
     }
@@ -70,14 +60,6 @@ public abstract class Mood {
         this.reason = reason;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -86,16 +68,48 @@ public abstract class Mood {
         this.location = location;
     }
 
-    // For the mood subclasses to implement depending on the mood
-    public abstract String getMoodIcon();
-    public abstract int getMoodColor();
+    public String getSocial_situation() {
+        return social_situation;
+    }
+
+    public void setSocial_situation(String social_situation) {
+        this.social_situation = social_situation;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     //TODO: Implement these function once Firebase is working
     public void commitToDatabase() {
-
-    }
-
-    public void loadFromDatabase(String id) {
 
     }
 }

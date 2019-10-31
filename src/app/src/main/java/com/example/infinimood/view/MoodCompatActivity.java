@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.infinimood.model.Mood;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,27 +56,33 @@ public class MoodCompatActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addMoodEventToDB(String mood_id, String mood_emotion, String mood_social_situation, String mood_reason, Date mood_date) {
+    public void addMoodEventToDB(Mood mood) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = user.getUid();
 
-        Map<String, Object> mood = new HashMap<>();
+        Map<String, Object> moodMap = new HashMap<>();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
 
-        mood.put("id", mood_id);
-        mood.put("mood", mood_emotion);
-        mood.put("social_situation", mood_social_situation);
-        mood.put("reason", mood_reason);
-        mood.put("date", dateFormat.format(mood_date));
-        mood.put("timestamp", dateFormat.format(new Date()));
+        moodMap.put("id", mood.getId());
+        moodMap.put("mood", mood.getMood());
+        moodMap.put("social_situation", mood.getSocial_situation());
+        moodMap.put("reason", mood.getReason());
+        moodMap.put("date", dateFormat.format(mood.getDate()));
+        moodMap.put("timestamp", System.currentTimeMillis() / 1000L);
+        if (mood.getLocation() != null) {
+            moodMap.put("location", mood.getLocation().toString());
+        }
+        if (mood.getImage() != null) {
+            moodMap.put("image", mood.getImage());
+        }
 
         firebaseFirestore
                 .collection("users")
                 .document(uid)
                 .collection("moods")
-                .document(mood_id)
-                .set(mood)
+                .document(mood.getId())
+                .set(moodMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -89,8 +96,4 @@ public class MoodCompatActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    // implement this
-    public void removeMoodEventFromDB(String mood_id) {};
-
 }
