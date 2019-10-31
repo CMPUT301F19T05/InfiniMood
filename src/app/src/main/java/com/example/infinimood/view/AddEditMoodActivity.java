@@ -1,5 +1,7 @@
 package com.example.infinimood.view;
 
+import android.location.Location;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.infinimood.model.SleepyMood;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 public class AddEditMoodActivity extends MoodCompatActivity {
 
@@ -39,6 +42,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private Date mood_date;
     private String mood_reason;
     private String mood_social_situation;
+    private Location mood_location = null;
+    private Image mood_image = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,44 +114,36 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         Mood newMood;
 
-        Random random = new Random();
-        String mood_id = String.valueOf(Math.abs(random.nextInt()));
+        String uuid = UUID.randomUUID().toString();
 
         switch (mood_emotion) {
             case "Happy":
-                newMood = new HappyMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new HappyMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             case "Angry":
-                newMood = new AngryMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new AngryMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             case "Crying":
-                newMood = new CryingMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new CryingMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
-            case "InLove":
-                newMood = new InLoveMood(mood_id, mood_date, mood_reason, mood_social_situation);
+            case "In Love":
+                newMood = new InLoveMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             case "Sad":
-                newMood = new SadMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new SadMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             case "Sleepy":
-                newMood = new SleepyMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new SleepyMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             case "Afraid":
-                newMood = new AfraidMood(mood_id, mood_date, mood_reason, mood_social_situation);
+                newMood = new AfraidMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
                 break;
             default:
                 Log.e(TAG, "Default case in addEdit switch");
-                break;
+                return;
         }
 
-        Log.i(TAG, "Created mood object:");
-        Log.i(TAG, mood_id);
-        Log.i(TAG, mood_emotion);
-        Log.i(TAG, mood_social_situation);
-        Log.i(TAG, mood_date.toString());
-        Log.i(TAG, mood_reason);
-
-        addMoodEventToDB(mood_id, mood_emotion, mood_social_situation, mood_reason, mood_date);
+        addMoodEventToDB(newMood);
 
         finish();
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
+import com.example.infinimood.model.Mood;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,31 +84,6 @@ public class UserProfileActivity extends MoodCompatActivity {
     public void onLogoutClicked(View view) {
         firebaseAuth.signOut();
         startActivityNoHistory(MainActivity.class);
-    }
-
-    // generate a random new mood event for the user
-    public void onGenerateMoodClicked(View view) {
-        Random random = new Random();
-
-        ArrayList<String> emotions = new ArrayList<String>();
-        emotions.add("Happy");
-        emotions.add("Sad");
-        emotions.add("Angry");
-        emotions.add("Scared");
-        emotions.add("Disgusted");
-
-        ArrayList<String> social_situations = new ArrayList<String>();
-        social_situations.add("Alone");
-        social_situations.add("With 1 other");
-        social_situations.add("With several others");
-        social_situations.add("In a crowd");
-
-        String mood_id = String.valueOf(Math.abs(random.nextInt()));
-        String mood_emotion = emotions.get(Math.abs(random.nextInt() % emotions.size()));
-        String mood_social_situation = social_situations.get(Math.abs(random.nextInt() % social_situations.size()));
-        Date mood_date = new Date();
-
-        addMoodEventToDB(mood_id, mood_emotion, mood_social_situation, "", mood_date);
     }
 
     // print all of the current user's mood events to console

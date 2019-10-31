@@ -1,49 +1,23 @@
 package com.example.infinimood.model;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.location.Location;
 import android.media.Image;
 
-import com.example.infinimood.R;
-
 import java.util.Date;
 
-import androidx.core.content.ContextCompat;
-
-
 public class AfraidMood extends Mood {
-    private String moodString = "Afraid";
-    private String moodIcon;
-    private int moodColor;
-
-    public AfraidMood(String id, Context c) {
-        super(id);
-        this.moodIcon = c.getString(R.string.afraid_icon);
-        this.moodColor = ContextCompat.getColor(c, R.color.afraid_color);
-    }
 
     public AfraidMood(String id,
-                      Date date,
-                      String reason,
-                      Location location,
-                      Image image,
-                      Context c)
+                     Date date,
+                     String reason,
+                     Location location,
+                     String social_situation,
+                     Image image)
     {
-        super(id, date, reason, location, image);
-        this.moodIcon = c.getString(R.string.afraid_icon);
-        this.moodColor = ContextCompat.getColor(c, R.color.afraid_color);
-    }
-
-    public AfraidMood(String id, Date date, String reason, String social_situation)
-    {
-        super(id, date, reason, social_situation);
-    }
-
-    public String getMoodIcon() {
-        return this.moodIcon;
-    }
-    public int getMoodColor() {
-        return this.moodColor;
+        super(id, date, reason, location, social_situation, image);
+        MoodConstants constants = new MoodConstants();
+        super.setMood(constants.afraid_string);
+        super.setIcon(constants.afraid_icon);
+        super.setColor(constants.afraid_color);
     }
 }
