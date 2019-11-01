@@ -1,10 +1,15 @@
 package com.example.infinimood.view;
 
         import android.os.Bundle;
+        import android.view.View;
         import android.widget.ListView;
+
+        import androidx.appcompat.widget.Toolbar;
 
         import com.example.infinimood.R;
         import com.example.infinimood.controller.MoodHistoryAdapter;
+        import com.google.android.material.floatingactionbutton.FloatingActionButton;
+        import com.google.android.material.snackbar.Snackbar;
 
 public class MoodHistoryActivity extends MoodCompatActivity {
 
