@@ -36,16 +36,19 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         Mood mood = moods.get(position);
 
-        TextView emoticon = view.findViewById(R.id.emoticon_view);
+//        TextView emoticon = view.findViewById(R.id.emoticon_view);
 //        emoticon.setText(mood.getImage());
 
+        TextView emoticon = view.findViewById(R.id.emoticon_view);
+        emoticon.setText(mood.getIcon());
+
         TextView social_situ = view.findViewById(R.id.social_situ_view);
-//        social_situ.setText(mood.getSocialSitu());
+        social_situ.setText(mood.getSocial_situation());
 
         TextView reason = view.findViewById(R.id.reason_view);
-//        reason.setText(mood.getReason());
+        reason.setText(mood.getReason());
 
-        TextView location = view.findViewById(R.id.location_view);
+//        TextView location = view.findViewById(R.id.location_view);
 //        location.setText(mood.getLocation());
 
         return view;
