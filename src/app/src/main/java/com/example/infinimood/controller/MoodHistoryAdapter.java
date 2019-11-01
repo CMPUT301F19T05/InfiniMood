@@ -1,6 +1,8 @@
 package com.example.infinimood.controller;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
@@ -16,6 +19,7 @@ import com.example.infinimood.model.Mood;
 import java.util.ArrayList;
 
 public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
+
     private ArrayList<Mood> moods;
     private Context context;
 
@@ -36,20 +40,29 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         Mood mood = moods.get(position);
 
-//        TextView emoticon = view.findViewById(R.id.emoticon_view);
-//        emoticon.setText(mood.getImage());
+        TextView mood_icon, mood_social_situation, mood_date, mood_reason;
+        mood_icon = view.findViewById(R.id.moodEventIcon);
+        mood_social_situation = view.findViewById(R.id.moodEventSocialSituation);
+        mood_date = view.findViewById(R.id.moodEventDate);
+        mood_reason = view.findViewById(R.id.moodEventReason);
 
-        TextView emoticon = view.findViewById(R.id.emoticon_view);
-        emoticon.setText(mood.getIcon());
+        ConstraintLayout layout = (ConstraintLayout) mood_icon.getParent();
 
-        TextView social_situ = view.findViewById(R.id.social_situ_view);
-        social_situ.setText(mood.getSocial_situation());
+        mood_icon.setText(mood.getIcon());
+        mood_social_situation.setText(mood.getSocial_situation());
+        mood_date.setText(mood.getDate().toString());
+        mood_reason.setText(mood.getReason());
 
-        TextView reason = view.findViewById(R.id.reason_view);
-        reason.setText(mood.getReason());
+        Drawable gradient = context.getDrawable(R.drawable.gradient);
+        gradient.setTint(Color.parseColor(mood.getColor()));
 
-//        TextView location = view.findViewById(R.id.location_view);
-//        location.setText(mood.getLocation());
+        layout.setBackground(gradient);
+
+        if (mood.getReason() == "") {
+            mood_reason.setVisibility(View.GONE);
+        } else {
+            mood_reason.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
