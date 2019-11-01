@@ -59,7 +59,10 @@ public class MoodCompatActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseUser = firebaseAuth.getCurrentUser();
-        refreshUserMoods();
+
+        if (firebaseUser != null) {
+            refreshUserMoods();
+        }
     }
 
     protected void toast(String msg) {
@@ -151,6 +154,10 @@ public class MoodCompatActivity extends AppCompatActivity {
     }
 
     public void refreshUserMoods() {
+
+        if (firebaseUser == null) {
+            return;
+        }
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
 
