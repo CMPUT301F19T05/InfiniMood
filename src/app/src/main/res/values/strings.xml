@@ -46,4 +46,5 @@
         <item>With two to several people</item>
         <item>With a crowd</item>
     </string-array>
+    <string name="title_activity_main2">MainActivity2</string>
 </resources>
