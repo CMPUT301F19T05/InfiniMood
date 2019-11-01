@@ -20,6 +20,13 @@ public abstract class Mood {
     private String icon = "";
     private String color;
 
+    public Mood(String id, String icon, String reason, String social_situation) {
+        this.id = id;
+        this.icon = icon;
+        this.reason = reason;
+        this.social_situation = social_situation;
+    }
+
     public Mood() {}
 
     public Mood(String id,

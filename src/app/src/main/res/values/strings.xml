@@ -31,7 +31,7 @@
     </string-array>
 
     <!-- Mood Icons Definitions -->
-    <string name="happy_icon">U+1F604</string>
+    <string name="happy_icon">0x1F60A</string>
     <string name="sad_icon">U+1F614</string>
     <string name="angry_icon">U+1F621</string>
     <string name="crying_icon">U+1F622</string>
