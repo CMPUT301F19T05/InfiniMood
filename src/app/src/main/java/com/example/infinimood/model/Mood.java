@@ -122,6 +122,7 @@ public abstract class Mood {
         Log.i("", "Social Situation : " + this.social_situation);
         Log.i("", "Reason : " + this.reason);
         Log.i("", "Date : " + this.date.toString());
+        Log.i("", "Emoji : " + this.icon);
     }
 
     //TODO: Implement these function once Firebase is working
