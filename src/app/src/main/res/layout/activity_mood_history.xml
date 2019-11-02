@@ -8,7 +8,7 @@ android:layout_height="match_parent"
 tools:context=".view.MoodHistoryActivity">
 
     <TextView
-        android:id="@+id/history_title"
+        android:id="@+id/moodHistoryTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -22,14 +22,21 @@ tools:context=".view.MoodHistoryActivity">
     </TextView>
 
     <ListView
-        android:id="@+id/history_list_view"
+        android:id="@+id/moodHistoryListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/history_title">
+        app:layout_constraintTop_toBottomOf="@+id/moodHistoryTitle"/>
 
-    </ListView>
+    <Switch
+        android:id="@+id/moodHistorySortOrderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
+        app:layout_constraintEnd_toEndOf="@+id/moodHistoryTitle"
+        app:layout_constraintTop_toTopOf="@+id/moodHistoryTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
