@@ -16,12 +16,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> moods;
     private Context context;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a", Locale.getDefault());
 
     public MoodHistoryAdapter(Context context, ArrayList<Mood> moods) {
         super(context, 0, moods);
@@ -50,7 +53,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         mood_icon.setText(mood.getIcon());
         mood_social_situation.setText(mood.getSocial_situation());
-        mood_date.setText(mood.getDate().toString());
+        mood_date.setText(dateFormat.format(mood.getDate()));
         mood_reason.setText(mood.getReason());
 
         Drawable gradient = context.getDrawable(R.drawable.gradient);

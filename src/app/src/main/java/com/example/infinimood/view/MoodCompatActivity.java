@@ -93,7 +93,7 @@ public class MoodCompatActivity extends AppCompatActivity {
         moodMap.put("social_situation", mood.getSocial_situation());
         moodMap.put("reason", mood.getReason());
         moodMap.put("date", dateFormat.format(mood.getDate()));
-        moodMap.put("timestamp", System.currentTimeMillis() / 1000L);
+        moodMap.put("timestamp", mood.getTime());
         if (mood.getLocation() != null) {
             moodMap.put("location", mood.getLocation().toString());
         }

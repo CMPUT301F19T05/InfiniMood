@@ -11,6 +11,7 @@ public abstract class Mood {
 
     private String id;
     private Date date;
+    private long time;
     private String reason = "";
     private Location location = null;
     private String social_situation;
@@ -27,8 +28,6 @@ public abstract class Mood {
         this.social_situation = social_situation;
     }
 
-    public Mood() {}
-
     public Mood(String id,
                 Date date,
                 String reason,
@@ -42,6 +41,7 @@ public abstract class Mood {
         this.location = location;
         this.social_situation = social_situation;
         this.image = image;
+        this.time = date.getTime();
     }
 
     public String getId() {
@@ -114,6 +114,14 @@ public abstract class Mood {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public void print() {
