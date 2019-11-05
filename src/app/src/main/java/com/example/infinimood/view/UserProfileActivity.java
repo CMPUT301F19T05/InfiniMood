@@ -1,8 +1,6 @@
 package com.example.infinimood.view;
 
 import android.content.Intent;
-import android.location.Location;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
-import com.example.infinimood.model.Mood;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.ArrayList;
 
 public class UserProfileActivity extends MoodCompatActivity {
 
@@ -68,7 +63,8 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onMoodHistoryClicked(View view) {
-        toast("TODO: Not implemented");
+        final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        startActivity(intent);
     }
 
     public void onFollowersClicked(View view){
