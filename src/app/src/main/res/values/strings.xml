@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">InfiniMood</string>
 
+    <string name="map_key" translatable="false">AIzaSyDSEvqrGFpLBtGwSnBhmC2kJt1TSYDc2VE</string>
+
     <string name="emoji_prompt">Choose an Emotion</string>
 
     <string name="back">Back</string>
