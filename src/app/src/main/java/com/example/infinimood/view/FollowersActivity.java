@@ -43,11 +43,9 @@ public class FollowersActivity extends MoodCompatActivity {
     public void showFollowers(){
         final ListView followingList = (ListView) findViewById(R.id.following_list);
         final ListView followerList = (ListView) findViewById(R.id.follower_list);
-        update();
         followingList.setVisibility(View.INVISIBLE);
         followerList.setVisibility(View.VISIBLE);
-
-
+        update();
     }
 
     public void showFollowing(){
@@ -287,7 +285,7 @@ public class FollowersActivity extends MoodCompatActivity {
             }
         });
     }
-    public void onBackClicked(View view) {
+    public void onFollowBackClicked(View view) {
         finish();
     }
 }
