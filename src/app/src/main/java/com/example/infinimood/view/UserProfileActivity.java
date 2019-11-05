@@ -71,6 +71,11 @@ public class UserProfileActivity extends MoodCompatActivity {
         toast("TODO: Not implemented");
     }
 
+    public void onFollowersClicked(View view){
+        final Intent intent2 = new Intent(this, FollowersActivity.class);
+        startActivity(intent2);
+    }
+
     public void onLogoutClicked(View view) {
         firebaseAuth.signOut();
         startActivityNoHistory(MainActivity.class);

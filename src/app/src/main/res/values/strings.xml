@@ -20,6 +20,16 @@
     <string name="goto_add_moood">Add Mood</string>
     <string name="default_username">Anonymous</string>
 
+    <string name="Followers">Followers</string>
+    <string name="Following">Following</string>
+    <string name="Follow_button">Follow</string>
+    <string name="Accept_follow_request">Accept</string>
+    <string name="follow_request_status">Requested</string>
+    <string name="Unfollow_button">Unfollow</string>
+    <string name="Following_status">Following</string>
+    <string name="accept_status">Accepted</string>
+
+
     <string-array name="emojis_array">
         <item>Happy</item>
         <item>Sad</item>
