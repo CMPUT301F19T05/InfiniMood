@@ -70,8 +70,8 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onFollowersClicked(View view){
-        final Intent intent2 = new Intent(this, FollowersActivity.class);
-        startActivity(intent2);
+        final Intent intent = new Intent(this, FollowersActivity.class);
+        startActivity(intent);
     }
 
     public void onLogoutClicked(View view) {
