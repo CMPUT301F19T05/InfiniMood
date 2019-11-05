@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".view.CreateAccountActivity" />
         <activity android:name=".view.AddEditMoodActivity" />
+        <activity android:name=".view.FollowersActivity" />
     </application>
 
 </manifest>
