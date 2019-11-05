@@ -72,7 +72,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions myMarker = new MarkerOptions().position(latLng).title("You");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
         googleMap.addMarker(myMarker);
     }
 
