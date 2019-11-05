@@ -43,32 +43,17 @@ public class FollowersActivity extends MoodCompatActivity {
     public void showFollowers(){
         final ListView followingList = (ListView) findViewById(R.id.following_list);
         final ListView followerList = (ListView) findViewById(R.id.follower_list);
-        update();
         followingList.setVisibility(View.INVISIBLE);
         followerList.setVisibility(View.VISIBLE);
-
-
+        update();
     }
 
     public void showFollowing(){
         final ListView followingList = (ListView) findViewById(R.id.following_list);
-        followingList.setVisibility(View.VISIBLE);
         final ListView followerList = (ListView) findViewById(R.id.follower_list);
+        followingList.setVisibility(View.VISIBLE);
         followerList.setVisibility(View.INVISIBLE);
-
-        readData(new FirebaseCallback() {
-            @Override
-            public void onCallback(ArrayList<User> getFollowers, ArrayList<User> getFollowing,ArrayList<Boolean> AcceptedList) {
-                followAdapter = new FollowAdapter(FollowersActivity.this,getFollowers, getFollowing,AcceptedList);
-                followingAdapter = new FollowingAdapter(FollowersActivity.this,getFollowers,getFollowing);
-                //ListView followerList = (ListView) findViewById(R.id.follower_list);
-                followerList.setAdapter(followAdapter);
-                followAdapter.notifyDataSetChanged();
-                //ListView followingList = (ListView) findViewById(R.id.following_list);
-                followingList.setAdapter(followingAdapter);
-                followingAdapter.notifyDataSetChanged();
-            }
-        });
+        update();
     }
 
     public void onFollowersTabClicked(View view){
@@ -300,7 +285,7 @@ public class FollowersActivity extends MoodCompatActivity {
             }
         });
     }
-    public void onBackClicked(View view) {
+    public void onFollowBackClicked(View view) {
         finish();
     }
 }
