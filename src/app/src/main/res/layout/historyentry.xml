@@ -7,68 +7,64 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/entry_container"
+        android:id="@+id/moodEventConstraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/social_situ_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toStartOf="@+id/location_view"
-            app:layout_constraintStart_toEndOf="@+id/emoticon_view"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/emoticon_view"
-            android:layout_width="60dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/reason_view"
+            android:id="@+id/moodEventReason"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/location_view"
-            app:layout_constraintStart_toEndOf="@+id/emoticon_view"
-            app:layout_constraintTop_toBottomOf="@+id/social_situ_view" />
-
-        <TextView
-            android:id="@+id/location_view"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
+            android:gravity="left|center_vertical"
+            android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/moodEventIcon"
+            app:layout_constraintTop_toBottomOf="@+id/moodEventDate"
+            tools:text="Reason" />
+
+        <TextView
+            android:id="@+id/moodEventSocialSituation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="left|center_vertical"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@+id/moodEventDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moodEventIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Social Situation" />
+
+        <TextView
+            android:id="@+id/moodEventIcon"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:fontFamily="@font/noto_color_emoji"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="😀" />
+
+        <TextView
+            android:id="@+id/moodEventDate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="left|center_vertical"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@+id/moodEventReason"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moodEventIcon"
+            app:layout_constraintTop_toBottomOf="@+id/moodEventSocialSituation"
+            tools:text="Date" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

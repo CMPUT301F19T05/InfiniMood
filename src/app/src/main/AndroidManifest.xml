@@ -12,11 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.MoodHistoryActivity" />
+        <activity android:name=".view.UserProfileActivity" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key"></meta-data>
 
-        <activity android:name=".view.UserProfileActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +28,7 @@
         <activity android:name=".view.CreateAccountActivity" />
         <activity android:name=".view.AddEditMoodActivity" />
         <activity android:name=".view.LocationActivity" />
+        <activity android:name=".view.FollowersActivity" />
     </application>
 
 </manifest>

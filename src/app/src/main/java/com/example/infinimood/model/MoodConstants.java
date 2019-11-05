@@ -20,11 +20,11 @@ public class MoodConstants {
     public final String inlove_string = "In Love";
 
     // icons
-    public final String afraid_icon = "U+1F631";
-    public final String angry_icon = "U+1F620";
-    public final String crying_icon = "U+1F602";
-    public final String happy_icon = "U+1F600";
-    public final String sad_icon = "U+2639";
-    public final String sleepy_icon = "U+1F634";
-    public final String inlove_icon = "U+1F60D";
+    public final String afraid_icon = new String(Character.toChars(0x1F631));
+    public final String angry_icon = new String(Character.toChars(0x1F620));
+    public final String crying_icon = new String(Character.toChars(0x1F602));
+    public final String happy_icon = new String(Character.toChars(0x1F600));
+    public final String sad_icon = new String(Character.toChars(0x2639));
+    public final String sleepy_icon = new String(Character.toChars(0x1F634));
+    public final String inlove_icon = new String(Character.toChars(0x1F60D));
 }

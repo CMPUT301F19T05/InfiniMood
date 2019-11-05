@@ -36,7 +36,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private Spinner moodSpinner;
     private EditText reasonInput;
     private Spinner socialSituationSpinner;
-    private Button submitButton;
 
     private String mood_emotion;
     private Date mood_date;
@@ -56,7 +55,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodSpinner = findViewById(R.id.addEditMoodSpinner);
         reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
-        submitButton = findViewById(R.id.addEditSubmitButton);
 
         // change mood_emotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -112,36 +110,9 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         mood_date = calendar.getTime();
 
-        Mood newMood;
-
         String uuid = UUID.randomUUID().toString();
 
-        switch (mood_emotion) {
-            case "Happy":
-                newMood = new HappyMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "Angry":
-                newMood = new AngryMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "Crying":
-                newMood = new CryingMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "In Love":
-                newMood = new InLoveMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "Sad":
-                newMood = new SadMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "Sleepy":
-                newMood = new SleepyMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            case "Afraid":
-                newMood = new AfraidMood(uuid, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
-                break;
-            default:
-                Log.e(TAG, "Default case in addEdit switch");
-                return;
-        }
+        Mood newMood = createMood(uuid, mood_emotion, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
 
         addMoodEventToDB(newMood);
 

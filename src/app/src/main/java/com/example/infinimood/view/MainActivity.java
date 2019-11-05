@@ -31,16 +31,6 @@ public class MainActivity extends MoodCompatActivity {
 
         editTextEmail = findViewById(R.id.edit_text_email);
         editTextPassword = findViewById(R.id.edit_text_password);
-
-        // TODO: Debug only
-        Button test_addEdit = findViewById(R.id.test_add_edit);
-        test_addEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddEditMoodActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
