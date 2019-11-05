@@ -98,7 +98,6 @@
         app:layout_constraintBottom_toTopOf="@+id/button6"
         app:layout_constraintStart_toStartOf="parent" />
 
-<<<<<<< HEAD
     <Button
         android:id="@+id/gotoFollowers"
         android:layout_width="wrap_content"
@@ -108,10 +107,5 @@
         app:layout_constraintBottom_toTopOf="@+id/button6"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/printMoodsButton" />
-=======
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
->>>>>>> b5d523b8c81e3592af6c1f8d0a14da23ec200b8c
 
 </androidx.constraintlayout.widget.ConstraintLayout>

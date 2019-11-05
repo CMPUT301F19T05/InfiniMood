@@ -205,7 +205,6 @@ public class FollowersActivity extends MoodCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        showFollowers();
                         Log.d("FollowersActivity", "DocumentSnapshot successfully written!");
                     }
                 })
@@ -238,6 +237,7 @@ public class FollowersActivity extends MoodCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            showFollowers();
                                             Log.d("FollowersActivity", "DocumentSnapshot successfully written!");
                                         }
                                     })
@@ -252,6 +252,7 @@ public class FollowersActivity extends MoodCompatActivity {
                         }
                     }
                 });
+
 
     }
     public void onAcceptClicked(View view){
