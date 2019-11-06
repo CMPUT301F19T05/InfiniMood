@@ -23,7 +23,7 @@ public class FollowingAdapter extends ArrayAdapter<User> {
     private ArrayList<User> following;
     private Context context;
 
-    public FollowingAdapter(Context context,ArrayList <User> followers,ArrayList<User> following){
+    public FollowingAdapter(Context context, ArrayList <User> followers, ArrayList<User> following){
         super(context,0, following);
         this.context = context;
         this.followers = followers;
@@ -37,7 +37,7 @@ public class FollowingAdapter extends ArrayAdapter<User> {
         LayoutInflater inflator = ((android.app.Activity) this.context).getLayoutInflater();
         view = inflator.inflate(R.layout.followee_entry, parent, false);
 
-        TextView followeeUsername = view.findViewById(R.id.followee_username);
+        TextView followeeUsername = view.findViewById(R.id.followeeEntryUsernameTextView);
         followeeUsername.setText(followee.getUsername());
 
         return view;

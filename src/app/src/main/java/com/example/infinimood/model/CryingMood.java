@@ -16,13 +16,13 @@ public class CryingMood extends Mood {
                      Date date,
                      String reason,
                      Location location,
-                     String social_situation,
+                     String socialSituation,
                      Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.crying_string);
-        super.setIcon(constants.crying_icon);
-        super.setColor(constants.crying_color);
+        super.setMood(constants.CRYING_STRING);
+        super.setIcon(constants.CRYING_ICON);
+        super.setColor(constants.CRYING_COLOR);
     }
 }

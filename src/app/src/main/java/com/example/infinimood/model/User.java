@@ -7,17 +7,17 @@ package com.example.infinimood.model;
 
 public class User {
 
-    private String UserID;
-    private String Username;
+    private String userID;
+    private String username;
 
     public User() {}
 
-    public User(String Uid, String Username){
-        this.UserID = Uid;
-        this.Username = Username;
-
+    public User(String Uid, String username){
+        this.userID = Uid;
+        this.username = username;
     }
 
-    public String getUsername() { return Username; }
-    public String getUserID() { return UserID; }
+    public String getUsername() { return username; }
+
+    public String getUserID() { return userID; }
 }

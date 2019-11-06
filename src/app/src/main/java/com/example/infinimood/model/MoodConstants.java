@@ -7,29 +7,29 @@ package com.example.infinimood.model;
 
 public class MoodConstants {
     // colors
-    public final String afraid_color = "#b68fff";
-    public final String angry_color = "#d94848";
-    public final String crying_color = "#4d6ec9";
-    public final String happy_color = "#78ff78";
-    public final String sad_color = "#63c1ff";
-    public final String sleepy_color = "#a9b1c9";
-    public final String inlove_color = "#fb91ff";
+    public final String AFRAID_COLOR = "#b68fff";
+    public final String ANGRY_COLOR = "#d94848";
+    public final String CRYING_COLOR = "#4d6ec9";
+    public final String HAPPY_COLOR = "#78ff78";
+    public final String SAD_COLOR = "#63c1ff";
+    public final String SLEEPY_COLOR = "#a9b1c9";
+    public final String INLOVE_COLOR = "#fb91ff";
 
     // strings
-    public final String afraid_string = "Afraid";
-    public final String angry_string = "Angry";
-    public final String crying_string = "Crying";
-    public final String happy_string = "Happy";
-    public final String sad_string = "Sad";
-    public final String sleepy_string = "Sleepy";
-    public final String inlove_string = "In Love";
+    public final String AFRAID_STRING = "Afraid";
+    public final String ANGRY_STRING = "Angry";
+    public final String CRYING_STRING = "Crying";
+    public final String HAPPY_STRING = "Happy";
+    public final String SAD_STRING = "Sad";
+    public final String SLEEPY_STRING = "Sleepy";
+    public final String INLOVE_STRING = "In Love";
 
     // icons
-    public final String afraid_icon = new String(Character.toChars(0x1F631));
-    public final String angry_icon = new String(Character.toChars(0x1F620));
-    public final String crying_icon = new String(Character.toChars(0x1F602));
-    public final String happy_icon = new String(Character.toChars(0x1F600));
-    public final String sad_icon = new String(Character.toChars(0x2639));
-    public final String sleepy_icon = new String(Character.toChars(0x1F634));
-    public final String inlove_icon = new String(Character.toChars(0x1F60D));
+    public final String AFRAID_ICON = new String(Character.toChars(0x1F631));
+    public final String ANGRY_ICON = new String(Character.toChars(0x1F620));
+    public final String CRYING_ICON = new String(Character.toChars(0x1F602));
+    public final String HAPPY_ICON = new String(Character.toChars(0x1F600));
+    public final String SAD_ICON = new String(Character.toChars(0x2639));
+    public final String SLEEPY_ICON = new String(Character.toChars(0x1F634));
+    public final String INLOVE_ICON = new String(Character.toChars(0x1F60D));
 }

@@ -43,12 +43,12 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private EditText reasonInput;
     private Spinner socialSituationSpinner;
 
-    private String mood_emotion;
-    private Date mood_date;
-    private String mood_reason;
-    private String mood_social_situation;
-    private Location mood_location = null;
-    private Image mood_image = null;
+    private String moodEmotion;
+    private Date moodDate;
+    private String moodReason;
+    private String moodSocialSituation;
+    private Location moodLocation = null;
+    private Image moodImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +62,13 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
 
-        // change mood_emotion according to the mood spinner
+        // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String mood = (String) moodSpinner.getItemAtPosition(i);
-                mood_emotion = mood;
-                Log.i(TAG, mood_emotion);
+                moodEmotion = mood;
+                Log.i(TAG, moodEmotion);
             }
 
             @Override
@@ -77,13 +77,13 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             }
         });
 
-        // change mood_social_situation according to the social situation spinner
+        // change moodSocialSituation according to the social situation spinner
         socialSituationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String social_situation = (String) socialSituationSpinner.getItemAtPosition(i);
-                mood_social_situation = social_situation;
-                Log.i(TAG, mood_social_situation);
+                String socialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
+                moodSocialSituation = socialSituation;
+                Log.i(TAG, moodSocialSituation);
             }
 
             @Override
@@ -95,16 +95,16 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     public void onSubmitClicked(View view) {
         // check for empty fields
-        if (mood_emotion.equals("")) {
+        if (moodEmotion.equals("")) {
             toast("Select a mood");
             return;
         }
-        if (mood_social_situation.equals("")) {
+        if (moodSocialSituation.equals("")) {
             toast("Select a social situation");
             return;
         }
 
-        mood_reason = reasonInput.getText().toString();
+        moodReason = reasonInput.getText().toString();
 
         // Extract date / time from datePicker and timePicker
         Calendar calendar = Calendar.getInstance();
@@ -114,11 +114,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
         calendar.set(Calendar.MINUTE, timePicker.getMinute());
         calendar.set(Calendar.SECOND, 0);
-        mood_date = calendar.getTime();
+        moodDate = calendar.getTime();
 
         String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = createMood(uuid, mood_emotion, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+        Mood newMood = createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
         addMoodEventToDB(newMood);
 

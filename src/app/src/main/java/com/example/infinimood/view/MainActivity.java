@@ -5,7 +5,6 @@ import com.example.infinimood.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -35,8 +34,8 @@ public class MainActivity extends MoodCompatActivity {
 
         progressBarContainer = findViewById(R.id.progress_bar_container);
 
-        editTextEmail = findViewById(R.id.edit_text_email);
-        editTextPassword = findViewById(R.id.edit_text_password);
+        editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
+        editTextPassword = findViewById(R.id.loginCreateAccountPasswordEditText);
     }
 
     @Override

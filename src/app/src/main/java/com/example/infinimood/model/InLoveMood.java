@@ -16,13 +16,13 @@ public class InLoveMood extends Mood {
                      Date date,
                      String reason,
                      Location location,
-                     String social_situation,
+                     String socialSituation,
                      Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.inlove_string);
-        super.setIcon(constants.inlove_icon);
-        super.setColor(constants.inlove_color);
+        super.setMood(constants.INLOVE_STRING);
+        super.setIcon(constants.INLOVE_ICON);
+        super.setColor(constants.INLOVE_COLOR);
     }
 }

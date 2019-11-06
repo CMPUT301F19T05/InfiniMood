@@ -40,7 +40,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
-        backButton = findViewById(R.id.backButton);
+        backButton = findViewById(R.id.locationBackButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onBackPressed();
@@ -65,7 +65,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     currentLocation = location;
                     Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                     SupportMapFragment supportMapFragment = (SupportMapFragment)
-                            getSupportFragmentManager().findFragmentById(R.id.location);
+                            getSupportFragmentManager().findFragmentById(R.id.locationMap);
                     supportMapFragment.getMapAsync(LocationActivity.this);
                 }
             }

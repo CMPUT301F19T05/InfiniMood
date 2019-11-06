@@ -36,10 +36,10 @@ public class CreateAccountActivity extends MoodCompatActivity {
 
         progressBarContainer = findViewById(R.id.progress_bar_container);
 
-        editTextUsername = findViewById(R.id.edit_text_username);
-        editTextEmail = findViewById(R.id.edit_text_email);
-        editTextPassword = findViewById(R.id.edit_text_password);
-        editTextPasswordRepeat = findViewById(R.id.edit_text_password_repeat);
+        editTextUsername = findViewById(R.id.createAccountUsernameEditText);
+        editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
+        editTextPassword = findViewById(R.id.loginCreateAccountPasswordEditText);
+        editTextPasswordRepeat = findViewById(R.id.createAccountPasswordRepeatEditText);
     }
 
     public void onSubmitClicked(View view) {
