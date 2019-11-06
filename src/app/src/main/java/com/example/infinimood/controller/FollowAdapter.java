@@ -14,6 +14,11 @@ import com.example.infinimood.model.User;
 
 import java.util.ArrayList;
 
+/**
+ *  FollowAdapter.java
+ *  Adapter for the ListView in FollowersActivity
+ */
+
 public class FollowAdapter extends ArrayAdapter<User>  {
 
 

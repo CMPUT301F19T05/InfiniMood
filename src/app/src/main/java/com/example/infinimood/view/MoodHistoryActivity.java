@@ -17,6 +17,12 @@ import com.example.infinimood.R;
 
 import java.util.Collections;
 
+/**
+ *  MoodHistoryActivity.java
+ *  Activity for viewing your mood events in a ListView
+ *  TODO: Click to edit, swipe right to delete (with confirmation)
+ */
+
 public class MoodHistoryActivity extends MoodCompatActivity {
 
     private MoodHistoryAdapter adapter;

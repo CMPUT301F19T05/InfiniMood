@@ -5,6 +5,11 @@ import android.media.Image;
 
 import java.util.Date;
 
+/**
+ *  HappyMood.java
+ *  Subclass for Happy mood events
+ */
+
 public class HappyMood extends Mood {
 
     public HappyMood(String id,

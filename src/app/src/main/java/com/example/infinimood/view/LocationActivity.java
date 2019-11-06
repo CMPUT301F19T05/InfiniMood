@@ -24,6 +24,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+/**
+ *  LocationActivity.java
+ *  Activity for displaying your current location on google maps
+ */
+
 public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
     private Button backButton;
     private Location currentLocation;

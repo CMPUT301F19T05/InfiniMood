@@ -28,6 +28,11 @@ import java.util.Map;
 
 import static com.google.firebase.firestore.FieldValue.delete;
 
+/**
+ *  FollowersActivity.java
+ *  Activity for viewing your followers
+ */
+
 public class FollowersActivity extends MoodCompatActivity {
 
     private FollowAdapter followAdapter;

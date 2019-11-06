@@ -35,6 +35,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ *  MoodCompatActivity.java
+ *  Superclass for all other activities
+ *  Contains common functionality for all activities
+ */
+
 public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
@@ -42,7 +48,6 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     protected FirebaseAuth firebaseAuth;
     protected FirebaseFirestore firebaseFirestore;
     protected FirebaseUser firebaseUser = null;
-
 
     public MoodCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance();
