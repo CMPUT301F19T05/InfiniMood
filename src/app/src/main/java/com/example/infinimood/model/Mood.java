@@ -7,6 +7,11 @@ import android.util.Log;
 
 import java.util.Date;
 
+/**
+ *  Mood.java
+ *  Mood event superclass, contains all functionality for mood objects
+ */
+
 public abstract class Mood {
 
     private String id;

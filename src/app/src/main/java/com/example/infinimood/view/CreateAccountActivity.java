@@ -15,6 +15,11 @@ import com.google.firebase.auth.AuthResult;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *  CreateAccountActivity.java
+ *  Activity for creating user accounts (fields for username, password, etc.)
+ */
+
 public class CreateAccountActivity extends MoodCompatActivity {
 
     FrameLayout progressBarContainer;

@@ -5,6 +5,11 @@ import android.media.Image;
 
 import java.util.Date;
 
+/**
+ *  AngryMood.java
+ *  Subclass for Angry mood events
+ */
+
 public class AngryMood extends Mood {
 
     public AngryMood(String id,

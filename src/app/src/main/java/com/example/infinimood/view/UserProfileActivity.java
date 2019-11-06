@@ -15,6 +15,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+/**
+ *  UserProfileActivity.java
+ *  Homepage when authenticated
+ *  Access point for most functionality
+ */
+
 public class UserProfileActivity extends MoodCompatActivity {
 
     private static final String TAG = "UserProfileActivity";

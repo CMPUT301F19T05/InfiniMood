@@ -1,5 +1,10 @@
 package com.example.infinimood.model;
 
+/**
+ *  SocialSituation.java
+ *  Enum containing different social situation strings for Mood events
+ */
+
 public enum SocialSituation {
     ALONE("Alone"),
     WITH_ONE("With one other person"),
