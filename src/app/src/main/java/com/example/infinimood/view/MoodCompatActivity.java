@@ -15,6 +15,7 @@ import com.example.infinimood.model.CryingMood;
 import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -203,6 +206,8 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                                 Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);
 
                                 moods.add(mood);
+                                MoodComparator comparator = new MoodComparator();
+                                Collections.sort(moods, comparator);
                             }
                         } else {
                             Log.e(TAG, "Error getting documents");
