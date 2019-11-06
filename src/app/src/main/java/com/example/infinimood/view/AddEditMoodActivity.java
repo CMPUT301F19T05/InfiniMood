@@ -119,7 +119,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    mood_location = location;
+                    moodLocation = location;
                     toast("Current Location Added");
                 }
             }

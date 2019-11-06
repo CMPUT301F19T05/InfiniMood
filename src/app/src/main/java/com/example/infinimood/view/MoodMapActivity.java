@@ -57,7 +57,11 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
             mMap.addMarker( new MarkerOptions().position( latlong ).title( moods.get(i).getMood() ) );
         }
 
+        // Kind of random zoom preferences
+        mMap.setMaxZoomPreference(20);
+        mMap.setMinZoomPreference(15);
         mMap.moveCamera(CameraUpdateFactory.newLatLng( latlong ));
+
         if( latlong.latitude == 0.0 && latlong.longitude == 0.0 ) {
             Log.i("", "No moods");
         }
