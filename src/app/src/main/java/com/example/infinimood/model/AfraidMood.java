@@ -16,13 +16,13 @@ public class AfraidMood extends Mood {
                      Date date,
                      String reason,
                      Location location,
-                     String social_situation,
+                     String socialSituation,
                      Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.afraid_string);
-        super.setIcon(constants.afraid_icon);
-        super.setColor(constants.afraid_color);
+        super.setMood(constants.AFRAID_STRING);
+        super.setIcon(constants.AFRAID_ICON);
+        super.setColor(constants.AFRAID_COLOR);
     }
 }

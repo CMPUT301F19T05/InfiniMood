@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/followee_username"
+            android:id="@+id/followeeEntryUsernameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -24,7 +24,7 @@
             android:text="username" />
 
         <Button
-            android:id="@+id/unfollow_button"
+            android:id="@+id/followeeEntryUnfollowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -36,12 +36,12 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
-            android:id="@+id/follow_request_status"
+            android:id="@+id/followeeEntryRequestStatusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@string/follow_request_status"
-            app:layout_constraintStart_toStartOf="@+id/unfollow_button"
+            app:layout_constraintStart_toStartOf="@+id/followeeEntryUnfollowButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

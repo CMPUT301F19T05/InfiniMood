@@ -16,13 +16,13 @@ public class SadMood extends Mood {
                      Date date,
                      String reason,
                      Location location,
-                     String social_situation,
+                     String socialSituation,
                      Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.sad_string);
-        super.setIcon(constants.sad_icon);
-        super.setColor(constants.sad_color);
+        super.setMood(constants.SAD_STRING);
+        super.setIcon(constants.SAD_ICON);
+        super.setColor(constants.SAD_COLOR);
     }
 }

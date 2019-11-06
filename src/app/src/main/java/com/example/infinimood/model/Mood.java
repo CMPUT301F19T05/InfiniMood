@@ -19,32 +19,32 @@ public abstract class Mood {
     private long time;
     private String reason = "";
     private Location location = null;
-    private String social_situation;
+    private String socialSituation;
     private Image image = null;
 
     private String mood = "";
     private String icon = "";
     private String color;
 
-    public Mood(String id, String icon, String reason, String social_situation) {
+    public Mood(String id, String icon, String reason, String socialSituation) {
         this.id = id;
         this.icon = icon;
         this.reason = reason;
-        this.social_situation = social_situation;
+        this.socialSituation = socialSituation;
     }
 
     public Mood(String id,
                 Date date,
                 String reason,
                 Location location,
-                String social_situation,
+                String socialSituation,
                 Image image)
     {
         this.id = id;
         this.date = date;
         this.reason = reason;
         this.location = location;
-        this.social_situation = social_situation;
+        this.socialSituation = socialSituation;
         this.image = image;
         this.time = date.getTime();
     }
@@ -81,12 +81,12 @@ public abstract class Mood {
         this.location = location;
     }
 
-    public String getSocial_situation() {
-        return social_situation;
+    public String getSocialSituation() {
+        return socialSituation;
     }
 
-    public void setSocial_situation(String social_situation) {
-        this.social_situation = social_situation;
+    public void setSocialSituation(String socialSituation) {
+        this.socialSituation = socialSituation;
     }
 
     public Image getImage() {
@@ -132,7 +132,7 @@ public abstract class Mood {
     public void print() {
         Log.i("", "ID : " + this.id);
         Log.i("", "Mood : " + this.mood);
-        Log.i("", "Social Situation : " + this.social_situation);
+        Log.i("", "Social Situation : " + this.socialSituation);
         Log.i("", "Reason : " + this.reason);
         Log.i("", "Date : " + this.date.toString());
         Log.i("", "Emoji : " + this.icon);

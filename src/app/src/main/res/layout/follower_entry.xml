@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/follower_username"
+            android:id="@+id/followerEntryUsernameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -24,20 +24,20 @@
             android:text="username" />
 
         <Button
-            android:id="@+id/accept_button"
+            android:id="@+id/followerEntryAcceptButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@string/Accept_follow_request"
             android:onClick="onAcceptClicked"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/follow_button"
+            app:layout_constraintEnd_toStartOf="@+id/followerEntryFollowButton"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/follow_button"
+            android:id="@+id/followerEntryFollowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -50,12 +50,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/following_status"
+            android:id="@+id/followerEntryFollowingStatusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@string/Following_status"
-            app:layout_constraintStart_toStartOf="@+id/follow_button"
+            app:layout_constraintStart_toStartOf="@+id/followerEntryFollowButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

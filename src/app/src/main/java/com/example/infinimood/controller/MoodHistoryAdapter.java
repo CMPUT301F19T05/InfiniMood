@@ -50,15 +50,15 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
         Mood mood = moods.get(position);
 
         TextView mood_icon, mood_social_situation, mood_date, mood_reason;
-        mood_icon = view.findViewById(R.id.moodEventIcon);
-        mood_social_situation = view.findViewById(R.id.moodEventSocialSituation);
-        mood_date = view.findViewById(R.id.moodEventDate);
-        mood_reason = view.findViewById(R.id.moodEventReason);
+        mood_icon = view.findViewById(R.id.moodEventIconTextView);
+        mood_social_situation = view.findViewById(R.id.moodEventSocialSituationTextView);
+        mood_date = view.findViewById(R.id.moodEventDateTextView);
+        mood_reason = view.findViewById(R.id.moodEventReasonTextView);
 
         ConstraintLayout layout = (ConstraintLayout) mood_icon.getParent();
 
         mood_icon.setText(mood.getIcon());
-        mood_social_situation.setText(mood.getSocial_situation());
+        mood_social_situation.setText(mood.getSocialSituation());
         mood_date.setText(dateFormat.format(mood.getDate()));
         mood_reason.setText(mood.getReason());
 

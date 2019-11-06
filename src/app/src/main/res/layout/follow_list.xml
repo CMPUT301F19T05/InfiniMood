@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/followers"
+            android:id="@+id/followFollowersButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -21,7 +21,7 @@
             android:text="@string/Followers" />
 
         <Button
-            android:id="@+id/following"
+            android:id="@+id/followFollowingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -30,7 +30,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/follower_list"
+        android:id="@+id/followFollowerListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/follow_back_button"
+        app:layout_constraintBottom_toTopOf="@+id/followBackButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttons">
@@ -47,7 +47,7 @@
     </ListView>
 
     <ListView
-        android:id="@+id/following_list"
+        android:id="@+id/followFollowingListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -56,13 +56,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/follow_back_button"
+        app:layout_constraintBottom_toTopOf="@+id/followBackButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttons" />
 
     <Button
-        android:id="@+id/follow_back_button"
+        android:id="@+id/followBackButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

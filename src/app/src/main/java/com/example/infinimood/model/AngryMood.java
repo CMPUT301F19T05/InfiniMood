@@ -16,13 +16,13 @@ public class AngryMood extends Mood {
                      Date date,
                      String reason,
                      Location location,
-                     String social_situation,
+                     String socialSituation,
                      Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.angry_string);
-        super.setIcon(constants.angry_icon);
-        super.setColor(constants.angry_color);
+        super.setMood(constants.ANGRY_STRING);
+        super.setIcon(constants.ANGRY_ICON);
+        super.setColor(constants.ANGRY_COLOR);
     }
 }

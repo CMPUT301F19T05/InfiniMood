@@ -3,9 +3,7 @@ package com.example.infinimood.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -26,8 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.google.firebase.firestore.FieldValue.delete;
-
 /**
  *  FollowersActivity.java
  *  Activity for viewing your followers
@@ -46,16 +42,16 @@ public class FollowersActivity extends MoodCompatActivity {
     }
 
     public void showFollowers(){
-        final ListView followingList = (ListView) findViewById(R.id.following_list);
-        final ListView followerList = (ListView) findViewById(R.id.follower_list);
+        final ListView followingList = (ListView) findViewById(R.id.followFollowingListView);
+        final ListView followerList = (ListView) findViewById(R.id.followFollowerListView);
         followingList.setVisibility(View.INVISIBLE);
         followerList.setVisibility(View.VISIBLE);
         update();
     }
 
     public void showFollowing(){
-        final ListView followingList = (ListView) findViewById(R.id.following_list);
-        final ListView followerList = (ListView) findViewById(R.id.follower_list);
+        final ListView followingList = (ListView) findViewById(R.id.followFollowingListView);
+        final ListView followerList = (ListView) findViewById(R.id.followFollowerListView);
         followingList.setVisibility(View.VISIBLE);
         followerList.setVisibility(View.INVISIBLE);
         update();
@@ -128,7 +124,7 @@ public class FollowersActivity extends MoodCompatActivity {
     }
 
     public void onUnfollowClicked(View view){
-        ListView FollowingList = findViewById(R.id.following_list);
+        ListView FollowingList = findViewById(R.id.followFollowingListView);
         View item = (View) view.getParent();
         int pos = FollowingList.getPositionForView(item);
         final User followee = followingAdapter.getItem(pos);
@@ -176,9 +172,9 @@ public class FollowersActivity extends MoodCompatActivity {
 
 
     public void onFollowClicked(View view) {
-        ListView FollowersList = findViewById(R.id.follower_list);
+        ListView followersList = findViewById(R.id.followFollowerListView);
         View item = (View) view.getParent();
-        int pos = FollowersList.getPositionForView(item);
+        int pos = followersList.getPositionForView(item);
         final User follower = followAdapter.getItem(pos);
         Log.i("", follower.getUsername());
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -246,9 +242,9 @@ public class FollowersActivity extends MoodCompatActivity {
 
     }
     public void onAcceptClicked(View view){
-        ListView FollowersList = findViewById(R.id.follower_list);
+        ListView followersList = findViewById(R.id.followFollowerListView);
         View item = (View) view.getParent();
-        int pos = FollowersList.getPositionForView(item);
+        int pos = followersList.getPositionForView(item);
         final User follower = followAdapter.getItem(pos);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         Map<String,Object> map = new HashMap<>();
@@ -276,8 +272,8 @@ public class FollowersActivity extends MoodCompatActivity {
 
     }
     public void update(){
-        final ListView followingList = (ListView) findViewById(R.id.following_list);
-        final ListView followerList = (ListView) findViewById(R.id.follower_list);
+        final ListView followingList = (ListView) findViewById(R.id.followFollowingListView);
+        final ListView followerList = (ListView) findViewById(R.id.followFollowerListView);
         readData(new FirebaseCallback() {
             @Override
             public void onCallback(ArrayList<User> getFollowers, ArrayList<User> getFollowing,ArrayList<Boolean> AcceptedList) {
