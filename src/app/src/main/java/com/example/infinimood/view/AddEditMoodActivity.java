@@ -1,5 +1,7 @@
 package com.example.infinimood.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.media.Image;
 import android.os.Bundle;
@@ -21,11 +23,16 @@ import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
+import androidx.core.app.ActivityCompat;
 
 /**
  *  AddEditMoodActivity.java
@@ -42,6 +49,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private Spinner moodSpinner;
     private EditText reasonInput;
     private Spinner socialSituationSpinner;
+    private Button addEditSubmitButton;
 
     private String moodEmotion;
     private Date moodDate;
@@ -49,6 +57,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private String moodSocialSituation;
     private Location moodLocation = null;
     private Image moodImage = null;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,10 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodSpinner = findViewById(R.id.addEditMoodSpinner);
         reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
+        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        updateCurrentLocation();
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -89,6 +103,25 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
+            }
+        });
+    }
+
+    private void updateCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    moodLocation = location;
+                    toast("Current Location Added");
+                }
             }
         });
     }
