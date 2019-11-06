@@ -5,6 +5,11 @@ import android.media.Image;
 
 import java.util.Date;
 
+/**
+ *  SleepyMood.java
+ *  Subclass for Sleepy mood events
+ */
+
 public class SleepyMood extends Mood {
 
     public SleepyMood(String id,

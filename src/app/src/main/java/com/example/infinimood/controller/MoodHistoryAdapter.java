@@ -20,6 +20,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ *  MoodHistoryAdapter.java
+ *  Adapter for the ListView in MoodHistoryActivity
+ *  TODO: Change the ListView to a RecyclerView (functionality for swiping, etc.)
+ */
+
 public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> moods;

@@ -15,6 +15,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
+/**
+ *  MainActivity.java
+ *  Home page when not logged in
+ *  Options to login and create account
+ */
+
 public class MainActivity extends MoodCompatActivity {
 
     FrameLayout progressBarContainer;

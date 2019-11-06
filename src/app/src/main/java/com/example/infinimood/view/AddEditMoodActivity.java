@@ -27,6 +27,12 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ *  AddEditMoodActivity.java
+ *  Activity for creating mood objects and editing existing mood objects
+ *  TODO: Edit functionality
+ */
+
 public class AddEditMoodActivity extends MoodCompatActivity {
 
     private static final String TAG = "AddEditMoodActivity";
