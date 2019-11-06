@@ -15,7 +15,6 @@ import com.example.infinimood.model.CryingMood;
 import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.MoodConstants;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,19 +34,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
-public class MoodCompatActivity extends AppCompatActivity {
+public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
-
+    protected static ArrayList<Mood> moods = new ArrayList<>();
     protected FirebaseAuth firebaseAuth;
-
     protected FirebaseFirestore firebaseFirestore;
-
     protected FirebaseUser firebaseUser = null;
-
-    protected static ArrayList<Mood> moods = new ArrayList<Mood>();
 
 
     public MoodCompatActivity() {
@@ -154,7 +148,6 @@ public class MoodCompatActivity extends AppCompatActivity {
     }
 
     public void refreshUserMoods() {
-
         if (firebaseUser == null) {
             return;
         }

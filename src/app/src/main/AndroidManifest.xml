@@ -12,13 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MoodHistoryActivity" />
-        <activity android:name=".view.UserProfileActivity" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY"/>
-
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.MoodHistoryActivity" />
+        <activity android:name=".view.UserProfileActivity" />
         <activity android:name=".view.CreateAccountActivity" />
         <activity android:name=".view.AddEditMoodActivity" />
         <activity android:name=".view.LocationActivity" />
         <activity android:name=".view.FollowersActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key"/>
     </application>
 
 </manifest>
