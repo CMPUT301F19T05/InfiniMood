@@ -2,17 +2,23 @@ package com.example.infinimood.view;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.infinimood.R;
+import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.location.Location;
+import android.widget.Toast;
 
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
@@ -30,15 +36,34 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
     }
 
+    // Helper method that takes a color string in hex format
+    // and turns it into a tranparent color
+    public int makeColorTransparent(String color) {
+        Log.i("", color);
+        String transparentColor = "#33".concat( color.substring(1) );
+        return Color.parseColor( transparentColor );
+    }
+
+    // setup the circle to be displayed on the map
+    public CircleOptions getCircleOptions( Mood mood ) {
+        MoodConstants moodConstants = new MoodConstants();
+        CircleOptions c = new CircleOptions();
+        LatLng loc = new LatLng( mood.getLocation().getLatitude(), mood.getLocation().getLongitude() );
+        c.center( loc );
+        c.radius( 200 ); // in meters
+        c.strokeColor( Color.BLACK );
+        c.fillColor( makeColorTransparent( mood.getColor() ) );
+        c.clickable(true);
+
+        return c;
+    }
 
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * Currently go through all Moods, and add fun circles to the map
+     * for each of them, still need to set the onClickListener to do
+     * the right stuff
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -51,22 +76,31 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
             if( l == null ) {
                 continue;
             }
+            CircleOptions circleOptions = getCircleOptions( moods.get(i) );
+
             Log.i("", String.valueOf( l.getLatitude() ));
             Log.i("", String.valueOf( l.getLongitude() ));
             latlong = new LatLng( l.getLatitude(), l.getLongitude() );
-            mMap.addMarker( new MarkerOptions().position( latlong ).title( moods.get(i).getMood() ) );
+            mMap.addCircle( circleOptions );
         }
 
-        // Kind of random zoom preferences
+        // Kind of random zoom preferences based on what I liked
         mMap.setMaxZoomPreference(20);
         mMap.setMinZoomPreference(15);
         mMap.moveCamera(CameraUpdateFactory.newLatLng( latlong ));
 
-        if( latlong.latitude == 0.0 && latlong.longitude == 0.0 ) {
-            Log.i("", "No moods");
-        }
-        else {
-            Log.i("", "Got a Mood");
-        }
+        mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
+            @Override
+            public void onCircleClick(Circle circle) {
+                /* TODO: Simply iterate through the moods to find the most recent
+                mood with the same color and location, and print some information
+                about it. Perhaps the toast could be clickable allowing the user to
+                edit the mood.
+                 */
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "This is your Mood",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 }
