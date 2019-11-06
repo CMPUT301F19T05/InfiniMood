@@ -38,6 +38,7 @@
         android:id="@+id/addEditSubmitButton"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
+        android:clickable="false"
         android:onClick="onSubmitClicked"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"

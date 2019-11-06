@@ -8,21 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import com.example.infinimood.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  *  LocationActivity.java
@@ -48,10 +48,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         });
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();
+        updateLastLocation();
     }
 
-    private void getLastLocation() {
+    private void updateLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]
                     {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
@@ -86,7 +86,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         switch (requestCode) {
             case REQUEST_CODE:
                 if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLastLocation();
+                    updateLastLocation();
                 }
                 break;
         }

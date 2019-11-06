@@ -94,7 +94,7 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         moodMap.put("date", dateFormat.format(mood.getDate()));
         moodMap.put("timestamp", mood.getTime());
         if (mood.getLocation() != null) {
-            moodMap.put("location", mood.getLocation().toString());
+            moodMap.put("location", locationToString( mood.getLocation() ) );
         }
         if (mood.getImage() != null) {
             moodMap.put("image", mood.getImage());
@@ -118,6 +118,11 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public String locationToString( Location location )
+    {
+        return String.valueOf( location.getLatitude() ).concat(",").concat( String.valueOf( location.getLongitude() ) );
     }
 
     public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Image moodImage) {
@@ -185,7 +190,18 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                Mood mood = createMood(id, moodEmotion, date, reason, null, socialSituation, null);
+                                Location l = new Location("dummy provider");
+                                String[] location = locationString.split(",");
+                                l.setLatitude( Double.parseDouble(location[0] ) );
+                                l.setLongitude( Double.parseDouble(location[1]) );
+
+                                Log.i("", "updating moods");
+                                Log.i("", "location: ");
+                                Log.i("", String.valueOf( l.getLatitude() ));
+                                Log.i("", String.valueOf( l.getLongitude() ));
+
+                                Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);
+
                                 moods.add(mood);
                             }
                         } else {
