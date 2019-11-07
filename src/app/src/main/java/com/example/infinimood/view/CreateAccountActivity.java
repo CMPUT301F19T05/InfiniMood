@@ -49,10 +49,10 @@ public class CreateAccountActivity extends MoodCompatActivity {
         final String passwordRepeat = editTextPasswordRepeat.getText().toString();
 
         if (username.isEmpty()) {
-            toast("Please enter a username");
+            toast(R.string.error_username_required);
             editTextUsername.requestFocus();
         } else if (!email.contains("@")) {
-            toast("Please enter a valid email");
+            toast(R.string.error_email_invalid);
             editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
             toast("Please enter a password");
