@@ -193,15 +193,13 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                Location l = new Location("dummy provider");
-                                String[] location = locationString.split(",");
-                                l.setLatitude( Double.parseDouble(location[0] ) );
-                                l.setLongitude( Double.parseDouble(location[1]) );
-
-                                Log.i("", "updating moods");
-                                Log.i("", "location: ");
-                                Log.i("", String.valueOf( l.getLatitude() ));
-                                Log.i("", String.valueOf( l.getLongitude() ));
+                                Location l = null;
+                                if (locationString != null) {
+                                    l = new Location("dummy provider");
+                                    String[] location = locationString.split(",");
+                                    l.setLatitude( Double.parseDouble(location[0] ) );
+                                    l.setLongitude( Double.parseDouble(location[1]) );
+                                }
 
                                 Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);
 
