@@ -21,7 +21,7 @@ elif [ "$1" == '--encrypt' ]; then
     zip -9 $SECRETS_FILE $GOOGLE_SERVICES $GOOGLE_MAP_API
     travis encrypt-file $SECRETS_FILE --add
 elif [ "$1" == '--restore' ]; then
-    unzip $SECRETS_FILE
+    unzip -o $SECRETS_FILE
 else
     usage
 fi
