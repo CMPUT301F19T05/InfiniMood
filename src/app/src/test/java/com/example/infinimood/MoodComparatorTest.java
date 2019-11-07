@@ -25,7 +25,7 @@ public class MoodComparatorTest {
     );
 
     private Mood happyAprilMood = new HappyMood(
-            "1",
+            "2",
             new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime(),
             null,
             null,
@@ -34,7 +34,7 @@ public class MoodComparatorTest {
     );
 
     private Mood sadMayMood = new SadMood(
-            "1",
+            "3",
             new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime(),
             null,
             null,
