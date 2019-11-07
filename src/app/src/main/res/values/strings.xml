@@ -14,6 +14,13 @@
     <string name="create_account_title">Create Account</string>
     <string name="login_page_signup_prompt">Don\'t have an account? Sign up here</string>
 
+    <string name="error_username_required">Please enter an username</string>
+    <string name="error_email_required">Please enter an email</string>
+    <string name="error_email_invalid">Please enter a valid email</string>
+    <string name="error_password_required">Please enter a password</string>
+    <string name="error_password_too_short">Please enter a longer password</string>
+    <string name="error_password_mismatch">Please enter the same password</string>
+
     <string name="user_profile_welcome">Welcome back!</string>
     <string name="logout">Logout</string>
     <string name="goto_mood_history">Mood History</string>

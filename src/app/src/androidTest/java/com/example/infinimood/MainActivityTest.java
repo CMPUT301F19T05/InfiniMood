@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -27,11 +27,9 @@ public class MainActivityTest {
     private Solo solo;
     private FirebaseAuth auth;
 
-
     @Before
     public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-
         auth = FirebaseAuth.getInstance();
         auth.signOut();
     }
@@ -39,13 +37,16 @@ public class MainActivityTest {
     @After
     public void tearDown() {
         auth.signOut();
-
         solo.finishOpenedActivities();
     }
 
     @Test
-    public void startLoginActivity() {
-        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+    public void testStartCreateAccountActivity() {
+        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
+        solo.clickOnView(solo.getView(R.id.loginSignUpTextView));
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        solo.clickOnButton(solo.getString(R.string.back));
+        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
     }
 
 }
