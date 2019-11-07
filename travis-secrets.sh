@@ -4,19 +4,24 @@ set -e
 set -u
 
 GOOGLE_SERVICES=./src/app/google-services.json
-GOOGLE_MAP=./src/app/src/main/res/values/keys.xml
+GOOGLE_MAP_API=./src/app/src/main/res/values/keys.xml
+
+SECRETS_FILE=./secrets.zip
 
 function usage {
     echo 'Usage:'
-    echo '    --encrypt  Encrypt secrets from files'
+    echo '    --encrypt  Compress and encrypt secrets'
+    echo '    --restore  Decompress secrets'
     exit 1
 }
 
 if [ "$#" -ne '1' ]; then
     usage
 elif [ "$1" == '--encrypt' ]; then
-    travis encrypt-file $GOOGLE_SERVICES --add
-    travis encrypt-file $GOOGLE_MAP --add
+    zip -9 $SECRETS_FILE $GOOGLE_SERVICES $GOOGLE_MAP_API
+    travis encrypt-file $SECRETS_FILE --add
+elif [ "$1" == '--restore' ]; then
+    unzip $SECRETS_FILE
 else
     usage
 fi
