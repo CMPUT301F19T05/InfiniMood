@@ -50,12 +50,26 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         CircleOptions c = new CircleOptions();
         LatLng loc = new LatLng( mood.getLocation().getLatitude(), mood.getLocation().getLongitude() );
         c.center( loc );
-        c.radius( 200 ); // in meters
+        c.radius( 100 ); // in meters
         c.strokeColor( Color.BLACK );
         c.fillColor( makeColorTransparent( mood.getColor() ) );
         c.clickable(true);
 
         return c;
+    }
+
+    public void toast( String str ) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                str,Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void toastMood( Mood mood ) {
+        String str = "You were ".concat( mood.getMood() )
+                .concat(" on ").concat( mood.getDate().toString() );
+        Toast toast = Toast.makeText(getApplicationContext(),
+                str,Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /**
@@ -97,9 +111,28 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
                 about it. Perhaps the toast could be clickable allowing the user to
                 edit the mood.
                  */
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "This is your Mood",Toast.LENGTH_SHORT);
-                toast.show();
+                String color = Integer.toHexString( circle.getFillColor() );
+                LatLng loc = circle.getCenter();
+
+                //toast( color );
+
+                for(int i = 0; i < moods.size(); i++ ) {
+                    Mood m = moods.get(i);
+                    if (m.getLocation() == null) {
+                        continue;
+                    }
+
+                    if( m.getColor().substring(1).equals( color.substring(2) ) ){
+                        Log.i("", "color matched");
+                        if( m.getLocation().getLatitude() == loc.latitude
+                                && m.getLocation().getLongitude() == loc.longitude) {
+                            toastMood( m );
+                            break;
+                        }
+                    }
+                }
+
+
             }
         });
     }

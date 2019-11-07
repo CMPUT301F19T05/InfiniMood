@@ -121,6 +121,9 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 if (location != null) {
                     moodLocation = location;
                     toast("Current Location Added");
+                } else {
+                    // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
+                    toast("See updateCurrentLocation() in AddEditMoodActivity.java");
                 }
             }
         });
