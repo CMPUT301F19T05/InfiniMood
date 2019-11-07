@@ -13,8 +13,8 @@ function usage {
 if [ "$#" -ne '1' ]; then
     usage
 elif [ "$1" == '--encrypt' ]; then
-    travis encrypt GOOGLE_SERVICES_JSON="$(cat ./src/app/google-services.json)"
-    travis entrypt GOOGLE_MAP_API="$(cat ./src/app/src/main/res/values/keys.xml)"
+    travis encrypt-file ./src/app/google-services.json --add
+    travis encrypt-file ./src/app/src/main/res/values/keys.xml --add
 elif [ "$1" == '--restore' ]; then
     echo $GOOGLE_SERVICES_JSON > ./src/app/google-services.json
     echo $GOOGLE_MAP_API > ./src/app/src/main/res/values/keys.xml
