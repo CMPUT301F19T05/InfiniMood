@@ -22,6 +22,10 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class CreateAccountActivityTest {
 
+    private final static String TEST_USERNAME = "test";
+    private final static String TEST_EMAIL = "test@example.com";
+    private final static String TEST_PASSWORD = "123456";
+
     @Rule
     public ActivityTestRule<CreateAccountActivity> rule = new ActivityTestRule<>(
             CreateAccountActivity.class,
@@ -47,25 +51,65 @@ public class CreateAccountActivityTest {
 
     private void fillForm(String username, String email, String password, String passwordRepeat) {
         if (username != null) {
-            solo.enterText((EditText)solo.getView(R.id.createAccountUsernameEditText), username);
+            solo.enterText((EditText) solo.getView(R.id.createAccountUsernameEditText), username);
         }
         if (email != null) {
-            solo.enterText((EditText)solo.getView(R.id.loginCreateAccountEmailEditText), email);
+            solo.enterText((EditText) solo.getView(R.id.loginCreateAccountEmailEditText), email);
         }
         if (password != null) {
-            solo.enterText((EditText)solo.getView(R.id.loginCreateAccountPasswordEditText), password);
+            solo.enterText((EditText) solo.getView(R.id.loginCreateAccountPasswordEditText), password);
         }
         if (passwordRepeat != null) {
-            solo.enterText((EditText)solo.getView(R.id.createAccountPasswordRepeatEditText), passwordRepeat);
+            solo.enterText((EditText) solo.getView(R.id.createAccountPasswordRepeatEditText), passwordRepeat);
         }
     }
 
     @Test
     public void testUsernameValidation() {
-        solo.assertCurrentActivity("Expected login screen to show", CreateAccountActivity.class);
-        fillForm(null, "test@example.com", "123456", "123456");
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(null, TEST_EMAIL, TEST_PASSWORD, TEST_PASSWORD);
         solo.clickOnButton(solo.getString(R.string.submit));
-        assertTrue(solo.waitForText(solo.getString(R.string.user)));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_username_required)));
+    }
+
+    @Test
+    public void testEmailRequirement() {
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(TEST_USERNAME, null, TEST_PASSWORD, TEST_PASSWORD);
+        solo.clickOnButton(solo.getString(R.string.submit));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_email_invalid)));
+    }
+
+    @Test
+    public void testEmailValidation() {
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(TEST_USERNAME, "hello123", TEST_PASSWORD, TEST_PASSWORD);
+        solo.clickOnButton(solo.getString(R.string.submit));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_email_invalid)));
+    }
+
+    @Test
+    public void testPasswordRequirement() {
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(TEST_USERNAME, TEST_EMAIL, null, null);
+        solo.clickOnButton(solo.getString(R.string.submit));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_password_required)));
+    }
+
+    @Test
+    public void testPasswordTooShort() {
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(TEST_USERNAME, TEST_EMAIL, "123", "123");
+        solo.clickOnButton(solo.getString(R.string.submit));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_password_too_short)));
+    }
+
+    @Test
+    public void testPasswordMismatch() {
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        fillForm(TEST_USERNAME, TEST_EMAIL, "123456", "654321");
+        solo.clickOnButton(solo.getString(R.string.submit));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_password_mismatch)));
     }
 
 }

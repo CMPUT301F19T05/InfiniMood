@@ -55,13 +55,13 @@ public class CreateAccountActivity extends MoodCompatActivity {
             toast(R.string.error_email_invalid);
             editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
-            toast("Please enter a password");
+            toast(R.string.error_password_required);
             editTextPassword.requestFocus();
         } else if (password.length() < 6) {
-            toast("Please enter a longer password");
+            toast(R.string.error_password_too_short);
             editTextPassword.requestFocus();
         } else if (!password.equals(passwordRepeat)) {
-            toast("Please enter the same password");
+            toast(R.string.error_password_mismatch);
             editTextPasswordRepeat.requestFocus();
         } else {
             progressBarContainer.setVisibility(View.VISIBLE);
