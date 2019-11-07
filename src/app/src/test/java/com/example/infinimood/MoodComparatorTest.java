@@ -1,8 +1,10 @@
 package com.example.infinimood;
 
 import com.example.infinimood.model.AfraidMood;
+import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SocialSituation;
 
 import org.junit.Test;
@@ -13,9 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MoodComparatorTest {
 
-    private MoodComparator comparator = new MoodComparator();
-
-    private Mood mood1 = new AfraidMood(
+    private Mood afraidAprilMood = new AfraidMood(
             "1",
             new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime(),
             null,
@@ -24,7 +24,16 @@ public class MoodComparatorTest {
             null
     );
 
-    private Mood mood2 = new AfraidMood(
+    private Mood happyAprilMood = new HappyMood(
+            "1",
+            new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime(),
+            null,
+            null,
+            SocialSituation.WITH_CROWD.getDescription(),
+            null
+    );
+
+    private Mood sadMayMood = new SadMood(
             "1",
             new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime(),
             null,
@@ -33,9 +42,30 @@ public class MoodComparatorTest {
             null
     );
 
+    private MoodComparator getNormalComparator() {
+        final MoodComparator comparator = new MoodComparator();
+        comparator.reverse();
+        return comparator;
+    }
+
+    private MoodComparator getReverseComparator() {
+        return new MoodComparator();
+    }
+
     @Test
-    public void testCompare() {
-        assertEquals(comparator.compare(mood1, mood2), 1);
+    public void testNormalCompare() {
+        final MoodComparator normalComparator = getNormalComparator();
+        assertEquals(normalComparator.compare(afraidAprilMood, sadMayMood), -1);
+        assertEquals(normalComparator.compare(afraidAprilMood, happyAprilMood), 0);
+        assertEquals(normalComparator.compare(sadMayMood, happyAprilMood), 1);
+    }
+
+    @Test
+    public void testReverseCompare() {
+        final MoodComparator reverseComparator = getReverseComparator();
+        assertEquals(reverseComparator.compare(afraidAprilMood, sadMayMood), 1);
+        assertEquals(reverseComparator.compare(afraidAprilMood, happyAprilMood), 0);
+        assertEquals(reverseComparator.compare(sadMayMood, happyAprilMood), -1);
     }
 
 }
