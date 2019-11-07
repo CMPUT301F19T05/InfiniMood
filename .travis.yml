@@ -1,5 +1,8 @@
 language: android
 jdk: oraclejdk8
+branches:
+  only:
+  - master
 env:
   global:
   - ANDROID_TARGET=android-23
@@ -21,7 +24,6 @@ before_install:
   -in keys.xml.enc -out ./src/app/src/main/res/values/keys.xml -d
 - openssl aes-256-cbc -K $encrypted_bed3d13616d1_key -iv $encrypted_bed3d13616d1_iv
   -in google-services.json.enc -out ./src/app/google-services.json -d
-- bash ./travis-secrets.sh --restore
 - yes | sdkmanager "platforms;android-29"
 - chmod +x gradlew
 - wget http://services.gradle.org/distributions/gradle-5.3-bin.zip
