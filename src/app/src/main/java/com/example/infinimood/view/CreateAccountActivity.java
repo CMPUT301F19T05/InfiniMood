@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  CreateAccountActivity.java
- *  Activity for creating user accounts (fields for username, password, etc.)
+ * CreateAccountActivity.java
+ * Activity for creating user accounts (fields for username, password, etc.)
  */
 
 public class CreateAccountActivity extends MoodCompatActivity {
@@ -51,6 +51,9 @@ public class CreateAccountActivity extends MoodCompatActivity {
         if (username.isEmpty()) {
             toast(R.string.error_username_required);
             editTextUsername.requestFocus();
+        } else if (email.isEmpty()) {
+            toast(R.string.error_email_required);
+            editTextEmail.requestFocus();
         } else if (!email.contains("@")) {
             toast(R.string.error_email_invalid);
             editTextEmail.requestFocus();

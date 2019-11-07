@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertTrue;
 
-
 @RunWith(AndroidJUnit4.class)
 public class CreateAccountActivityTest {
 
@@ -34,7 +33,6 @@ public class CreateAccountActivityTest {
     );
     private Solo solo;
     private FirebaseAuth auth;
-
 
     @Before
     public void setUp() {
@@ -77,7 +75,7 @@ public class CreateAccountActivityTest {
         solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
         fillForm(TEST_USERNAME, null, TEST_PASSWORD, TEST_PASSWORD);
         solo.clickOnButton(solo.getString(R.string.submit));
-        assertTrue(solo.waitForText(solo.getString(R.string.error_email_invalid)));
+        assertTrue(solo.waitForText(solo.getString(R.string.error_email_required)));
     }
 
     @Test

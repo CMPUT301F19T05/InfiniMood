@@ -15,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
@@ -27,7 +26,6 @@ public class MainActivityTest {
     );
     private Solo solo;
     private FirebaseAuth auth;
-
 
     @Before
     public void setUp() {
@@ -43,10 +41,12 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testStartSignUpActivity() {
+    public void testStartCreateAccountActivity() {
         solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.loginSignUpTextView));
-        solo.assertCurrentActivity("Expected sign up screen to show", CreateAccountActivity.class);
+        solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
+        solo.clickOnButton(solo.getString(R.string.back));
+        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
     }
 
 }
