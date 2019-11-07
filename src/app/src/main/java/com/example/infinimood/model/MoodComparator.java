@@ -3,9 +3,9 @@ package com.example.infinimood.model;
 import java.util.Comparator;
 
 /**
- *  MoodComparator.java
- *  Comparator used for sorting lists of Mood objects.
- *  Sorts in chronological order (based on mood.date)
+ * MoodComparator.java
+ * Comparator used for sorting lists of Mood objects.
+ * Sorts in chronological order (based on mood.date)
  */
 
 public class MoodComparator implements Comparator<Mood> {
@@ -21,4 +21,5 @@ public class MoodComparator implements Comparator<Mood> {
     public void reverse() {
         reverse = -reverse;
     }
+
 }
