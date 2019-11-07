@@ -3,6 +3,7 @@ package com.example.infinimood.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -39,13 +40,14 @@ public class FollowersActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.follow_list);
         showFollowers();
+
     }
 
     public void showFollowers(){
         final ListView followingList = (ListView) findViewById(R.id.followFollowingListView);
         final ListView followerList = (ListView) findViewById(R.id.followFollowerListView);
-        followingList.setVisibility(View.INVISIBLE);
         followerList.setVisibility(View.VISIBLE);
+        followingList.setVisibility(View.INVISIBLE);
         update();
     }
 
@@ -140,7 +142,7 @@ public class FollowersActivity extends MoodCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("Deleting Data", "DocumentSnapshot successfully deleted!");
-                        showFollowing();
+                        update();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -223,7 +225,7 @@ public class FollowersActivity extends MoodCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            showFollowers();
+                                            update();
                                             Log.d("FollowersActivity", "DocumentSnapshot successfully written!");
                                         }
                                     })
@@ -280,8 +282,8 @@ public class FollowersActivity extends MoodCompatActivity {
                 followAdapter = new FollowAdapter(FollowersActivity.this,getFollowers, getFollowing,AcceptedList);
                 followingAdapter = new FollowingAdapter(FollowersActivity.this,getFollowers,getFollowing);
                 followerList.setAdapter(followAdapter);
-                followAdapter.notifyDataSetChanged();
                 followingList.setAdapter(followingAdapter);
+                followAdapter.notifyDataSetChanged();
                 followingAdapter.notifyDataSetChanged();
             }
         });

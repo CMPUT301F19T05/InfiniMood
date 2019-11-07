@@ -26,6 +26,7 @@
         <activity android:name=".view.AddEditMoodActivity" />
         <activity android:name=".view.LocationActivity" />
         <activity android:name=".view.FollowersActivity" />
+        <activity android:name=".view.SearchUsersActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
