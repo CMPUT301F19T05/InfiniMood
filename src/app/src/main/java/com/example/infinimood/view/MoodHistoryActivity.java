@@ -64,6 +64,11 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         adapter.notifyDataSetChanged();  // update the ListView
     }
 
+    public void moodMapClick( View view ) {
+        final Intent intent = new Intent(this, MoodMapActivity.class);
+        startActivity(intent);
+    }
+
 //    public boolean onOptionsItemSelected(MenuItem item){
 //        finish();
 //        return true;

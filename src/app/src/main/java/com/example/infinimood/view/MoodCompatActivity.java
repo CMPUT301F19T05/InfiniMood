@@ -15,6 +15,7 @@ import com.example.infinimood.model.CryingMood;
 import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -89,12 +92,12 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
 
         moodMap.put("id", mood.getId());
         moodMap.put("mood", mood.getMood());
-        moodMap.put("social_situation", mood.getSocial_situation());
+        moodMap.put("socialSituation", mood.getSocialSituation());
         moodMap.put("reason", mood.getReason());
         moodMap.put("date", dateFormat.format(mood.getDate()));
         moodMap.put("timestamp", mood.getTime());
         if (mood.getLocation() != null) {
-            moodMap.put("location", mood.getLocation().toString());
+            moodMap.put("location", locationToString( mood.getLocation() ) );
         }
         if (mood.getImage() != null) {
             moodMap.put("image", mood.getImage());
@@ -120,30 +123,35 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                 });
     }
 
-    public Mood createMood(String id, String mood, Date mood_date, String mood_reason, Location mood_location, String mood_social_situation, Image mood_image) {
+    public String locationToString( Location location )
+    {
+        return String.valueOf( location.getLatitude() ).concat(",").concat( String.valueOf( location.getLongitude() ) );
+    }
+
+    public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Image moodImage) {
         Mood newMood;
 
         switch (mood) {
             case "Happy":
-                newMood = new HappyMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new HappyMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "Angry":
-                newMood = new AngryMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new AngryMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "Crying":
-                newMood = new CryingMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new CryingMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "In Love":
-                newMood = new InLoveMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new InLoveMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "Sad":
-                newMood = new SadMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new SadMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "Sleepy":
-                newMood = new SleepyMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new SleepyMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             case "Afraid":
-                newMood = new AfraidMood(id, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+                newMood = new AfraidMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
                 break;
             default:
                 Log.e(TAG, "Default case in addEdit switch: " + mood);
@@ -169,24 +177,34 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             moods.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String mood_emotion = (String) document.get("mood");
+                                String moodEmotion = (String) document.get("mood");
                                 String id = (String) document.get("id");
-                                String date_string = (String) document.get("date");
+                                String dateString = (String) document.get("date");
                                 String reason = (String) document.get("reason");
-                                String location_string = (String) document.get("location");
-                                String social_situation = (String) document.get("social_situation");
-                                String image_string = (String) document.get("image");
+                                String locationString = (String) document.get("location");
+                                String socialSituation = (String) document.get("socialSituation");
+                                String imageString = (String) document.get("image");
 
-                                Date date;
+                                Date date = null;
                                 try {
-                                    date = dateFormat.parse(date_string);
+                                    date = dateFormat.parse(dateString);
                                 } catch (java.text.ParseException e) {
-                                    date = null;
                                     e.printStackTrace();
                                 }
 
-                                Mood mood = createMood(id, mood_emotion, date, reason, null, social_situation, null);
+                                Location l = null;
+                                if (locationString != null) {
+                                    l = new Location("dummy provider");
+                                    String[] location = locationString.split(",");
+                                    l.setLatitude( Double.parseDouble(location[0] ) );
+                                    l.setLongitude( Double.parseDouble(location[1]) );
+                                }
+
+                                Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);
+
                                 moods.add(mood);
+                                MoodComparator comparator = new MoodComparator();
+                                Collections.sort(moods, comparator);
                             }
                         } else {
                             Log.e(TAG, "Error getting documents");

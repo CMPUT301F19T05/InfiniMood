@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view_title"
+            android:id="@+id/createAccountTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/edit_text_username"
+            android:id="@+id/createAccountUsernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -40,10 +40,10 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_title" />
+            app:layout_constraintTop_toBottomOf="@+id/createAccountTitleTextView" />
 
         <EditText
-            android:id="@+id/edit_text_email"
+            android:id="@+id/loginCreateAccountEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -56,10 +56,10 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_username" />
+            app:layout_constraintTop_toBottomOf="@+id/createAccountUsernameEditText" />
 
         <EditText
-            android:id="@+id/edit_text_password"
+            android:id="@+id/loginCreateAccountPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -72,10 +72,10 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
+            app:layout_constraintTop_toBottomOf="@+id/loginCreateAccountEmailEditText" />
 
         <EditText
-            android:id="@+id/edit_text_password_repeat"
+            android:id="@+id/createAccountPasswordRepeatEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -88,10 +88,10 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_password" />
+            app:layout_constraintTop_toBottomOf="@+id/loginCreateAccountPasswordEditText" />
 
         <Button
-            android:id="@+id/button_submit"
+            android:id="@+id/createAccountSubmitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -103,10 +103,10 @@
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_password_repeat" />
+            app:layout_constraintTop_toBottomOf="@+id/createAccountPasswordRepeatEditText" />
 
         <Button
-            android:id="@+id/button_back"
+            android:id="@+id/createAccountBackButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -118,7 +118,7 @@
             android:text="@string/back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_submit" />
+            app:layout_constraintTop_toBottomOf="@+id/createAccountSubmitButton" />
 
     </LinearLayout>
 
@@ -133,6 +133,7 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:id="@+id/createAccountProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />

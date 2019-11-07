@@ -1,5 +1,7 @@
 package com.example.infinimood.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.media.Image;
 import android.os.Bundle;
@@ -21,11 +23,16 @@ import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
+import androidx.core.app.ActivityCompat;
 
 /**
  *  AddEditMoodActivity.java
@@ -42,13 +49,16 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private Spinner moodSpinner;
     private EditText reasonInput;
     private Spinner socialSituationSpinner;
+    private Button addEditSubmitButton;
 
-    private String mood_emotion;
-    private Date mood_date;
-    private String mood_reason;
-    private String mood_social_situation;
-    private Location mood_location = null;
-    private Image mood_image = null;
+    private String moodEmotion;
+    private Date moodDate;
+    private String moodReason;
+    private String moodSocialSituation;
+    private Location moodLocation = null;
+    private Image moodImage = null;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +71,18 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodSpinner = findViewById(R.id.addEditMoodSpinner);
         reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
+        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
 
-        // change mood_emotion according to the mood spinner
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        updateCurrentLocation();
+
+        // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String mood = (String) moodSpinner.getItemAtPosition(i);
-                mood_emotion = mood;
-                Log.i(TAG, mood_emotion);
+                moodEmotion = mood;
+                Log.i(TAG, moodEmotion);
             }
 
             @Override
@@ -77,13 +91,13 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             }
         });
 
-        // change mood_social_situation according to the social situation spinner
+        // change moodSocialSituation according to the social situation spinner
         socialSituationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String social_situation = (String) socialSituationSpinner.getItemAtPosition(i);
-                mood_social_situation = social_situation;
-                Log.i(TAG, mood_social_situation);
+                String socialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
+                moodSocialSituation = socialSituation;
+                Log.i(TAG, moodSocialSituation);
             }
 
             @Override
@@ -93,18 +107,40 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         });
     }
 
+    private void updateCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    moodLocation = location;
+                    toast("Current Location Added");
+                } else {
+                    // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
+                    toast("See updateCurrentLocation() in AddEditMoodActivity.java");
+                }
+            }
+        });
+    }
+
     public void onSubmitClicked(View view) {
         // check for empty fields
-        if (mood_emotion.equals("")) {
+        if (moodEmotion.equals("")) {
             toast("Select a mood");
             return;
         }
-        if (mood_social_situation.equals("")) {
+        if (moodSocialSituation.equals("")) {
             toast("Select a social situation");
             return;
         }
 
-        mood_reason = reasonInput.getText().toString();
+        moodReason = reasonInput.getText().toString();
 
         // Extract date / time from datePicker and timePicker
         Calendar calendar = Calendar.getInstance();
@@ -114,11 +150,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
         calendar.set(Calendar.MINUTE, timePicker.getMinute());
         calendar.set(Calendar.SECOND, 0);
-        mood_date = calendar.getTime();
+        moodDate = calendar.getTime();
 
         String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = createMood(uuid, mood_emotion, mood_date, mood_reason, mood_location, mood_social_situation, mood_image);
+        Mood newMood = createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
         addMoodEventToDB(newMood);
 

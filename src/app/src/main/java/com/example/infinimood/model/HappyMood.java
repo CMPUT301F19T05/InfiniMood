@@ -16,13 +16,13 @@ public class HappyMood extends Mood {
                       Date date,
                       String reason,
                       Location location,
-                      String social_situation,
+                      String socialSituation,
                       Image image)
     {
-        super(id, date, reason, location, social_situation, image);
+        super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
-        super.setMood(constants.happy_string);
-        super.setIcon(constants.happy_icon);
-        super.setColor(constants.happy_color);
+        super.setMood(constants.HAPPY_STRING);
+        super.setIcon(constants.HAPPY_ICON);
+        super.setColor(constants.HAPPY_COLOR);
     }
 }

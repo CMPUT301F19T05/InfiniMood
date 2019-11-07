@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  CreateAccountActivity.java
- *  Activity for creating user accounts (fields for username, password, etc.)
+ * CreateAccountActivity.java
+ * Activity for creating user accounts (fields for username, password, etc.)
  */
 
 public class CreateAccountActivity extends MoodCompatActivity {
@@ -36,10 +36,10 @@ public class CreateAccountActivity extends MoodCompatActivity {
 
         progressBarContainer = findViewById(R.id.progress_bar_container);
 
-        editTextUsername = findViewById(R.id.edit_text_username);
-        editTextEmail = findViewById(R.id.edit_text_email);
-        editTextPassword = findViewById(R.id.edit_text_password);
-        editTextPasswordRepeat = findViewById(R.id.edit_text_password_repeat);
+        editTextUsername = findViewById(R.id.createAccountUsernameEditText);
+        editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
+        editTextPassword = findViewById(R.id.loginCreateAccountPasswordEditText);
+        editTextPasswordRepeat = findViewById(R.id.createAccountPasswordRepeatEditText);
     }
 
     public void onSubmitClicked(View view) {
@@ -49,19 +49,22 @@ public class CreateAccountActivity extends MoodCompatActivity {
         final String passwordRepeat = editTextPasswordRepeat.getText().toString();
 
         if (username.isEmpty()) {
-            toast("Please enter a username");
+            toast(R.string.error_username_required);
             editTextUsername.requestFocus();
+        } else if (email.isEmpty()) {
+            toast(R.string.error_email_required);
+            editTextEmail.requestFocus();
         } else if (!email.contains("@")) {
-            toast("Please enter a valid email");
+            toast(R.string.error_email_invalid);
             editTextEmail.requestFocus();
         } else if (password.isEmpty()) {
-            toast("Please enter a password");
+            toast(R.string.error_password_required);
             editTextPassword.requestFocus();
         } else if (password.length() < 6) {
-            toast("Please enter a longer password");
+            toast(R.string.error_password_too_short);
             editTextPassword.requestFocus();
         } else if (!password.equals(passwordRepeat)) {
-            toast("Please enter the same password");
+            toast(R.string.error_password_mismatch);
             editTextPasswordRepeat.requestFocus();
         } else {
             progressBarContainer.setVisibility(View.VISIBLE);
