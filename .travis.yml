@@ -6,7 +6,7 @@ branches:
 env:
   global:
   - ANDROID_TARGET=android-23
-  - ANDROID_ABI=x86
+  - ANDROID_ABI=armeabi-v7a
 android:
   components:
   - tools
@@ -23,6 +23,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_bed3d13616d1_key -iv $encrypted_bed3d13616d1_iv
   -in secrets.zip.enc -out ./secrets.zip -d
 - bash ./travis-secrets.sh --restore
+- cd src
 - yes | sdkmanager "platforms;android-29"
 - chmod +x gradlew
 - wget http://services.gradle.org/distributions/gradle-5.3-bin.zip
