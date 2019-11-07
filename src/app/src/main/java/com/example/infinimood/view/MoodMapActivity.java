@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.MoodConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.location.Location;
 import android.widget.Toast;
+
+import java.util.Collections;
 
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
