@@ -185,11 +185,10 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                                 String socialSituation = (String) document.get("socialSituation");
                                 String imageString = (String) document.get("image");
 
-                                Date date;
+                                Date date = null;
                                 try {
                                     date = dateFormat.parse(dateString);
                                 } catch (java.text.ParseException e) {
-                                    date = null;
                                     e.printStackTrace();
                                 }
 
