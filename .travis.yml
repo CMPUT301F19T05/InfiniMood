@@ -34,6 +34,9 @@ licenses:
     - 'android-sdk-license-.+'
 
 before_install:
+  # Restore secrets
+  - bash ./travis-secrets.sh --restore
+
   # Accept sdk licenses
   - yes | sdkmanager "platforms;android-29"
 
@@ -55,3 +58,13 @@ before_install:
   
   # The app will now automatically be installed and tested via
   # the command `gradle connectedCheck`
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
