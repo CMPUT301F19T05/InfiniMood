@@ -1,0 +1,61 @@
+language: android
+jdk: oraclejdk8
+
+env:
+  global:
+    - ANDROID_TARGET=android-22
+    - ANDROID_ABI=armeabi-v7a
+
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    - tools
+    - platform-tools
+
+    # The BuildTools version used by your project
+    - build-tools-23.0.3
+
+    # The SDK version used to compile your project
+    # TODO: why is this here explicitly in addition to $ANDROID_TARGET below
+    - android-23
+    
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    
+    # The SDK version used to compile your project
+    - $ANDROID_TARGET
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests.
+    # The line should look like this after interpolation:
+    # - sys-img-armeabi-v7a-android-22
+    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
+
+licenses:
+    - 'android-sdk-license-.+'
+
+before_install:
+  # Accept sdk licenses
+  - yes | sdkmanager "platforms;android-29"
+
+  # Get gradle
+  - chmod +x gradlew
+  - wget http://services.gradle.org/distributions/gradle-5.3-bin.zip
+  - unzip -qq gradle-5.3-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-5.3
+  - export PATH=$GRADLE_HOME/bin:$PATH
+  
+  # Build the project
+  - gradle -v
+  
+  # Start the emulator
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  
+  # The app will now automatically be installed and tested via
+  # the command `gradle connectedCheck`
