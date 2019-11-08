@@ -100,7 +100,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/progress_bar_container"
+        android:id="@+id/progressOverlayContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.5"

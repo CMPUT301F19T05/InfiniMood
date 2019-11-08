@@ -1,5 +1,6 @@
 package com.example.infinimood.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.media.Image;
@@ -39,9 +40,9 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *  MoodCompatActivity.java
- *  Superclass for all other activities
- *  Contains common functionality for all activities
+ * MoodCompatActivity.java
+ * Superclass for all other activities
+ * Contains common functionality for all activities
  */
 
 public abstract class MoodCompatActivity extends AppCompatActivity {
@@ -76,7 +77,7 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         toast(getString(id));
     }
 
-    protected void startActivityNoHistory(Class<?> activity) {
+    protected void startActivityNoHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -97,7 +98,7 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         moodMap.put("date", dateFormat.format(mood.getDate()));
         moodMap.put("timestamp", mood.getTime());
         if (mood.getLocation() != null) {
-            moodMap.put("location", locationToString( mood.getLocation() ) );
+            moodMap.put("location", locationToString(mood.getLocation()));
         }
         if (mood.getImage() != null) {
             moodMap.put("image", mood.getImage());
@@ -123,9 +124,8 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                 });
     }
 
-    public String locationToString( Location location )
-    {
-        return String.valueOf( location.getLatitude() ).concat(",").concat( String.valueOf( location.getLongitude() ) );
+    public String locationToString(Location location) {
+        return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
 
     public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Image moodImage) {
@@ -196,8 +196,8 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
                                 if (locationString != null) {
                                     l = new Location("dummy provider");
                                     String[] location = locationString.split(",");
-                                    l.setLatitude( Double.parseDouble(location[0] ) );
-                                    l.setLongitude( Double.parseDouble(location[1]) );
+                                    l.setLatitude(Double.parseDouble(location[0]));
+                                    l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
                                 Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);

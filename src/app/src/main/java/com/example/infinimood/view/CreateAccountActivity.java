@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class CreateAccountActivity extends MoodCompatActivity {
 
-    FrameLayout progressBarContainer;
+    FrameLayout progressOverlayContainer;
 
     EditText editTextUsername;
     EditText editTextEmail;
@@ -34,7 +34,7 @@ public class CreateAccountActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
-        progressBarContainer = findViewById(R.id.progress_bar_container);
+        progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
         editTextUsername = findViewById(R.id.createAccountUsernameEditText);
         editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
@@ -67,7 +67,7 @@ public class CreateAccountActivity extends MoodCompatActivity {
             toast(R.string.error_password_mismatch);
             editTextPasswordRepeat.requestFocus();
         } else {
-            progressBarContainer.setVisibility(View.VISIBLE);
+            progressOverlayContainer.setVisibility(View.VISIBLE);
 
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -89,12 +89,12 @@ public class CreateAccountActivity extends MoodCompatActivity {
                                                     toast("Could not save username, you can set it later");
                                                 }
                                                 startActivityNoHistory(UserProfileActivity.class);
-                                                progressBarContainer.setVisibility(View.GONE);
+                                                progressOverlayContainer.setVisibility(View.GONE);
                                             }
                                         });
                             } else {
                                 toast("Account creation failed");
-                                progressBarContainer.setVisibility(View.GONE);
+                                progressOverlayContainer.setVisibility(View.GONE);
                             }
                         }
                     });

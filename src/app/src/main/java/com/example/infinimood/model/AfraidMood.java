@@ -6,19 +6,17 @@ import android.media.Image;
 import java.util.Date;
 
 /**
- *  AfraidMood.java
- *  Subclass for Afraid mood events
+ * AfraidMood.java
+ * Subclass for Afraid mood events
  */
 
 public class AfraidMood extends Mood {
-
     public AfraidMood(String id,
-                     Date date,
-                     String reason,
-                     Location location,
-                     String socialSituation,
-                     Image image)
-    {
+                      Date date,
+                      String reason,
+                      Location location,
+                      String socialSituation,
+                      Image image) {
         super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.AFRAID_STRING);
