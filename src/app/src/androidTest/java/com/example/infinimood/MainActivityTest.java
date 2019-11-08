@@ -24,7 +24,9 @@ public class MainActivityTest {
             true,
             true
     );
+
     private Solo solo;
+
     private FirebaseAuth auth;
 
     @Before
