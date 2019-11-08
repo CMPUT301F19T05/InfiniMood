@@ -22,7 +22,7 @@ import com.google.firebase.auth.AuthResult;
 
 public class MainActivity extends MoodCompatActivity {
 
-    FrameLayout progressBarContainer;
+    FrameLayout progressOverlayContainer;
 
     EditText editTextEmail;
     EditText editTextPassword;
@@ -32,7 +32,7 @@ public class MainActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
-        progressBarContainer = findViewById(R.id.progress_bar_container);
+        progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
         editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
         editTextPassword = findViewById(R.id.loginCreateAccountPasswordEditText);
@@ -61,8 +61,8 @@ public class MainActivity extends MoodCompatActivity {
             toast("Please enter your password");
             editTextPassword.requestFocus();
         } else {
-            progressBarContainer.setVisibility(View.VISIBLE);
-            progressBarContainer.bringToFront();
+            progressOverlayContainer.setVisibility(View.VISIBLE);
+            progressOverlayContainer.bringToFront();
 
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -75,7 +75,7 @@ public class MainActivity extends MoodCompatActivity {
                                 editTextPassword.requestFocus();
                             }
 
-                            progressBarContainer.setVisibility(View.GONE);
+                            progressOverlayContainer.setVisibility(View.GONE);
                         }
                     });
         }
