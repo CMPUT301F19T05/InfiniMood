@@ -32,8 +32,8 @@ public class MoodTest {
     private final static String TEST_SOCIAL_SITUATION = SocialSituation.WITH_CROWD.getDescription();
     private final static Image TEST_IMAGE = null;
 
-    private void testConstructor(Class<? extends Mood> moodClass) {
-        final Constructor<?> constructor;
+    private Mood testConstructor(Class<? extends Mood> moodClass) {
+        final Constructor<? extends Mood> constructor;
         final Mood mood;
 
         try {
@@ -47,11 +47,11 @@ public class MoodTest {
             );
         } catch (NoSuchMethodException ex) {
             fail();
-            return;
+            return null;
         }
 
         try {
-            mood = (Mood) constructor.newInstance(
+            mood = constructor.newInstance(
                     TEST_ID,
                     TEST_DATE,
                     TEST_REASON,
@@ -61,7 +61,7 @@ public class MoodTest {
             );
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException ex) {
             fail();
-            return;
+            return null;
         }
 
         assertEquals(mood.getId(), TEST_ID);
@@ -70,41 +70,65 @@ public class MoodTest {
         assertEquals(mood.getLocation(), TEST_LOCATION);
         assertEquals(mood.getSocialSituation(), TEST_SOCIAL_SITUATION);
         assertEquals(mood.getImage(), TEST_IMAGE);
+
+        return mood;
+    }
+
+    private void testSetId(Mood mood) {
+        final String newId = "2";
+        mood.setId(newId);
+        assertEquals(mood.getId(), newId);
+    }
+
+    private void testSetDate(Mood mood) {
+        final Date newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime();
+        mood.setDate(newDate);
+        assertEquals(mood.getDate(), newDate);
+    }
+
+    private void testAll(Class<? extends Mood> moodClass) {
+        final Mood mood = testConstructor(moodClass);
+        if (mood == null) {
+            fail();
+        } else {
+            testSetId(mood);
+            testSetDate(mood);
+        }
     }
 
     @Test
     public void testAfraidMood() {
-        testConstructor(AfraidMood.class);
+        testAll(AfraidMood.class);
     }
 
     @Test
     public void testAngryMood() {
-        testConstructor(AngryMood.class);
+        testAll(AngryMood.class);
     }
 
     @Test
     public void testCryingMood() {
-        testConstructor(CryingMood.class);
+        testAll(CryingMood.class);
     }
 
     @Test
     public void testHappyMood() {
-        testConstructor(HappyMood.class);
+        testAll(HappyMood.class);
     }
 
     @Test
     public void testInLoveMood() {
-        testConstructor(InLoveMood.class);
+        testAll(InLoveMood.class);
     }
 
     @Test
     public void testSadMood() {
-        testConstructor(SadMood.class);
+        testAll(SadMood.class);
     }
 
     @Test
     public void testSleepyMood() {
-        testConstructor(SleepyMood.class);
+        testAll(SleepyMood.class);
     }
 
 }
