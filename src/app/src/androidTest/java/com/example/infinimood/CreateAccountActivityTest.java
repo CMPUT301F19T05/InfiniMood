@@ -31,7 +31,9 @@ public class CreateAccountActivityTest {
             true,
             true
     );
+
     private Solo solo;
+
     private FirebaseAuth auth;
 
     @Before
