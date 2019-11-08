@@ -37,6 +37,9 @@
     <string name="Following_status">Following</string>
     <string name="accept_status">Accepted</string>
 
+    <string name="Search_users_button">Search</string>
+    <string name="Search_users_hint">Search …</string>
+
 
     <string-array name="emojis_array">
         <item>Happy</item>
