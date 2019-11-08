@@ -9,11 +9,10 @@ service cloud.firestore {
       allow read, write: if request.auth.uid == uid;
     }
     match /users/{uid}/followers/{fid} {
-    	allow read, write: if request.auth.uid == uid;    	
+      allow read, write: if request.auth.uid == uid;
       allow read, write: if request.auth.uid == fid;
     }
     match /users/{uid}/following/{fid} {
-    
       allow read, write: if request.auth.uid == uid;
     }
     match /{document=**} {
