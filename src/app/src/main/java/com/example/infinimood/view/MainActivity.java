@@ -15,9 +15,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 /**
- *  MainActivity.java
- *  Home page when not logged in
- *  Options to login and create account
+ * MainActivity.java
+ * Home page when not logged in
+ * Options to login and create account
  */
 
 public class MainActivity extends MoodCompatActivity {
@@ -47,11 +47,6 @@ public class MainActivity extends MoodCompatActivity {
         }
     }
 
-    public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
-    }
-
     public void onLoginClicked(View view) {
         final String email = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
@@ -76,7 +71,7 @@ public class MainActivity extends MoodCompatActivity {
                             if (task.isSuccessful()) {
                                 startActivityNoHistory(UserProfileActivity.class);
                             } else {
-                                toast("Login failed, please try again");
+                                toast(R.string.login_failed);
                                 editTextPassword.requestFocus();
                             }
 
@@ -84,6 +79,11 @@ public class MainActivity extends MoodCompatActivity {
                         }
                     });
         }
+    }
+
+    public void onCreateAccountClicked(View view) {
+        final Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 
 }
