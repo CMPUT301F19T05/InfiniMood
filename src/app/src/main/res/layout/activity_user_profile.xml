@@ -102,6 +102,18 @@
         app:layout_constraintStart_toEndOf="@+id/profilePrintMoodsButton" />
 
     <Button
+        android:id="@+id/searchUsersButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onSearchUsersClicked"
+        android:text="@string/Search_users_button"
+        app:layout_constraintBottom_toTopOf="@+id/profileMoodHistoryButton"
+        app:layout_constraintEnd_toStartOf="@+id/profileFollowersButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profilePrintMoodsButton" />
+
+    <Button
         android:id="@+id/profilePrintMoodsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

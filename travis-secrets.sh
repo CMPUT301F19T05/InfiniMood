@@ -11,6 +11,11 @@ SECRETS_FILE=./secrets.zip
 function usage {
     echo 'Usage:'
     echo '    --encrypt   Compress and encrypt secrets'
+    echo '                Travis CLI required, to install:'
+    echo '                    sudo apt install ruby ruby-dev make gcc'
+    echo '                    sudo gem install travis'
+    echo '                To login:'
+    echo '                    travis login --org'
     echo '    --restore   Decompress secrets'
     echo '    --compress  Compress but not encrypt'
     exit 1

@@ -15,14 +15,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 /**
- *  MainActivity.java
- *  Home page when not logged in
- *  Options to login and create account
+ * MainActivity.java
+ * Home page when not logged in
+ * Options to login and create account
  */
 
 public class MainActivity extends MoodCompatActivity {
 
-    FrameLayout progressBarContainer;
+    FrameLayout progressOverlayContainer;
 
     EditText editTextEmail;
     EditText editTextPassword;
@@ -32,7 +32,7 @@ public class MainActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
-        progressBarContainer = findViewById(R.id.progress_bar_container);
+        progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
         editTextEmail = findViewById(R.id.loginCreateAccountEmailEditText);
         editTextPassword = findViewById(R.id.loginCreateAccountPasswordEditText);
@@ -45,11 +45,6 @@ public class MainActivity extends MoodCompatActivity {
         if (firebaseUser != null) {
             startActivityNoHistory(UserProfileActivity.class);
         }
-    }
-
-    public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
     }
 
     public void onLoginClicked(View view) {
@@ -66,8 +61,8 @@ public class MainActivity extends MoodCompatActivity {
             toast("Please enter your password");
             editTextPassword.requestFocus();
         } else {
-            progressBarContainer.setVisibility(View.VISIBLE);
-            progressBarContainer.bringToFront();
+            progressOverlayContainer.setVisibility(View.VISIBLE);
+            progressOverlayContainer.bringToFront();
 
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -76,14 +71,19 @@ public class MainActivity extends MoodCompatActivity {
                             if (task.isSuccessful()) {
                                 startActivityNoHistory(UserProfileActivity.class);
                             } else {
-                                toast("Login failed, please try again");
+                                toast(R.string.login_failed);
                                 editTextPassword.requestFocus();
                             }
 
-                            progressBarContainer.setVisibility(View.GONE);
+                            progressOverlayContainer.setVisibility(View.GONE);
                         }
                     });
         }
+    }
+
+    public void onCreateAccountClicked(View view) {
+        final Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 
 }

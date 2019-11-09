@@ -51,9 +51,8 @@ public class FollowAdapter extends ArrayAdapter<User>  {
         Button AcceptedButton = view.findViewById(R.id.followerEntryAcceptButton);
         TextView followingStatus = view.findViewById(R.id.followerEntryFollowingStatusTextView);
 
-        if (Accepted){
-            Log.i("test","a");
-            AcceptedButton.setVisibility(View.INVISIBLE);
+        if (!acceptedList.isEmpty() && Accepted){
+            AcceptedButton.setVisibility(View.GONE);
         }
         else{
             AcceptedButton.setVisibility(View.VISIBLE);
