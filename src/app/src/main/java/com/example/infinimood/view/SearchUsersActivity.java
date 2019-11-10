@@ -43,14 +43,12 @@ public class SearchUsersActivity extends MoodCompatActivity  {
         searchView = (SearchView) findViewById(R.id.searchSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                findUser(query);
-                update();
-                return false;
-            }
+            public boolean onQueryTextSubmit(String query) { return false; }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                findUserBySubstring(newText);
+                update();
                 return false;
             }
         });
@@ -59,7 +57,10 @@ public class SearchUsersActivity extends MoodCompatActivity  {
 
     }
 
-    public void findUser(String query){
+
+
+    public void findUserBySubstring(String newText){
+        String uid = firebaseAuth.getUid();
         CollectionReference userCollection = firebaseFirestore.collection("users");
         userCollection
                 .get()
@@ -71,12 +72,13 @@ public class SearchUsersActivity extends MoodCompatActivity  {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String userID = (String) document.getId();
                                 String username = (String) document.get("username");
-                                if (query.equals(username)) {
+                                if (username.contains(newText) && !userID.equals(uid) && !newText.equals("")) {
                                     User user = new User(userID, username);
                                     users.add(user);
                                     accepted.add(true);
                                 }
                             }
+
                             update();
                         }
                         else {
@@ -118,7 +120,6 @@ public class SearchUsersActivity extends MoodCompatActivity  {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
         final User follower = searchAdapter.getItem(pos);
-        Log.i("", follower.getUsername());
         FirebaseUser user = firebaseAuth.getCurrentUser();
         final String uid = user.getUid();
         final Map<String, Object> followeeMap = new HashMap<>();
@@ -180,8 +181,7 @@ public class SearchUsersActivity extends MoodCompatActivity  {
                         }
                     }
                 });
-
-
+        update();
     }
 
     public void update(){
