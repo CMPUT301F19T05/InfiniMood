@@ -52,12 +52,7 @@ public class SearchUsersActivity extends MoodCompatActivity  {
                 return false;
             }
         });
-
-
-
     }
-
-
 
     public void findUserBySubstring(String newText){
         String uid = firebaseAuth.getUid();
@@ -78,7 +73,6 @@ public class SearchUsersActivity extends MoodCompatActivity  {
                                     accepted.add(true);
                                 }
                             }
-
                             update();
                         }
                         else {

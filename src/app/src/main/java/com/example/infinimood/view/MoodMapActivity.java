@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.MoodConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,17 +16,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.location.Location;
 import android.widget.Toast;
-
-import java.util.Collections;
 
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
 public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +37,7 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     // Helper method that takes a color string in hex format
-    // and turns it into a tranparent color
+    // and turns it into a transparent color
     public int makeColorTransparent(String color) {
         Log.i("", color);
         String transparentColor = "#33".concat( color.substring(1) );
@@ -84,7 +81,7 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.googleMap = googleMap;
 
         Location l;
         LatLng latlong = new LatLng(0,0);
@@ -98,15 +95,15 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
             Log.i("", String.valueOf( l.getLatitude() ));
             Log.i("", String.valueOf( l.getLongitude() ));
             latlong = new LatLng( l.getLatitude(), l.getLongitude() );
-            mMap.addCircle( circleOptions );
+            this.googleMap.addCircle( circleOptions );
         }
 
         // Kind of random zoom preferences based on what I liked
-        mMap.setMaxZoomPreference(20);
-        mMap.setMinZoomPreference(15);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng( latlong ));
+        this.googleMap.setMaxZoomPreference(20);
+        this.googleMap.setMinZoomPreference(15);
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng( latlong ));
 
-        mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
+        this.googleMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
             @Override
             public void onCircleClick(Circle circle) {
                 /* TODO: Simply iterate through the moods to find the most recent
