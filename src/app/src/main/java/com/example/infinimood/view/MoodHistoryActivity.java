@@ -35,10 +35,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        refreshUserMoods();
+        firebaseController.refreshUserMoods(moods);
         ListView moodListView = findViewById(R.id.moodHistoryListView);
 
         reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
@@ -68,9 +65,4 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         final Intent intent = new Intent(this, MoodMapActivity.class);
         startActivity(intent);
     }
-
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        finish();
-//        return true;
-//    }
 }

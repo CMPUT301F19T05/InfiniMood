@@ -154,9 +154,9 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
+        Mood newMood = moodController.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
-        addMoodEventToDB(newMood);
+        firebaseController.addMoodEventToDB(newMood);
 
         finish();
     }

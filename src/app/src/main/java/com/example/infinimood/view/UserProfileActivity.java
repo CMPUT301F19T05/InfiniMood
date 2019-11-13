@@ -37,29 +37,11 @@ public class UserProfileActivity extends MoodCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseUser == null) {
+        if (firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
-        } else {
-            firebaseFirestore.collection("users")
-                    .document(firebaseUser.getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot result = task.getResult();
-                                if (result != null) {
-                                    Object username = result.get("username");
-                                    if (username != null) {
-                                        textViewUsername.setText(username.toString());
-                                        return;
-                                    }
-                                }
-                            }
-
-                            textViewUsername.setText(R.string.default_username);
-                        }
-                    });
+        }
+        else {
+            textViewUsername.setText(firebaseController.getUsername());
         }
     }
 
@@ -84,13 +66,13 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onLogoutClicked(View view) {
-        firebaseAuth.signOut();
+        firebaseController.signOut();
         startActivityNoHistory(MainActivity.class);
     }
 
     // print all of the current user's mood events to console
     public void onPrintMoodsClicked(View view) {
-        refreshUserMoods();
+        firebaseController.refreshUserMoods(moods);
         Log.i("", "===========================================");
         for (int i = 0; i < moods.size(); i++) {
             moods.get(i).print();

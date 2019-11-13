@@ -42,7 +42,7 @@ public class MainActivity extends MoodCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseUser != null) {
+        if (firebaseController.userAuthenticated()) {
             startActivityNoHistory(UserProfileActivity.class);
         }
     }
@@ -64,20 +64,14 @@ public class MainActivity extends MoodCompatActivity {
             progressOverlayContainer.setVisibility(View.VISIBLE);
             progressOverlayContainer.bringToFront();
 
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                startActivityNoHistory(UserProfileActivity.class);
-                            } else {
-                                toast(R.string.login_failed);
-                                editTextPassword.requestFocus();
-                            }
-
-                            progressOverlayContainer.setVisibility(View.GONE);
-                        }
-                    });
+            if (firebaseController.signIn(email, password)) {
+                startActivityNoHistory(UserProfileActivity.class);
+            }
+            else {
+                toast(R.string.login_failed);
+                editTextPassword.requestFocus();
+            }
+            progressOverlayContainer.setVisibility(View.GONE);
         }
     }
 

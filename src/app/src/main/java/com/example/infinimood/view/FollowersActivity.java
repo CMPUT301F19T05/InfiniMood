@@ -67,8 +67,6 @@ public class FollowersActivity extends MoodCompatActivity {
         showFollowing();
     }
 
-
-
     public void readData(final FirebaseCallback firebaseCallback){
         final ArrayList<User> getFollowers = new ArrayList<>();
         final ArrayList<User> getFollowing = new ArrayList<>();

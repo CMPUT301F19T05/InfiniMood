@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.infinimood.controller.FirebaseController;
+import com.example.infinimood.controller.MoodController;
 import com.example.infinimood.model.AfraidMood;
 import com.example.infinimood.model.AngryMood;
 import com.example.infinimood.model.CryingMood;
@@ -48,23 +50,22 @@ import java.util.Map;
 public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
+
     protected static ArrayList<Mood> moods = new ArrayList<>();
-    protected FirebaseAuth firebaseAuth;
-    protected FirebaseFirestore firebaseFirestore;
-    protected FirebaseUser firebaseUser = null;
+
+    protected static FirebaseController firebaseController = new FirebaseController();
+    protected static MoodController moodController = new MoodController();
 
     public MoodCompatActivity() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (firebaseUser != null) {
-            refreshUserMoods();
+        if (firebaseController.userAuthenticated()) {
+            firebaseController.refreshUserMoods(moods);
         }
     }
 
@@ -82,135 +83,4 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
-    public void addMoodEventToDB(Mood mood) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
-
-        Map<String, Object> moodMap = new HashMap<>();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
-
-        moodMap.put("id", mood.getId());
-        moodMap.put("mood", mood.getMood());
-        moodMap.put("socialSituation", mood.getSocialSituation());
-        moodMap.put("reason", mood.getReason());
-        moodMap.put("date", dateFormat.format(mood.getDate()));
-        moodMap.put("timestamp", mood.getTime());
-        if (mood.getLocation() != null) {
-            moodMap.put("location", locationToString(mood.getLocation()));
-        }
-        if (mood.getImage() != null) {
-            moodMap.put("image", mood.getImage());
-        }
-
-        firebaseFirestore
-                .collection("users")
-                .document(uid)
-                .collection("moods")
-                .document(mood.getId())
-                .set(moodMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
-    }
-
-    public String locationToString(Location location) {
-        return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
-    }
-
-    public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Image moodImage) {
-        Mood newMood;
-
-        switch (mood) {
-            case "Happy":
-                newMood = new HappyMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "Angry":
-                newMood = new AngryMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "Crying":
-                newMood = new CryingMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "In Love":
-                newMood = new InLoveMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "Sad":
-                newMood = new SadMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "Sleepy":
-                newMood = new SleepyMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            case "Afraid":
-                newMood = new AfraidMood(id, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-                break;
-            default:
-                Log.e(TAG, "Default case in addEdit switch: " + mood);
-                throw new IllegalArgumentException("Invalid mood in createMood");
-        }
-        return newMood;
-    }
-
-    public void refreshUserMoods() {
-        if (firebaseUser == null) {
-            return;
-        }
-
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - hh:mm a", Locale.getDefault());
-
-        CollectionReference moodCollection = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).collection("moods");
-
-        moodCollection
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            moods.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String moodEmotion = (String) document.get("mood");
-                                String id = (String) document.get("id");
-                                String dateString = (String) document.get("date");
-                                String reason = (String) document.get("reason");
-                                String locationString = (String) document.get("location");
-                                String socialSituation = (String) document.get("socialSituation");
-                                String imageString = (String) document.get("image");
-
-                                Date date = null;
-                                try {
-                                    date = dateFormat.parse(dateString);
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
-                                }
-
-                                Location l = null;
-                                if (locationString != null) {
-                                    l = new Location("dummy provider");
-                                    String[] location = locationString.split(",");
-                                    l.setLatitude(Double.parseDouble(location[0]));
-                                    l.setLongitude(Double.parseDouble(location[1]));
-                                }
-
-                                Mood mood = createMood(id, moodEmotion, date, reason, l, socialSituation, null);
-
-                                moods.add(mood);
-                                MoodComparator comparator = new MoodComparator();
-                                Collections.sort(moods, comparator);
-                            }
-                        } else {
-                            Log.e(TAG, "Error getting documents");
-                        }
-                    }
-                });
-    }
-
 }
