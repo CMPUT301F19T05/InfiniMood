@@ -19,14 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MoodHistoryActivity" />
-        <activity android:name=".view.MoodMapActivity" />
+        <activity android:name=".view.MoodHistoryActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.MoodMapActivity" android:parentActivityName=".view.MoodHistoryActivity"/>
         <activity android:name=".view.UserProfileActivity" />
-        <activity android:name=".view.CreateAccountActivity" />
-        <activity android:name=".view.AddEditMoodActivity" />
+        <activity android:name=".view.CreateAccountActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.AddEditMoodActivity" android:parentActivityName=".view.MainActivity"/>
         <activity android:name=".view.LocationActivity" />
-        <activity android:name=".view.FollowersActivity" />
-        <activity android:name=".view.SearchUsersActivity" />
+        <activity android:name=".view.FollowersActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.SearchUsersActivity" android:parentActivityName=".view.MainActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
