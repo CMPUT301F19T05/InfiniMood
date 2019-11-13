@@ -2,24 +2,13 @@ package com.example.infinimood.controller;
 
 
 import android.location.Location;
-import android.media.Image;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.example.infinimood.R;
-import com.example.infinimood.model.AfraidMood;
-import com.example.infinimood.model.AngryMood;
-import com.example.infinimood.model.CryingMood;
-import com.example.infinimood.model.HappyMood;
-import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
-import com.example.infinimood.model.SadMood;
-import com.example.infinimood.model.SleepyMood;
 import com.example.infinimood.model.User;
-import com.example.infinimood.view.UserProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +49,9 @@ public class FirebaseController {
     private boolean accountCreationSuccessful;
     private boolean setUserDataSuccessful;
     private boolean signInSuccessful;
+
+    private boolean firebaseOperation1Successful;
+    private boolean firebaseOperation2Successful;
 
 
     public FirebaseController() {
@@ -247,38 +239,254 @@ public class FirebaseController {
     // find users that follow the current user
     // find users who have requested to follow the current user
 
+    public boolean requestToFollow(User user) {
+        // make sure the current user doesn't already follow them
+        // and the current user hasn't already requested to follow them
+        assert(!user.isCurrent_user_follows());
+        assert(!user.isCurrent_user_requested_follow());
 
+        String follower_id = firebaseAuth.getUid();
+        String followee_id = user.getUserID();
 
-    public ArrayList<User> findUsersBySubstring(String newText) {
-        ArrayList<User> matchingUsers = new ArrayList<User>();
+        // make sure we're not trying to follow ourself
+        assert(!follower_id.equals(followee_id));
 
-        String uid = firebaseAuth.getUid();
-        CollectionReference userCollection = firebaseFirestore.collection("users");
-        userCollection
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // the document to write to firestore
+        Map<String, Object> followData = new HashMap<>();
+        followData.put("follower_id", follower_id);
+        followData.put("followee_id", followee_id);
+        followData.put("accepted", false);
+
+        // write to our following collection
+        firebaseFirestore
+                .collection("users")
+                .document(follower_id)
+                .collection("following")
+                .document(followee_id)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            matchingUsers.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String userID = (String) document.getId();
-                                String username = (String) document.get("username");
-                                if (username.contains(newText) && !userID.equals(uid) && !newText.equals("")) {
-                                    User user = new User(userID, username);
-                                    matchingUsers.add(user);
-                                    accepted.add(true);
-                                }
-                            }
-                            update();
-                        }
-                        else {
-                            Log.e(TAG, "Error getting documents");
-                        }
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation1Successful = task.isSuccessful();
                     }
                 });
+
+        // write to their followers collection
+        firebaseFirestore
+                .collection("users")
+                .document(followee_id)
+                .collection("followers")
+                .document(follower_id)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation2Successful = task.isSuccessful();
+                    }
+                });
+
+        // bad
+        if (!firebaseOperation1Successful && !firebaseOperation2Successful) {
+            Log.e(TAG, "Both writes failed");
+            return false;
+        }
+
+        // really bad
+        if (firebaseOperation1Successful != firebaseOperation2Successful) {
+            Log.e(TAG, "One write successful, one failed");
+            return false;
+        }
+
+        // success
+        else {
+            Log.i(TAG, "Follow request successful");
+            user.setCurrent_user_requested_follow(true);
+            return true;
+        }
     }
 
+    public boolean declineFollowRequest(User user) {
+        // make sure that they requested to follow the current user
+        // and that they aren't already following the current user
+        assert(user.isRequested_follow_current_user());
+        assert(!user.isFollows_current_user());
+
+        String follower_id = user.getUserID();
+        String followee_id = firebaseAuth.getUid();
+
+        assert(!follower_id.equals(followee_id));
+
+        // delete from their following collection
+        firebaseFirestore
+                .collection("users")
+                .document(follower_id)
+                .collection("following")
+                .document(followee_id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation1Successful = task.isSuccessful();
+                    }
+                });
+
+        // delete from our followers collection
+        firebaseFirestore
+                .collection("users")
+                .document(followee_id)
+                .collection("followers")
+                .document(follower_id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation2Successful = task.isSuccessful();
+                    }
+                });
+
+        // bad
+        if (!firebaseOperation1Successful && !firebaseOperation2Successful) {
+            Log.e(TAG, "Both deletes failed");
+            return false;
+        }
+
+        // really bad
+        if (firebaseOperation1Successful != firebaseOperation2Successful) {
+            Log.e(TAG, "One delete successful, one failed");
+            return false;
+        }
+
+        // success
+        else {
+            Log.i(TAG, "Decline follow request successful");
+            user.setRequested_follow_current_user(false);
+            user.setFollows_current_user(true);
+            return true;
+        }
+    }
+
+    public boolean acceptFollowRequest(User user) {
+        // make sure that they requested to follow the current user
+        // and that they aren't already following the current user
+        assert(user.isRequested_follow_current_user());
+        assert(!user.isFollows_current_user());
+
+        String follower_id = user.getUserID();
+        String followee_id = firebaseAuth.getUid();
+
+        assert(!follower_id.equals(followee_id));
+
+        // the document to write to firestore
+        Map<String, Object> followData = new HashMap<>();
+        followData.put("follower_id", follower_id);
+        followData.put("followee_id", followee_id);
+        followData.put("accepted", true);
+
+        // write to their following collection
+        firebaseFirestore
+                .collection("users")
+                .document(follower_id)
+                .collection("following")
+                .document(followee_id)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation1Successful = task.isSuccessful();
+                    }
+                });
+
+        // write to our followers collection
+        firebaseFirestore
+                .collection("users")
+                .document(followee_id)
+                .collection("followers")
+                .document(follower_id)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation2Successful = task.isSuccessful();
+                    }
+                });
+
+        // bad
+        if (!firebaseOperation1Successful && !firebaseOperation2Successful) {
+            Log.e(TAG, "Both writes failed");
+            return false;
+        }
+
+        // really bad
+        if (firebaseOperation1Successful != firebaseOperation2Successful) {
+            Log.e(TAG, "One write successful, one failed");
+            return false;
+        }
+
+        // success
+        else {
+            Log.i(TAG, "Accept follow request successful");
+            user.setRequested_follow_current_user(false);
+            return true;
+        }
+    }
+
+    public boolean unfollowUser(User user) {
+        // make sure that the current user follows them
+        assert(user.isCurrent_user_follows());
+        assert(!user.isCurrent_user_requested_follow());
+
+        String follower_id = firebaseAuth.getUid();
+        String followee_id = user.getUserID();
+
+        assert(!follower_id.equals(followee_id));
+
+        // delete from their followers collection
+        firebaseFirestore
+                .collection("users")
+                .document(followee_id)
+                .collection("followers")
+                .document(follower_id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation1Successful = task.isSuccessful();
+                    }
+                });
+
+        // delete from our following collection
+        firebaseFirestore
+                .collection("users")
+                .document(follower_id)
+                .collection("following")
+                .document(followee_id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseOperation2Successful = task.isSuccessful();
+                    }
+                });
+
+        // bad
+        if (!firebaseOperation1Successful && !firebaseOperation2Successful) {
+            Log.e(TAG, "Both deletes failed");
+            return false;
+        }
+
+        // really bad
+        if (firebaseOperation1Successful != firebaseOperation2Successful) {
+            Log.e(TAG, "One delete successful, one failed");
+            return false;
+        }
+
+        // success
+        else {
+            Log.i(TAG, "Unfollow successful");
+            user.setCurrent_user_follows(false);
+            return true;
+        }
+    }
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));

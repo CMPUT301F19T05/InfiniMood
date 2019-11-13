@@ -22,6 +22,21 @@ public class User {
         this.username = username;
     }
 
+    public User(String userID,
+                String username,
+                boolean current_user_follows,
+                boolean current_user_requested_follow,
+                boolean follows_current_user,
+                boolean requested_follow_current_user)
+    {
+        this.userID = userID;
+        this.username = username;
+        this.current_user_follows = current_user_follows;
+        this.current_user_requested_follow = current_user_requested_follow;
+        this.follows_current_user = follows_current_user;
+        this.requested_follow_current_user = requested_follow_current_user;
+    }
+
     public boolean isCurrent_user_follows() {
         return current_user_follows;
     }
