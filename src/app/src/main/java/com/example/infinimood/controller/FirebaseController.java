@@ -18,6 +18,7 @@ import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.SadMood;
 import com.example.infinimood.model.SleepyMood;
+import com.example.infinimood.model.User;
 import com.example.infinimood.view.UserProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -237,6 +238,47 @@ public class FirebaseController {
                     }
                 });
     }
+
+    // find users with a username containing a substring
+
+    // find users that the current user follows
+    // find users who the current user has requested to follow
+
+    // find users that follow the current user
+    // find users who have requested to follow the current user
+
+
+
+    public ArrayList<User> findUsersBySubstring(String newText) {
+        ArrayList<User> matchingUsers = new ArrayList<User>();
+
+        String uid = firebaseAuth.getUid();
+        CollectionReference userCollection = firebaseFirestore.collection("users");
+        userCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            matchingUsers.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userID = (String) document.getId();
+                                String username = (String) document.get("username");
+                                if (username.contains(newText) && !userID.equals(uid) && !newText.equals("")) {
+                                    User user = new User(userID, username);
+                                    matchingUsers.add(user);
+                                    accepted.add(true);
+                                }
+                            }
+                            update();
+                        }
+                        else {
+                            Log.e(TAG, "Error getting documents");
+                        }
+                    }
+                });
+    }
+
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));

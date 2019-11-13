@@ -30,8 +30,10 @@ import java.util.Map;
 public class SearchUsersActivity extends MoodCompatActivity  {
 
     private static final String TAG = "SearchUsersActivity";
+
     private SearchView searchView;
     private FollowAdapter searchAdapter;
+
     protected static ArrayList<User> users = new ArrayList<>();
     protected static ArrayList<User> following = new ArrayList<>();
     protected static ArrayList<Boolean> accepted = new ArrayList<>();
@@ -80,8 +82,8 @@ public class SearchUsersActivity extends MoodCompatActivity  {
                         }
                     }
                 });
-
     }
+
     public void getFollowing() {
 
         String uid = firebaseAuth.getUid();
