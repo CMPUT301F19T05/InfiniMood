@@ -35,6 +35,10 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
 
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
+
         firebaseController.refreshUserMoods(moods);
         ListView moodListView = findViewById(R.id.moodHistoryListView);
 

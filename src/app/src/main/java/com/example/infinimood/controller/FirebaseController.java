@@ -75,6 +75,7 @@ public class FirebaseController {
     }
 
     public boolean userAuthenticated() {
+        firebaseUser = firebaseAuth.getCurrentUser();
         return (firebaseUser != null);
     }
 

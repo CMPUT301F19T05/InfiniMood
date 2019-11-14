@@ -65,6 +65,10 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_mood);
 
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
+
         // find views
         datePicker = findViewById(R.id.addEditDatePicker);
         timePicker = findViewById(R.id.addEditTimePicker);

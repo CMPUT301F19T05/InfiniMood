@@ -41,6 +41,10 @@ public class SearchUsersActivity extends MoodCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_users);
 
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
+
         users = firebaseController.getUsers();
 
         searchView = (SearchView) findViewById(R.id.searchSearchView);

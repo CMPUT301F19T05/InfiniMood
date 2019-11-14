@@ -42,6 +42,10 @@ public class FollowersActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.follow_list);
 
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
+
         update();
 
         showFollowers();
