@@ -37,11 +37,13 @@ public class UserProfileActivity extends MoodCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseController.userAuthenticated()) {
+        if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
         }
         else {
-            textViewUsername.setText(firebaseController.getUsername());
+            firebaseController.fetchUsername();
+            String username = firebaseController.getUsername();
+            textViewUsername.setText(username);
         }
     }
 

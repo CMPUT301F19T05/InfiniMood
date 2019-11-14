@@ -22,23 +22,19 @@ import java.util.ArrayList;
 public class FollowAdapter extends ArrayAdapter<User>  {
 
 
-    private ArrayList<User> followers;
-    private ArrayList<User> following;
-    private ArrayList<Boolean> acceptedList;
+    private ArrayList<User> users;
     private Context context;
 
-    public FollowAdapter(Context context, ArrayList <User> followers, ArrayList<User> following, ArrayList<Boolean> acceptedList){
-        super(context,0, followers);
+    public FollowAdapter(Context context, ArrayList <User> users){
+        super(context,0, users);
         this.context = context;
-        this.followers = followers;
-        this.following = following;
-        this.acceptedList = acceptedList;
+        this.users = users;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        User follower = followers.get(position);
-        Boolean Accepted = acceptedList.get(position);
+        User follower = users.get(position);
+        Boolean accepted = follower.isFollowsCurrentUser();
 
         View view = convertView;
         LayoutInflater inflator = ((android.app.Activity) this.context).getLayoutInflater();
@@ -51,15 +47,15 @@ public class FollowAdapter extends ArrayAdapter<User>  {
         Button AcceptedButton = view.findViewById(R.id.followerEntryAcceptButton);
         TextView followingStatus = view.findViewById(R.id.followerEntryFollowingStatusTextView);
 
-        if (!acceptedList.isEmpty() && Accepted){
+        if (!users.isEmpty() && accepted){
             AcceptedButton.setVisibility(View.GONE);
         }
         else{
             AcceptedButton.setVisibility(View.VISIBLE);
         }
 
-        for (int i = 0; i<following.size(); i++){
-            if (following.get(i).getUserID().equals(follower.getUserID())){
+        for (int i = 0; i<users.size(); i++){
+            if (users.get(i).getUserID().equals(follower.getUserID())){
                 followButton.setVisibility(View.INVISIBLE);
                 followingStatus.setVisibility(View.VISIBLE);
                 return view;

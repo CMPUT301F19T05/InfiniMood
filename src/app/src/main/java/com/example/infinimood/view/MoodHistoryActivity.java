@@ -57,6 +57,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     }
 
     public void update() {
+        firebaseController.refreshUserMoods(moods);
         Collections.sort(moods, comparator);
         adapter.notifyDataSetChanged();  // update the ListView
     }

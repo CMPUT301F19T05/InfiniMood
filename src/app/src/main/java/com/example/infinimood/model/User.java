@@ -10,11 +10,11 @@ public class User {
     private String userID;
     private String username;
 
-    private boolean current_user_follows;
-    private boolean current_user_requested_follow;
+    private boolean currentUserFollows;
+    private boolean currentUserRequestedFollow;
 
-    private boolean follows_current_user;
-    private boolean requested_follow_current_user;
+    private boolean followsCurrentUser;
+    private boolean requestedFollowCurrentUser;
 
 
     public User(String Uid, String username) {
@@ -24,49 +24,49 @@ public class User {
 
     public User(String userID,
                 String username,
-                boolean current_user_follows,
-                boolean current_user_requested_follow,
-                boolean follows_current_user,
-                boolean requested_follow_current_user)
+                boolean currentUserFollows,
+                boolean currentUserRequestedFollow,
+                boolean followsCurrentUser,
+                boolean requestedFollowCurrentUser)
     {
         this.userID = userID;
         this.username = username;
-        this.current_user_follows = current_user_follows;
-        this.current_user_requested_follow = current_user_requested_follow;
-        this.follows_current_user = follows_current_user;
-        this.requested_follow_current_user = requested_follow_current_user;
+        this.currentUserFollows = currentUserFollows;
+        this.currentUserRequestedFollow = currentUserRequestedFollow;
+        this.followsCurrentUser = followsCurrentUser;
+        this.requestedFollowCurrentUser = requestedFollowCurrentUser;
     }
 
-    public boolean isCurrent_user_follows() {
-        return current_user_follows;
+    public boolean isCurrentUserFollows() {
+        return currentUserFollows;
     }
 
-    public void setCurrent_user_follows(boolean current_user_follows) {
-        this.current_user_follows = current_user_follows;
+    public void setCurrentUserFollows(boolean currentUserFollows) {
+        this.currentUserFollows = currentUserFollows;
     }
 
-    public boolean isCurrent_user_requested_follow() {
-        return current_user_requested_follow;
+    public boolean isCurrentUserRequestedFollow() {
+        return currentUserRequestedFollow;
     }
 
-    public void setCurrent_user_requested_follow(boolean current_user_requested_follow) {
-        this.current_user_requested_follow = current_user_requested_follow;
+    public void setCurrentUserRequestedFollow(boolean currentUserRequestedFollow) {
+        this.currentUserRequestedFollow = currentUserRequestedFollow;
     }
 
-    public boolean isFollows_current_user() {
-        return follows_current_user;
+    public boolean isFollowsCurrentUser() {
+        return followsCurrentUser;
     }
 
-    public void setFollows_current_user(boolean follows_current_user) {
-        this.follows_current_user = follows_current_user;
+    public void setFollowsCurrentUser(boolean followsCurrentUser) {
+        this.followsCurrentUser = followsCurrentUser;
     }
 
-    public boolean isRequested_follow_current_user() {
-        return requested_follow_current_user;
+    public boolean isRequestedFollowCurrentUser() {
+        return requestedFollowCurrentUser;
     }
 
-    public void setRequested_follow_current_user(boolean requested_follow_current_user) {
-        this.requested_follow_current_user = requested_follow_current_user;
+    public void setRequestedFollowCurrentUser(boolean requestedFollowCurrentUser) {
+        this.requestedFollowCurrentUser = requestedFollowCurrentUser;
     }
 
     public String getUsername() { return username; }

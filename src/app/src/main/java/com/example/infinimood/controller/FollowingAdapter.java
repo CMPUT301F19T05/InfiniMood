@@ -19,20 +19,18 @@ import java.util.ArrayList;
 
 public class FollowingAdapter extends ArrayAdapter<User> {
 
-    private ArrayList<User> followers;
-    private ArrayList<User> following;
+    private ArrayList<User> users;
     private Context context;
 
-    public FollowingAdapter(Context context, ArrayList <User> followers, ArrayList<User> following){
-        super(context,0, following);
+    public FollowingAdapter(Context context, ArrayList <User> users) {
+        super(context,0, users);
         this.context = context;
-        this.followers = followers;
-        this.following = following;
+        this.users = users;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        User followee = following.get(position);
+        User followee = users.get(position);
         View view = convertView;
         LayoutInflater inflator = ((android.app.Activity) this.context).getLayoutInflater();
         view = inflator.inflate(R.layout.followee_entry, parent, false);
