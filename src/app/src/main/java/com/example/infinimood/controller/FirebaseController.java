@@ -80,37 +80,34 @@ public class FirebaseController {
     }
 
     public void signOut() {
+        assert(userAuthenticated());
         firebaseAuth.signOut();
         firebaseUser = firebaseAuth.getCurrentUser();
     }
 
     public void fetchUsername() {
-        if (!userAuthenticated()) {
-            username =  "Anonymous";
-        }
-        else {
-            firebaseFirestore.collection("users")
-                    .document(firebaseUser.getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                Log.i(TAG, "Getting username successful");
-                                DocumentSnapshot result = task.getResult();
-                                if (result != null) {
-                                    username = (String) result.get("username");
-                                }
-                            }
-                            else {
-                                Log.e(TAG, "Getting username failed");
+        firebaseFirestore.collection("users")
+                .document(firebaseUser.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Log.i(TAG, "Getting username successful");
+                            DocumentSnapshot result = task.getResult();
+                            if (result != null) {
+                                username = (String) result.get("username");
                             }
                         }
-                    });
-        }
+                        else {
+                            Log.e(TAG, "Getting username failed");
+                        }
+                    }
+                });
     }
 
     public String getUsername() {
+        assert(userAuthenticated());
         fetchUsername();
         return username;
     }
@@ -124,13 +121,12 @@ public class FirebaseController {
                         accountCreationSuccessful = task.isSuccessful();
                     }
                 });
+        firebaseUser = firebaseAuth.getCurrentUser();
         return accountCreationSuccessful;
     }
 
     public boolean setCurrentUserData(String username) {
-        setUserDataSuccessful = false;
-
-        firebaseUser = firebaseAuth.getCurrentUser();
+        assert(userAuthenticated());
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
@@ -160,8 +156,9 @@ public class FirebaseController {
     }
 
     public void addMoodEventToDB(Mood mood) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
+        assert(userAuthenticated());
+
+        String uid = firebaseUser.getUid();
 
         Map<String, Object> moodMap = new HashMap<>();
 
@@ -201,9 +198,7 @@ public class FirebaseController {
     }
 
     public void refreshUserMoods(ArrayList<Mood> moods) {
-        if (firebaseUser == null) {
-            return;
-        }
+        assert(userAuthenticated());
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - HH:mm a", Locale.getDefault());
 
@@ -257,6 +252,8 @@ public class FirebaseController {
     }
 
     public ArrayList<User> getUsers() {
+        assert(userAuthenticated());
+
         requestedFollowCurrentUser.clear();
         followingCurrentUser.clear();
         currentUserFollowing.clear();
@@ -348,6 +345,8 @@ public class FirebaseController {
     }
 
     public boolean requestToFollow(User user) {
+        assert(userAuthenticated());
+
         // make sure the current user doesn't already follow them
         // and the current user hasn't already requested to follow them
         assert(!user.isCurrentUserFollows());
@@ -414,6 +413,8 @@ public class FirebaseController {
     }
 
     public boolean declineFollowRequest(User user) {
+        assert(userAuthenticated());
+
         // make sure that they requested to follow the current user
         // and that they aren't already following the current user
         assert(user.isRequestedFollowCurrentUser());
@@ -474,6 +475,8 @@ public class FirebaseController {
     }
 
     public boolean acceptFollowRequest(User user) {
+        assert(userAuthenticated());
+
         // make sure that they requested to follow the current user
         // and that they aren't already following the current user
         assert(user.isRequestedFollowCurrentUser());
@@ -539,6 +542,8 @@ public class FirebaseController {
     }
 
     public boolean unfollowUser(User user) {
+        assert(userAuthenticated());
+        
         // make sure that the current user follows them
         assert(user.isCurrentUserFollows());
         assert(!user.isCurrentUserRequestedFollow());
