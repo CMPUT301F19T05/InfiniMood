@@ -15,6 +15,8 @@ import com.google.firebase.auth.AuthResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * CreateAccountActivity.java
@@ -23,12 +25,12 @@ import java.util.Map;
 
 public class CreateAccountActivity extends MoodCompatActivity {
 
-    FrameLayout progressOverlayContainer;
+    private FrameLayout progressOverlayContainer;
 
-    EditText editTextUsername;
-    EditText editTextEmail;
-    EditText editTextPassword;
-    EditText editTextPasswordRepeat;
+    private EditText editTextUsername;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private EditText editTextPasswordRepeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,25 +54,27 @@ public class CreateAccountActivity extends MoodCompatActivity {
         if (username.isEmpty()) {
             toast(R.string.error_username_required);
             editTextUsername.requestFocus();
-        } else if (email.isEmpty()) {
+        }
+        else if (email.isEmpty()) {
             toast(R.string.error_email_required);
             editTextEmail.requestFocus();
-        } else if (!email.contains("@")) {
-            toast(R.string.error_email_invalid);
-            editTextEmail.requestFocus();
-        } else if (password.isEmpty()) {
+        }
+        else if (password.isEmpty()) {
             toast(R.string.error_password_required);
             editTextPassword.requestFocus();
-        } else if (password.length() < 6) {
+        }
+        else if (password.length() < 6) {
             toast(R.string.error_password_too_short);
             editTextPassword.requestFocus();
-        } else if (!password.equals(passwordRepeat)) {
+        }
+        else if (!password.equals(passwordRepeat)) {
             toast(R.string.error_password_mismatch);
             editTextPasswordRepeat.requestFocus();
-        } else {
+        }
+        else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
 
-            firebaseController.createUser(email, password, new BooleanCallback() {
+            firebaseController.createUser(CreateAccountActivity.this, username, email, password, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean success) {
                     if (success) {
@@ -78,12 +82,17 @@ public class CreateAccountActivity extends MoodCompatActivity {
                         firebaseController.setCurrentUserData(username, new BooleanCallback() {
                             @Override
                             public void onCallback(boolean success) {
-                                if (!success) {
+                                if (success) {
+                                    startActivityNoHistory(UserProfileActivity.class);
+                                }
+                                else {
                                     toast("Could not save username, you can set it later");
                                 }
+                                progressOverlayContainer.setVisibility(View.GONE);
                             }
                         });
-                        startActivityNoHistory(UserProfileActivity.class);
+                    }
+                    else {
                         progressOverlayContainer.setVisibility(View.GONE);
                     }
                 }

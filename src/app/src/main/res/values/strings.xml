@@ -16,8 +16,10 @@
     <string name="login_failed">Login failed, please try again.</string>
 
     <string name="error_username_required">Please enter an username</string>
+    <string name="error_username_taken">An account already exists with that username</string>
     <string name="error_email_required">Please enter an email</string>
     <string name="error_email_invalid">Please enter a valid email</string>
+    <string name="error_email_taken">An account already exists with that email</string>
     <string name="error_password_required">Please enter a password</string>
     <string name="error_password_too_short">Please enter a longer password</string>
     <string name="error_password_mismatch">Please enter the same password</string>
