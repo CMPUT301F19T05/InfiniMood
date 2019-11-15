@@ -56,10 +56,6 @@ public class MainActivity extends MoodCompatActivity {
             toast("Please enter your email");
             editTextEmail.requestFocus();
         }
-        else if (!email.contains("@")) {
-            toast("Please enter a valid email");
-            editTextEmail.requestFocus();
-        }
         else if (password.isEmpty()) {
             toast("Please enter your password");
             editTextPassword.requestFocus();
@@ -68,15 +64,11 @@ public class MainActivity extends MoodCompatActivity {
             progressOverlayContainer.setVisibility(View.VISIBLE);
             progressOverlayContainer.bringToFront();
 
-            firebaseController.signIn(email, password, new BooleanCallback() {
+            firebaseController.signIn(MainActivity.this, email, password, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean success) {
                     if (success) {
                         startActivityNoHistory(UserProfileActivity.class);
-                    }
-                    else {
-                        toast(R.string.login_failed);
-                        editTextPassword.requestFocus();
                     }
                     progressOverlayContainer.setVisibility(View.GONE);
                 }
