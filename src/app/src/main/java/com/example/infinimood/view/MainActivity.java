@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.example.infinimood.controller.BooleanCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +43,7 @@ public class MainActivity extends MoodCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseUser != null) {
+        if (firebaseController.userAuthenticated()) {
             startActivityNoHistory(UserProfileActivity.class);
         }
     }
@@ -54,30 +55,32 @@ public class MainActivity extends MoodCompatActivity {
         if (email.isEmpty()) {
             toast("Please enter your email");
             editTextEmail.requestFocus();
-        } else if (!email.contains("@")) {
+        }
+        else if (!email.contains("@")) {
             toast("Please enter a valid email");
             editTextEmail.requestFocus();
-        } else if (password.isEmpty()) {
+        }
+        else if (password.isEmpty()) {
             toast("Please enter your password");
             editTextPassword.requestFocus();
-        } else {
+        }
+        else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
             progressOverlayContainer.bringToFront();
 
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                startActivityNoHistory(UserProfileActivity.class);
-                            } else {
-                                toast(R.string.login_failed);
-                                editTextPassword.requestFocus();
-                            }
-
-                            progressOverlayContainer.setVisibility(View.GONE);
-                        }
-                    });
+            firebaseController.signIn(email, password, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean success) {
+                    if (success) {
+                        startActivityNoHistory(UserProfileActivity.class);
+                    }
+                    else {
+                        toast(R.string.login_failed);
+                        editTextPassword.requestFocus();
+                    }
+                    progressOverlayContainer.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
@@ -85,5 +88,4 @@ public class MainActivity extends MoodCompatActivity {
         final Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }
-
 }

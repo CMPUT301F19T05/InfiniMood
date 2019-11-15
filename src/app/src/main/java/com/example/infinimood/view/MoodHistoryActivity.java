@@ -1,5 +1,6 @@
 package com.example.infinimood.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,9 +13,12 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.ActionBar;
 
 import com.example.infinimood.R;
-        import com.example.infinimood.controller.MoodHistoryAdapter;
-        import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.controller.GetMoodsCallback;
+import com.example.infinimood.controller.MoodHistoryAdapter;
+import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -26,8 +30,10 @@ import java.util.Collections;
 public class MoodHistoryActivity extends MoodCompatActivity {
 
     private MoodHistoryAdapter adapter;
-    private MoodComparator comparator;
+    private MoodComparator comparator = new MoodComparator();
     private Switch reverseToggle;
+
+    private ListView moodListView;
 
     // runs when the activity is created
     @Override
@@ -35,42 +41,48 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
+        else {
+            moodListView = findViewById(R.id.moodHistoryListView);
 
-        refreshUserMoods();
-        ListView moodListView = findViewById(R.id.moodHistoryListView);
+            reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
+            reverseToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    comparator.reverse();
+                    update();
+                }
+            });
 
-        reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
-        reverseToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                comparator.reverse();
-                update();
-            }
-        });
+            // update the UI
+            update();
+        }
+    }
 
-        comparator = new MoodComparator();
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        adapter = new MoodHistoryAdapter(this, moods);
-        moodListView.setAdapter(adapter);
-
-        // update the UI
         update();
     }
 
     public void update() {
-        Collections.sort(moods, comparator);
-        adapter.notifyDataSetChanged();  // update the ListView
+        firebaseController.refreshUserMoods(new GetMoodsCallback() {
+            @Override
+            public void onCallback(ArrayList<Mood> moodsArrayList) {
+                moods = moodsArrayList;
+                Collections.sort(moods, comparator);
+                adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
+                moodListView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();  // update the ListView
+            }
+        });
     }
 
     public void moodMapClick( View view ) {
         final Intent intent = new Intent(this, MoodMapActivity.class);
         startActivity(intent);
     }
-
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        finish();
-//        return true;
-//    }
 }

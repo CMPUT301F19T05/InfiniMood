@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.model.AfraidMood;
 import com.example.infinimood.model.AngryMood;
 import com.example.infinimood.model.CryingMood;
@@ -64,6 +65,10 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_mood);
+
+        if (!firebaseController.userAuthenticated()) {
+            startActivityNoHistory(MainActivity.class);
+        }
 
         // find views
         datePicker = findViewById(R.id.addEditDatePicker);
@@ -154,9 +159,19 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
+        Mood newMood = moodController.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
-        addMoodEventToDB(newMood);
+        firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
+            @Override
+            public void onCallback(boolean success) {
+                if (success) {
+                    toast("Successfully added Mood event");
+                }
+                else {
+                    toast("Failed to add Mood event");
+                }
+            }
+        });
 
         finish();
     }

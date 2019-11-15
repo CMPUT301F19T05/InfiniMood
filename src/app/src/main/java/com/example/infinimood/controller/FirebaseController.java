@@ -1,0 +1,647 @@
+package com.example.infinimood.controller;
+
+
+import android.content.Context;
+import android.location.Location;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.infinimood.R;
+import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.model.User;
+import com.example.infinimood.view.CreateAccountActivity;
+import com.example.infinimood.view.CreateAccountActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ *  FirebaseController.java
+ *  Handles firebase-related functionality
+ */
+public class FirebaseController {
+
+    private static final String TAG = "FirebaseController";
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser firebaseUser = null;
+
+    private MoodController moodController = new MoodController();
+
+    private Set<String> requestedFollowCurrentUser = new HashSet<String>();
+    private Set<String> followingCurrentUser = new HashSet<String>();
+    private Set<String> currentUserFollowing = new HashSet<String>();
+    private Set<String> currentUserRequestedFollow = new HashSet<String>();
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - HH:mm a", Locale.getDefault());
+
+
+    private boolean firebaseOperation1Successful;
+    private boolean firebaseOperation2Successful;
+
+
+    public FirebaseController() {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+    }
+
+    public boolean userAuthenticated() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        return (firebaseUser != null);
+    }
+
+    public void signOut() {
+        assert(userAuthenticated());
+        firebaseAuth.signOut();
+        firebaseUser = firebaseAuth.getCurrentUser();
+    }
+
+    public String getCurrentUID() {
+        return firebaseAuth.getUid();
+    }
+
+    public void getUsername(StringCallback callback) {
+        assert(userAuthenticated());
+
+        firebaseFirestore.collection("users")
+                .document(firebaseUser.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot result = task.getResult();
+                            if (result != null) {
+                                callback.onCallback((String) result.get("username"));
+                            }
+                        }
+                        else {
+                            Log.e(TAG, "Getting username failed");
+                        }
+                    }
+                });
+    }
+
+    public void createUser(Context context, String newUsername, String email, String password, BooleanCallback callback) {
+        firebaseFirestore
+                .collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String username = (String) document.get("username");
+                                if (newUsername.equals(username)) {
+                                    callback.onCallback(false);
+                                    ((CreateAccountActivity) context).toast(R.string.error_username_taken);
+                                }
+                            }
+                            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            firebaseUser = firebaseAuth.getCurrentUser();
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                callback.onCallback(false);
+
+                                                try {
+                                                    throw task.getException();
+                                                }
+                                                // if user enters wrong email.
+                                                catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                                    Log.d(TAG, "onComplete: weak_password");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_password_too_short);
+                                                }
+                                                // if user enters wrong password.
+                                                catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                                    Log.d(TAG, "onComplete: malformed_email");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_email_invalid);
+                                                }
+                                                catch (FirebaseAuthUserCollisionException existEmail) {
+                                                    Log.d(TAG, "onComplete: exist_email");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_email_taken);
+                                                }
+                                                catch (Exception e) {
+                                                    Log.d(TAG, "onComplete: " + e.getMessage());
+                                                }
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            ((CreateAccountActivity) context).toast("Failed creating account");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    public void setCurrentUserData(String username, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("username", username);
+
+        firebaseFirestore.collection("users")
+                .document(firebaseAuth.getCurrentUser().getUid())
+                .set(userData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onCallback(task.isSuccessful());
+                    }
+                });
+    }
+
+    public void signIn(String email, String password, BooleanCallback callback) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        firebaseUser = firebaseAuth.getCurrentUser();
+                        callback.onCallback(task.isSuccessful());
+                    }
+                });
+    }
+
+    public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        String uid = firebaseUser.getUid();
+
+        Map<String, Object> moodMap = new HashMap<>();
+
+        moodMap.put("id", mood.getId());
+        moodMap.put("mood", mood.getMood());
+        moodMap.put("socialSituation", mood.getSocialSituation());
+        moodMap.put("reason", mood.getReason());
+        moodMap.put("date", dateFormat.format(mood.getDate()));
+        moodMap.put("timestamp", mood.getTime());
+        if (mood.getLocation() != null) {
+            moodMap.put("location", locationToString(mood.getLocation()));
+        }
+        if (mood.getImage() != null) {
+            moodMap.put("image", mood.getImage());
+        }
+
+        firebaseFirestore
+                .collection("users")
+                .document(uid)
+                .collection("moods")
+                .document(mood.getId())
+                .set(moodMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        callback.onCallback(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        callback.onCallback(false);
+                    }
+                });
+    }
+
+    public void refreshUserMoods(GetMoodsCallback callback) {
+        assert(userAuthenticated());
+
+        firebaseFirestore
+                .collection("users")
+                .document(firebaseUser.getUid())
+                .collection("moods")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Mood> moods = new ArrayList<Mood>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String moodEmotion = (String) document.get("mood");
+                                String id = (String) document.get("id");
+                                String dateString = (String) document.get("date");
+                                String reason = (String) document.get("reason");
+                                String locationString = (String) document.get("location");
+                                String socialSituation = (String) document.get("socialSituation");
+                                String imageString = (String) document.get("image");
+
+                                Date date = null;
+                                try {
+                                    date = dateFormat.parse(dateString);
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Location l = null;
+                                if (locationString != null) {
+                                    l = new Location("dummy provider");
+                                    String[] location = locationString.split(",");
+                                    l.setLatitude(Double.parseDouble(location[0]));
+                                    l.setLongitude(Double.parseDouble(location[1]));
+                                }
+
+                                Mood mood = moodController.createMood(id, moodEmotion, date, reason, l, socialSituation, null);
+
+                                moods.add(mood);
+                            }
+                            callback.onCallback(moods);
+                        }
+                        else {
+                            Log.e(TAG, "Error getting documents");
+                        }
+                    }
+                });
+    }
+
+    public void getUsers(GetUsersCallback callback) {
+        assert(userAuthenticated());
+
+        ArrayList<User> users = new ArrayList<User>();
+        String currentUserId = firebaseUser.getUid();
+
+        getFollowing(new BooleanCallback() {
+            @Override
+            public void onCallback(boolean success) {
+                if (success) {
+                    getFollowers(new BooleanCallback() {
+                        @Override
+                        public void onCallback(boolean success) {
+                            if (success) {
+                                // get users
+                                firebaseFirestore
+                                        .collection("users")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        String username = (String) document.get("username");
+                                                        String userId = (String) document.getId();
+                                                        boolean currentUserFollows = currentUserFollowing.contains(userId);
+                                                        boolean currentUserRequestedToFollow = currentUserRequestedFollow.contains(userId);
+                                                        boolean followsCurrentUser = followingCurrentUser.contains(userId);
+                                                        boolean requestedToFollowCurrentUser = requestedFollowCurrentUser.contains(userId);
+                                                        User user = new User(userId, username, currentUserFollows, currentUserRequestedToFollow, followsCurrentUser, requestedToFollowCurrentUser);
+                                                        if (!userId.equals(currentUserId)) {
+                                                            users.add(user);
+                                                        }
+
+                                                    }
+                                                    callback.onCallback(users);
+                                                } else {
+                                                    Log.e(TAG, "Error getting documents");
+                                                }
+                                            }
+                                        });
+                            } else {
+
+                            }
+                        }
+                    });
+                } else {
+
+                }
+            }
+        });
+    }
+
+    public void requestToFollow(User user, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        // make sure the current user doesn't already follow them
+        // and the current user hasn't already requested to follow them
+        assert(!user.isCurrentUserFollows());
+        assert(!user.isCurrentUserRequestedFollow());
+
+        String followerId = firebaseAuth.getUid();
+        String followeeId = user.getUserID();
+
+        // make sure we're not trying to follow ourself
+        assert(!followerId.equals(followeeId));
+
+        // the document to write to firestore
+        Map<String, Object> followData = new HashMap<>();
+        followData.put("follower_id", followerId);
+        followData.put("followee_id", followeeId);
+        followData.put("accepted", false);
+
+        // write to our following collection
+        firebaseFirestore
+                .collection("users")
+                .document(followerId)
+                .collection("following")
+                .document(followeeId)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // write to their followers collection
+                            firebaseFirestore
+                                    .collection("users")
+                                    .document(followeeId)
+                                    .collection("followers")
+                                    .document(followerId)
+                                    .set(followData)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.e(TAG, "write failed");
+                                                callback.onCallback(false);
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            Log.e(TAG, "write failed");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+
+
+    }
+
+    public void declineFollowRequest(User user, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        // make sure that they requested to follow the current user
+        // and that they aren't already following the current user
+        assert(user.isRequestedFollowCurrentUser());
+        assert(!user.isFollowsCurrentUser());
+
+        String followerId = user.getUserID();
+        String followeeId = firebaseAuth.getUid();
+
+        assert(!followerId.equals(followeeId));
+
+        // delete from their following collection
+        firebaseFirestore
+                .collection("users")
+                .document(followerId)
+                .collection("following")
+                .document(followeeId)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // delete from our followers collection
+                            firebaseFirestore
+                                    .collection("users")
+                                    .document(followeeId)
+                                    .collection("followers")
+                                    .document(followerId)
+                                    .delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.e(TAG, "delete failed");
+                                                callback.onCallback(false);
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            Log.e(TAG, "delete failed");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    public void acceptFollowRequest(User user, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        // make sure that they requested to follow the current user
+        // and that they aren't already following the current user
+        assert(user.isRequestedFollowCurrentUser());
+        assert(!user.isFollowsCurrentUser());
+
+        String followerId = user.getUserID();
+        String followeeId = firebaseAuth.getUid();
+
+        assert(!followerId.equals(followeeId));
+
+        // the document to write to firestore
+        Map<String, Object> followData = new HashMap<>();
+        followData.put("follower_id", followerId);
+        followData.put("followee_id", followeeId);
+        followData.put("accepted", true);
+
+        // write to their following collection
+        firebaseFirestore
+                .collection("users")
+                .document(followerId)
+                .collection("following")
+                .document(followeeId)
+                .set(followData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // write to our followers collection
+                            firebaseFirestore
+                                    .collection("users")
+                                    .document(followeeId)
+                                    .collection("followers")
+                                    .document(followerId)
+                                    .set(followData)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.e(TAG, "write failed");
+                                                callback.onCallback(false);
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            Log.e(TAG, "write failed");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    public void unfollowUser(User user, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        // make sure that the current user follows them
+        assert(user.isCurrentUserFollows());
+        assert(!user.isCurrentUserRequestedFollow());
+
+        String followerId = firebaseAuth.getUid();
+        String followeeId = user.getUserID();
+
+        assert(!followerId.equals(followeeId));
+
+        // delete from their followers collection
+        firebaseFirestore
+                .collection("users")
+                .document(followeeId)
+                .collection("followers")
+                .document(followerId)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // delete from our following collection
+                            firebaseFirestore
+                                    .collection("users")
+                                    .document(followerId)
+                                    .collection("following")
+                                    .document(followeeId)
+                                    .delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.e(TAG, "delete failed");
+                                                callback.onCallback(false);
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            Log.e(TAG, "delete failed");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    private void getFollowing(BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        currentUserFollowing.clear();
+        currentUserRequestedFollow.clear();
+
+        String currentUserId = firebaseUser.getUid();
+
+        // get users that the current user has requested to follow or follows
+        firebaseFirestore
+                .collection("users")
+                .document(currentUserId)
+                .collection("following")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String followeeId = (String) document.get("followee_id");
+                                boolean accepted = (boolean) document.get("accepted");
+                                if (accepted) {
+                                    currentUserFollowing.add(followeeId);
+                                }
+                                else {
+                                    currentUserRequestedFollow.add(followeeId);
+                                }
+                            }
+                            callback.onCallback(true);
+                        }
+                        else {
+                            Log.e(TAG, "Error getting documents");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    private void getFollowers(BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        followingCurrentUser.clear();
+        requestedFollowCurrentUser.clear();
+
+        String currentUserId = firebaseUser.getUid();
+
+        // get users who follow the current user or have requested to follow the current user
+        firebaseFirestore
+                .collection("users")
+                .document(currentUserId)
+                .collection("followers")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String followerId = (String) document.get("follower_id");
+                                boolean accepted = (boolean) document.get("accepted");
+                                if (accepted) {
+                                    followingCurrentUser.add(followerId);
+                                }
+                                else {
+                                    requestedFollowCurrentUser.add(followerId);
+                                }
+                            }
+                            callback.onCallback(true);
+                        }
+                        else {
+                            Log.e(TAG, "Error getting documents");
+                            callback.onCallback(false);
+                        }
+                    }
+                });
+    }
+
+    private String locationToString(Location location) {
+        return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
+    }
+}
