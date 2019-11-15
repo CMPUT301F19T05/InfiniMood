@@ -60,10 +60,11 @@
         android:layout_weight="1"
         android:onClick="onAddMoodClicked"
         android:text="@string/goto_add_moood"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/profileMoodHistoryButton"
         app:layout_constraintEnd_toStartOf="@+id/profileMoodHistoryButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/usersButton"
+        app:layout_constraintTop_toTopOf="@+id/profileMoodHistoryButton" />
 
     <Button
         android:id="@+id/profileMoodHistoryButton"
@@ -72,15 +73,17 @@
         android:layout_weight="1"
         android:onClick="onMoodHistoryClicked"
         android:text="@string/goto_mood_history"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/profileLogoutButton"
         app:layout_constraintEnd_toStartOf="@+id/profileLogoutButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileAddMoodButton" />
+        app:layout_constraintStart_toEndOf="@+id/profileAddMoodButton"
+        app:layout_constraintTop_toTopOf="@+id/profileLogoutButton" />
 
     <Button
         android:id="@+id/profileLogoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:onClick="onLogoutClicked"
         android:text="@string/logout"
@@ -90,55 +93,40 @@
         app:layout_constraintStart_toEndOf="@+id/profileMoodHistoryButton" />
 
     <Button
-        android:id="@+id/profileFollowersButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="onFollowersClicked"
-        android:text="@string/Followers"
-        app:layout_constraintBottom_toTopOf="@+id/profileMoodHistoryButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileLocationButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profilePrintMoodsButton" />
-
-    <Button
-        android:id="@+id/searchUsersButton"
+        android:id="@+id/usersButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:onClick="onSearchUsersClicked"
-        android:text="@string/Search_users_button"
-        app:layout_constraintBottom_toTopOf="@+id/profileMoodHistoryButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileFollowersButton"
+        android:text="@string/users_button"
+        app:layout_constraintBottom_toBottomOf="@+id/profileAddMoodButton"
+        app:layout_constraintEnd_toStartOf="@+id/profileAddMoodButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profilePrintMoodsButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/profileAddMoodButton" />
 
     <Button
         android:id="@+id/profilePrintMoodsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
         android:onClick="onPrintMoodsClicked"
         android:text="Print Moods"
         android:visibility="gone"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/profileFollowersButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileFollowersButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="554dp" />
 
     <Button
         android:id="@+id/profileLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
         android:onClick="onLocationClicked"
         android:text="Location"
         android:visibility="gone"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/profileFollowersButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileFollowersButton" />
+        tools:layout_editor_absoluteY="554dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

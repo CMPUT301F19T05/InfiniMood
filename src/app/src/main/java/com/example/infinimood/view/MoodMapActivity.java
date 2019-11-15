@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import android.location.Location;
 import android.widget.Toast;
 
+import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
 public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -30,6 +31,8 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_map);
+
+//        firebaseController.refreshUserMoods(moods);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

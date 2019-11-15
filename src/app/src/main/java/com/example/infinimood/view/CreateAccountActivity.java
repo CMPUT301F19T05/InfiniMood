@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -69,15 +70,24 @@ public class CreateAccountActivity extends MoodCompatActivity {
         } else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
 
-            if (firebaseController.createUser(email, password)) {
-                toast("Account creation successful");
-                if (firebaseController.setCurrentUserData(username)) {
-                    startActivityNoHistory(UserProfileActivity.class);
-                    progressOverlayContainer.setVisibility(View.GONE);
-                } else {
-                    toast("Could not save username, you can set it later");
+            firebaseController.createUser(email, password, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean success) {
+                    if (success) {
+                        toast("Account creation successful");
+                        firebaseController.setCurrentUserData(username, new BooleanCallback() {
+                            @Override
+                            public void onCallback(boolean success) {
+                                if (!success) {
+                                    toast("Could not save username, you can set it later");
+                                }
+                            }
+                        });
+                        startActivityNoHistory(UserProfileActivity.class);
+                        progressOverlayContainer.setVisibility(View.GONE);
+                    }
                 }
-            }
+            });
         }
     }
 

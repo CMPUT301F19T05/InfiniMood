@@ -63,10 +63,6 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        if (firebaseController.userAuthenticated()) {
-            firebaseController.refreshUserMoods(moods);
-        }
     }
 
     protected void toast(String msg) {

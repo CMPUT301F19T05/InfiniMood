@@ -34,12 +34,11 @@
     <string name="Accept_follow_request">Accept</string>
     <string name="follow_request_status">Requested</string>
     <string name="Unfollow_button">Unfollow</string>
-    <string name="Following_status">Following</string>
+    <string name="Following_status">Request sent</string>
     <string name="accept_status">Accepted</string>
 
-    <string name="Search_users_button">Search</string>
+    <string name="users_button">Users</string>
     <string name="Search_users_hint">Search …</string>
-
 
     <string-array name="emojis_array">
         <item>Happy</item>
@@ -49,6 +48,12 @@
         <item>Crying</item>
         <item>In Love</item>
         <item>Sleepy</item>
+    </string-array>
+
+    <string-array name="search_users_array">
+        <item>All</item>
+        <item>Followers</item>
+        <item>Following</item>
     </string-array>
 
     <!-- Mood Icons Definitions -->

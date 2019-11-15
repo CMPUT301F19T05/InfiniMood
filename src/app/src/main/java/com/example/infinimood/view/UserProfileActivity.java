@@ -6,12 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.example.infinimood.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.example.infinimood.controller.StringCallback;
 
 /**
  *  UserProfileActivity.java
@@ -41,9 +37,12 @@ public class UserProfileActivity extends MoodCompatActivity {
             startActivityNoHistory(MainActivity.class);
         }
 
-        firebaseController.fetchUsername();
-        String username = firebaseController.getUsername();
-        textViewUsername.setText(username);
+        firebaseController.getUsername(new StringCallback() {
+            @Override
+            public void onCallback(String username) {
+                textViewUsername.setText(username);
+            }
+        });
     }
 
     public void onAddMoodClicked(View view) {
@@ -56,13 +55,8 @@ public class UserProfileActivity extends MoodCompatActivity {
         startActivity(intent);
     }
 
-    public void onFollowersClicked(View view){
-        final Intent intent = new Intent(this, FollowersActivity.class);
-        startActivity(intent);
-    }
-
     public void onSearchUsersClicked(View view){
-        final Intent intent = new Intent(this, SearchUsersActivity.class);
+        final Intent intent = new Intent(this, UsersActivity.class);
         startActivity(intent);
     }
 
@@ -73,7 +67,6 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     // print all of the current user's mood events to console
     public void onPrintMoodsClicked(View view) {
-        firebaseController.refreshUserMoods(moods);
         Log.i("", "===========================================");
         for (int i = 0; i < moods.size(); i++) {
             moods.get(i).print();

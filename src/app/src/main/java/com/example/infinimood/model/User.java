@@ -1,5 +1,7 @@
 package com.example.infinimood.model;
 
+import android.util.Log;
+
 /**
  *  User.java
  *  User class
@@ -72,4 +74,15 @@ public class User {
     public String getUsername() { return username; }
 
     public String getUserID() { return userID; }
+
+    public void print() {
+        Log.i("", "===================================================");
+        Log.i("", "ID : " + this.userID);
+        Log.i("", "Username : " + this.username);
+        Log.i("", "Current User Follows : " + this.currentUserFollows);
+        Log.i("", "Current User Requested : " + this.currentUserRequestedFollow);
+        Log.i("", "Follows Current User : " + this.followsCurrentUser);
+        Log.i("", "Requested Current User : " + this.requestedFollowCurrentUser);
+        Log.i("", "===================================================");
+    }
 }
