@@ -25,13 +25,11 @@
 
     <ImageView
         android:id="@+id/profileAvatarImageView"
-        android:layout_width="100sp"
+        android:layout_width="0dp"
         android:layout_height="100sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileWelcomeTextView"
@@ -42,19 +40,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileAvatarImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/profileAvatarImageView"
+        tools:text="@string/username" />
 
     <Button
         android:id="@+id/profileAddMoodButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -68,6 +66,7 @@
 
     <Button
         android:id="@+id/profileMoodHistoryButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -81,6 +80,7 @@
 
     <Button
         android:id="@+id/profileLogoutButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -94,6 +94,7 @@
 
     <Button
         android:id="@+id/usersButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
