@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -69,35 +70,24 @@ public class CreateAccountActivity extends MoodCompatActivity {
         } else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                firebaseUser = firebaseAuth.getCurrentUser();
-
-                                Map<String, Object> map = new HashMap<>();
-                                map.put("username", username);
-
-                                firebaseFirestore.collection("users")
-                                        .document(firebaseUser.getUid())
-                                        .set(map)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (!task.isSuccessful()) {
-                                                    toast("Could not save username, you can set it later");
-                                                }
-                                                startActivityNoHistory(UserProfileActivity.class);
-                                                progressOverlayContainer.setVisibility(View.GONE);
-                                            }
-                                        });
-                            } else {
-                                toast("Account creation failed");
-                                progressOverlayContainer.setVisibility(View.GONE);
+            firebaseController.createUser(email, password, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean success) {
+                    if (success) {
+                        toast("Account creation successful");
+                        firebaseController.setCurrentUserData(username, new BooleanCallback() {
+                            @Override
+                            public void onCallback(boolean success) {
+                                if (!success) {
+                                    toast("Could not save username, you can set it later");
+                                }
                             }
-                        }
-                    });
+                        });
+                        startActivityNoHistory(UserProfileActivity.class);
+                        progressOverlayContainer.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 
