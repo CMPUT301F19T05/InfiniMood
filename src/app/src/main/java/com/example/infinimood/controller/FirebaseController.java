@@ -1,21 +1,28 @@
 package com.example.infinimood.controller;
 
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.User;
+import com.example.infinimood.view.CreateAccountActivity;
+import com.example.infinimood.view.CreateAccountActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -104,13 +111,61 @@ public class FirebaseController {
                 });
     }
 
-    public void createUser(String email, String password, BooleanCallback callback) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void createUser(Context context, String newUsername, String email, String password, BooleanCallback callback) {
+        firebaseFirestore
+                .collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        callback.onCallback(task.isSuccessful());
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String username = (String) document.get("username");
+                                if (newUsername.equals(username)) {
+                                    callback.onCallback(false);
+                                    ((CreateAccountActivity) context).toast(R.string.error_username_taken);
+                                }
+                            }
+                            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            firebaseUser = firebaseAuth.getCurrentUser();
+                                            if (task.isSuccessful()) {
+                                                callback.onCallback(true);
+                                            }
+                                            else {
+                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                callback.onCallback(false);
+
+                                                try {
+                                                    throw task.getException();
+                                                }
+                                                // if user enters wrong email.
+                                                catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                                    Log.d(TAG, "onComplete: weak_password");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_password_too_short);
+                                                }
+                                                // if user enters wrong password.
+                                                catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                                    Log.d(TAG, "onComplete: malformed_email");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_email_invalid);
+                                                }
+                                                catch (FirebaseAuthUserCollisionException existEmail) {
+                                                    Log.d(TAG, "onComplete: exist_email");
+                                                    ((CreateAccountActivity) context).toast(R.string.error_email_taken);
+                                                }
+                                                catch (Exception e) {
+                                                    Log.d(TAG, "onComplete: " + e.getMessage());
+                                                }
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            ((CreateAccountActivity) context).toast("Failed creating account");
+                            callback.onCallback(false);
+                        }
                     }
                 });
     }
@@ -122,7 +177,7 @@ public class FirebaseController {
         userData.put("username", username);
 
         firebaseFirestore.collection("users")
-                .document(firebaseUser.getUid())
+                .document(firebaseAuth.getCurrentUser().getUid())
                 .set(userData)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

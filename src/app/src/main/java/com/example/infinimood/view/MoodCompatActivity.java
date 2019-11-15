@@ -65,12 +65,12 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    protected void toast(String msg) {
+    public void toast(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
         toast.show();
     }
 
-    protected void toast(int id) {
+    public void toast(int id) {
         toast(getString(id));
     }
 
