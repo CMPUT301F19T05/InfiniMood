@@ -36,6 +36,7 @@ public class UserAdapter extends ArrayAdapter<User>  {
         TextView usernameTextView = view.findViewById(R.id.userEntryUsernameTextView);
 
         Button acceptButton = view.findViewById(R.id.userEntryAcceptButton);
+        Button declineButton = view.findViewById(R.id.userEntryDeclineButton);
         TextView followsYouTextView = view.findViewById(R.id.userEntryFollowsYouTextView);
 
         Button followButton = view.findViewById(R.id.userEntryFollowButton);
@@ -71,6 +72,7 @@ public class UserAdapter extends ArrayAdapter<User>  {
         // show / hide views based on whether they follow the current user
         if (user.isFollowsCurrentUser()) {
             acceptButton.setVisibility(View.GONE);
+            declineButton.setVisibility(View.GONE);
 
             followsYouTextView.setVisibility(View.VISIBLE);
         }
@@ -78,10 +80,12 @@ public class UserAdapter extends ArrayAdapter<User>  {
             followsYouTextView.setVisibility(View.GONE);
 
             acceptButton.setVisibility(View.VISIBLE);
+            declineButton.setVisibility(View.VISIBLE);
         }
         else {
             followsYouTextView.setVisibility(View.GONE);
             acceptButton.setVisibility(View.GONE);
+            declineButton.setVisibility(View.GONE);
         }
 
         return view;

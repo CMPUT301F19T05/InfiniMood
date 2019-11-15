@@ -164,6 +164,28 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    public void onDeclineClicked(View view) {
+        View item = (View) view.getParent();
+        int pos = searchListView.getPositionForView(item);
+
+        User user = searchAdapter.getItem(pos);
+
+        firebaseController.declineFollowRequest(user, new BooleanCallback() {
+            @Override
+            public void onCallback(boolean success) {
+                if (success) {
+                    toast("Successfully declined follow request");
+                    user.setRequestedFollowCurrentUser(false);
+                }
+                else {
+                    toast("Failed to decline follow request");
+                }
+
+                update();
+            }
+        });
+    }
+
     public void onUnfollowClicked(View view) {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
