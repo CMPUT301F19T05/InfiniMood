@@ -14,6 +14,7 @@ import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.User;
 import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.CreateAccountActivity;
+import com.example.infinimood.view.MoodCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -187,13 +189,35 @@ public class FirebaseController {
                 });
     }
 
-    public void signIn(String email, String password, BooleanCallback callback) {
+    public void signIn(Context context, String email, String password, BooleanCallback callback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         firebaseUser = firebaseAuth.getCurrentUser();
-                        callback.onCallback(task.isSuccessful());
+                        if (task.isSuccessful()) {
+                            callback.onCallback(true);
+                        }
+                        else {
+                            callback.onCallback(false);
+                            try {
+                                throw task.getException();
+                            }
+                            // if user enters wrong email.
+                            catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                Log.d(TAG, "onComplete: invalid_email");
+                                ((MoodCompatActivity) context).toast("Invalid email");
+                            }
+                            // if user enters wrong password.
+                            catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                Log.d(TAG, "onComplete: wrong_password");
+                                ((MoodCompatActivity) context).toast("Incorrect password");
+                            }
+                            catch (Exception e) {
+                                Log.d(TAG, "onComplete: " + e.getMessage());
+                                ((MoodCompatActivity) context).toast(R.string.login_failed);
+                            }
+                        }
                     }
                 });
     }
