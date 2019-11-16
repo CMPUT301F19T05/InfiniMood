@@ -1,16 +1,21 @@
 package com.example.infinimood.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -29,6 +34,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -44,6 +50,7 @@ import androidx.core.app.ActivityCompat;
 public class AddEditMoodActivity extends MoodCompatActivity {
 
     private static final String TAG = "AddEditMoodActivity";
+    private static final int PICK_IMAGE = 1;
 
     private DatePicker datePicker;
     private TimePicker timePicker;
@@ -51,13 +58,14 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private EditText reasonInput;
     private Spinner socialSituationSpinner;
     private Button addEditSubmitButton;
+    private ImageView testImage;
 
     private String moodEmotion;
     private Date moodDate;
     private String moodReason;
     private String moodSocialSituation;
     private Location moodLocation = null;
-    private Image moodImage = null;
+    private Bitmap moodImage = null;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -77,6 +85,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
         addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
+        testImage = findViewById(R.id.testImageView);
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         updateCurrentLocation();
@@ -132,6 +142,28 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 }
             }
         });
+    }
+
+    public void onUploadPhotoClicked(View view){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            try {
+                moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                testImage.setImageBitmap(moodImage);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void onSubmitClicked(View view) {

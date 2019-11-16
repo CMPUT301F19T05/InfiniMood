@@ -1,5 +1,6 @@
 package com.example.infinimood.controller;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.media.Image;
 import android.util.Log;
@@ -27,7 +28,7 @@ public class MoodController {
 
     }
 
-    public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Image moodImage) {
+    public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Bitmap moodImage) {
         Mood newMood;
 
         switch (mood) {

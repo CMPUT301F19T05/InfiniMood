@@ -1,5 +1,6 @@
 package com.example.infinimood.model;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.media.Image;
@@ -20,7 +21,7 @@ public abstract class Mood {
     private String reason = "";
     private Location location = null;
     private String socialSituation;
-    private Image image = null;
+    private Bitmap image = null;
 
     private String mood = "";
     private String icon = "";
@@ -38,7 +39,7 @@ public abstract class Mood {
                 String reason,
                 Location location,
                 String socialSituation,
-                Image image)
+                Bitmap image)
     {
         this.id = id;
         this.date = date;
@@ -89,11 +90,11 @@ public abstract class Mood {
         this.socialSituation = socialSituation;
     }
 
-    public Image getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 
