@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:text="Date and Time: " />
+
+    <TextView
+        android:id="@+id/moodDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:ems="10"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/moodTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:text="Mood: " />
+
+    <TextView
+        android:id="@+id/moodMoodTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:ems="10"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/reasonTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:text="Reason:" />
+
+    <TextView
+        android:id="@+id/moodReasonTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:ems="10"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:text="Location:" />
+
+    <TextView
+        android:id="@+id/moodLocationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:ems="10"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/socialSituationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:text="Social Situation:" />
+
+    <TextView
+        android:id="@+id/moodSocialSituationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:ems="10"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/moodImageImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+</LinearLayout>

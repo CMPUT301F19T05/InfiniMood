@@ -1,5 +1,6 @@
 package com.example.infinimood.model;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.media.Image;
 
@@ -17,7 +18,7 @@ public class CryingMood extends Mood {
                      String reason,
                      Location location,
                      String socialSituation,
-                     Image image)
+                      Bitmap image)
     {
         super(id, date, reason, location, socialSituation, image);
         MoodConstants constants = new MoodConstants();

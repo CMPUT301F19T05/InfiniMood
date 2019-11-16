@@ -42,6 +42,8 @@
     <string name="users_button">Users</string>
     <string name="Search_users_hint">Search …</string>
 
+    <string name="Upload_Photo_Button">Photo</string>
+
     <string-array name="emojis_array">
         <item>Happy</item>
         <item>Sad</item>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.ActionBar;
 import com.example.infinimood.R;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.MoodHistoryAdapter;
+import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 
@@ -59,6 +61,13 @@ public class MoodHistoryActivity extends MoodCompatActivity {
             // update the UI
             update();
         }
+        moodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Mood mood = adapter.getItem(position);
+                new MoodHistoryFragment(mood).show(getSupportFragmentManager(), "SHOW_MOOD");
+            }
+        });
     }
 
     @Override

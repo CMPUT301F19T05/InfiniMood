@@ -2,7 +2,10 @@ package com.example.infinimood.controller;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -239,7 +243,7 @@ public class FirebaseController {
             moodMap.put("location", locationToString(mood.getLocation()));
         }
         if (mood.getImage() != null) {
-            moodMap.put("image", mood.getImage());
+            moodMap.put("image", convertBitmapToString(mood.getImage()));
         }
 
         firebaseFirestore
@@ -301,7 +305,13 @@ public class FirebaseController {
                                     l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
-                                Mood mood = moodController.createMood(id, moodEmotion, date, reason, l, socialSituation, null);
+                                Bitmap image = null;
+                                if (imageString != null){
+                                    image = convertStringToBitmap(imageString);
+                                }
+
+
+                                Mood mood = moodController.createMood(id, moodEmotion, date, reason, l, socialSituation, image);
 
                                 moods.add(mood);
                             }
@@ -424,8 +434,6 @@ public class FirebaseController {
                         }
                     }
                 });
-
-
     }
 
     public void declineFollowRequest(User user, BooleanCallback callback) {
@@ -667,5 +675,23 @@ public class FirebaseController {
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
+    }
+    private String convertBitmapToString(Bitmap bitmap)
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+    }
+
+    private Bitmap convertStringToBitmap(String encoded){
+        try {
+            byte[] encodedByte = Base64.decode(encoded, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0,
+                    encodedByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }
