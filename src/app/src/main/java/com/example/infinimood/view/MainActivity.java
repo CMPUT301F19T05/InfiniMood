@@ -80,4 +80,5 @@ public class MainActivity extends MoodCompatActivity {
         final Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }
+
 }
