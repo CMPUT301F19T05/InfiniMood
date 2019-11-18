@@ -14,7 +14,7 @@ import java.util.Date;
 public class HappyMood extends Mood {
 
     public HappyMood(String id,
-                      Date date,
+                      long date,
                       String reason,
                       Location location,
                       String socialSituation,

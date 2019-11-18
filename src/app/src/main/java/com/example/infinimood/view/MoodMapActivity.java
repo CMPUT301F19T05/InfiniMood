@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import android.location.Location;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
@@ -70,7 +72,7 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     public void toastMood( Mood mood ) {
         String str = "You were ".concat( mood.getMood() )
-                .concat(" on ").concat( mood.getDate().toString() );
+                .concat(" on ").concat( new Date(mood.getDate()).toString() );
         Toast toast = Toast.makeText(getApplicationContext(),
                 str,Toast.LENGTH_SHORT);
         toast.show();

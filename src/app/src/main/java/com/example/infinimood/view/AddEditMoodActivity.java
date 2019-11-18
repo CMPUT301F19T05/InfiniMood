@@ -52,7 +52,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private ImageView testImage;
 
     private String moodEmotion;
-    private Date moodDate;
+    private long moodDate;
     private String moodReason;
     private String moodSocialSituation;
     private Location moodLocation = null;
@@ -178,7 +178,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
         calendar.set(Calendar.MINUTE, timePicker.getMinute());
         calendar.set(Calendar.SECOND, 0);
-        moodDate = calendar.getTime();
+        moodDate = calendar.getTime().getTime();
 
         String uuid = UUID.randomUUID().toString();
 
