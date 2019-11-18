@@ -24,6 +24,7 @@ import android.location.Location;
 import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.Date;
 
 import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;

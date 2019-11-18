@@ -231,8 +231,7 @@ public class FirebaseController {
         moodMap.put("mood", mood.getMood());
         moodMap.put("socialSituation", mood.getSocialSituation());
         moodMap.put("reason", mood.getReason());
-        moodMap.put("date", dateFormat.format(mood.getDate()));
-        moodMap.put("timestamp", mood.getTime());
+        moodMap.put("date", mood.getDate());
         if (mood.getLocation() != null) {
             moodMap.put("location", locationToString(mood.getLocation()));
         }
@@ -278,18 +277,13 @@ public class FirebaseController {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String moodEmotion = (String) document.get("mood");
                                 String id = (String) document.get("id");
-                                String dateString = (String) document.get("date");
+
+                                long dateTimestamp = (long) document.get("date");
+
                                 String reason = (String) document.get("reason");
                                 String locationString = (String) document.get("location");
                                 String socialSituation = (String) document.get("socialSituation");
                                 String imageString = (String) document.get("image");
-
-                                Date date = null;
-                                try {
-                                    date = dateFormat.parse(dateString);
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
-                                }
 
                                 Location l = null;
                                 if (locationString != null) {
@@ -304,8 +298,7 @@ public class FirebaseController {
                                     image = convertStringToBitmap(imageString);
                                 }
 
-
-                                Mood mood = moodFactory.createMood(id, moodEmotion, date, reason, l, socialSituation, image);
+                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
 
                                 moods.add(mood);
                             }

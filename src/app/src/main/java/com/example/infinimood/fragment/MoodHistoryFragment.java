@@ -43,7 +43,7 @@ public class MoodHistoryFragment extends DialogFragment {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
 
     public MoodHistoryFragment(Mood mood) {
-        this.moodDate = mood.getDate();
+        this.moodDate = new Date(mood.getDate());
         this.moodMood = mood.getMood();
         this.moodReason = mood.getReason();
         this.moodLocation = mood.getLocation();

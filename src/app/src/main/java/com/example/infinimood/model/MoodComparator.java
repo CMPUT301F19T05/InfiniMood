@@ -15,7 +15,7 @@ public class MoodComparator implements Comparator<Mood> {
 
     @Override
     public int compare(Mood a, Mood b) {
-        return reverse * Long.compare(a.getTime(), b.getTime());
+        return reverse * Long.compare(a.getDate(), b.getDate());
     }
 
     public void reverse() {

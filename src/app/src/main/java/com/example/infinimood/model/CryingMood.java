@@ -14,7 +14,7 @@ import java.util.Date;
 public class CryingMood extends Mood {
 
     public CryingMood(String id,
-                     Date date,
+                     long date,
                      String reason,
                      Location location,
                      String socialSituation,
