@@ -143,4 +143,5 @@ public abstract class Mood {
     public void commitToDatabase() {
 
     }
+
 }
