@@ -97,7 +97,7 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     public String getMoodStringInfo( Mood mood ) {
         return "You were ".concat( mood.getMood() )
-                .concat(" on ").concat( mood.getDate().toString() );
+                .concat(" on ").concat( String.valueOf(mood.getDate()) );
     }
 
     public void toastMood( Mood mood ) {

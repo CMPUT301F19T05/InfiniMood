@@ -2,11 +2,10 @@ package com.example.infinimood.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +17,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class MoodHistoryFragment extends DialogFragment {
+
+    private FirebaseController firebaseController = new FirebaseController();
 
     private TextView moodDateTextView;
     private TextView moodMoodTextView;
@@ -32,6 +34,9 @@ public class MoodHistoryFragment extends DialogFragment {
     private TextView moodLocationTextView;
     private TextView moodSocialSituationTextView;
     private ImageView moodImageImageView;
+
+    private Mood mood;
+    private BooleanCallback onDeleteCallback;
 
     private Date moodDate;
     private String moodMood;
@@ -42,7 +47,10 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
 
-    public MoodHistoryFragment(Mood mood) {
+    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
+        this.mood = mood;
+        this.onDeleteCallback = onDeleteCallback;
+
         this.moodDate = new Date(mood.getDate());
         this.moodMood = mood.getMood();
         this.moodReason = mood.getReason();
@@ -69,7 +77,7 @@ public class MoodHistoryFragment extends DialogFragment {
             moodLocationTextView.setText(locationToString(moodLocation));
         }
         moodSocialSituationTextView.setText(moodSocialSituation);
-        if(moodImage != null){
+        if (moodImage != null) {
             Log.i("test", "image error");
         }
         moodImageImageView.setImageBitmap(moodImage);
@@ -77,7 +85,14 @@ public class MoodHistoryFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("Mood")
-                .setNegativeButton("OK", null)
+                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
+                    }
+                })
+                .setNegativeButton("Edit", null)
+                .setPositiveButton("OK", null)
                 .create();
     }
 
@@ -85,4 +100,5 @@ public class MoodHistoryFragment extends DialogFragment {
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
+
 }

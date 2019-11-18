@@ -1,19 +1,15 @@
 package com.example.infinimood.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.ToggleButton;
-
-import androidx.appcompat.app.ActionBar;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.MoodHistoryAdapter;
 import com.example.infinimood.fragment.MoodHistoryFragment;
@@ -24,9 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *  MoodHistoryActivity.java
- *  Activity for viewing your mood events in a ListView
- *  TODO: Click to edit, swipe right to delete (with confirmation)
+ * MoodHistoryActivity.java
+ * Activity for viewing your mood events in a ListView
  */
 
 public class MoodHistoryActivity extends MoodCompatActivity {
@@ -45,8 +40,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
-        }
-        else {
+        } else {
             moodListView = findViewById(R.id.moodHistoryListView);
 
             reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
@@ -65,7 +59,17 @@ public class MoodHistoryActivity extends MoodCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Mood mood = adapter.getItem(position);
-                new MoodHistoryFragment(mood).show(getSupportFragmentManager(), "SHOW_MOOD");
+                new MoodHistoryFragment(mood, new BooleanCallback() {
+                    @Override
+                    public void onCallback(boolean bool) {
+                        if (bool) {
+                            toast("Mood deleted");
+                            update();
+                        } else {
+                            toast("Could not delete mood");
+                        }
+                    }
+                }).show(getSupportFragmentManager(), "SHOW_MOOD");
             }
         });
     }
@@ -90,8 +94,9 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         });
     }
 
-    public void moodMapClick( View view ) {
+    public void moodMapClick(View view) {
         final Intent intent = new Intent(this, MoodMapActivity.class);
         startActivity(intent);
     }
+
 }
