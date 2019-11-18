@@ -262,6 +262,33 @@ public class FirebaseController {
                 });
     }
 
+    public void deleteMoodEventFromDB(Mood mood, BooleanCallback callback) {
+        assert(userAuthenticated());
+
+        final String uid = firebaseUser.getUid();
+
+        firebaseFirestore
+                .collection("users")
+                .document(uid)
+                .collection("moods")
+                .document(mood.getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Successfully deleted mood");
+                                callback.onCallback(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting mood", e);
+                        callback.onCallback(false);
+                    }
+                });
+    }
+
     public void refreshUserMoods(GetMoodsCallback callback) {
         assert(userAuthenticated());
 

@@ -65,7 +65,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Mood mood = adapter.getItem(position);
-                new MoodHistoryFragment(mood).show(getSupportFragmentManager(), "SHOW_MOOD");
+                new MoodHistoryFragment(mood, getApplicationContext()).show(getSupportFragmentManager(), "SHOW_MOOD");
             }
         });
     }

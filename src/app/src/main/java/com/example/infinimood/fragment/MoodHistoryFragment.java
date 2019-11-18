@@ -2,6 +2,8 @@ package com.example.infinimood.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -12,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 
 import java.text.SimpleDateFormat;
@@ -26,12 +31,17 @@ import java.util.Locale;
 
 public class MoodHistoryFragment extends DialogFragment {
 
+    private FirebaseController firebaseController = new FirebaseController();
+
     private TextView moodDateTextView;
     private TextView moodMoodTextView;
     private TextView moodReasonTextView;
     private TextView moodLocationTextView;
     private TextView moodSocialSituationTextView;
     private ImageView moodImageImageView;
+
+    private Mood mood;
+    private Context context;
 
     private Date moodDate;
     private String moodMood;
@@ -42,13 +52,21 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
 
-    public MoodHistoryFragment(Mood mood) {
+    public MoodHistoryFragment(Mood mood, Context context) {
+        this.mood = mood;
+        this.context = context;
+
         this.moodDate = mood.getDate();
         this.moodMood = mood.getMood();
         this.moodReason = mood.getReason();
         this.moodLocation = mood.getLocation();
         this.moodSocialSituation = mood.getSocialSituation();
         this.moodImage = mood.getImage();
+    }
+
+    public void toast(String msg) {
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     @NonNull
@@ -77,7 +95,23 @@ public class MoodHistoryFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("Mood")
-                .setNegativeButton("OK", null)
+                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        firebaseController.deleteMoodEventFromDB(mood, new BooleanCallback() {
+                            @Override
+                            public void onCallback(boolean bool) {
+                                if (bool) {
+                                    toast("Mood deleted");
+                                } else {
+                                    toast("Could not delete mood");
+                                }
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Edit", null)
+                .setPositiveButton("OK", null)
                 .create();
     }
 
