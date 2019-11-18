@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,14 +20,7 @@ import android.widget.TimePicker;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
-import com.example.infinimood.model.AfraidMood;
-import com.example.infinimood.model.AngryMood;
-import com.example.infinimood.model.CryingMood;
-import com.example.infinimood.model.HappyMood;
-import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.SadMood;
-import com.example.infinimood.model.SleepyMood;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +29,6 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 import androidx.core.app.ActivityCompat;
 
@@ -191,7 +182,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = moodController.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
+        Mood newMood = moodFactory.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
             @Override
