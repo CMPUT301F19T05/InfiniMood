@@ -1,7 +1,7 @@
 package com.example.infinimood;
 
+import android.graphics.Bitmap;
 import android.location.Location;
-import android.media.Image;
 
 import com.example.infinimood.model.AfraidMood;
 import com.example.infinimood.model.AngryMood;
@@ -30,7 +30,7 @@ public class MoodTest {
     private final static String TEST_REASON = "test123";
     private final static Location TEST_LOCATION = null;
     private final static String TEST_SOCIAL_SITUATION = SocialSituation.WITH_CROWD.getDescription();
-    private final static Image TEST_IMAGE = null;
+    private final static Bitmap TEST_IMAGE = null;
 
     private Mood testConstructor(Class<? extends Mood> moodClass) {
         final Constructor<? extends Mood> constructor;
@@ -43,7 +43,7 @@ public class MoodTest {
                     String.class,
                     Location.class,
                     String.class,
-                    Image.class
+                    Bitmap.class
             );
         } catch (NoSuchMethodException ex) {
             fail();

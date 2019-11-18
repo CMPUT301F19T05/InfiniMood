@@ -54,45 +54,38 @@ public class CreateAccountActivity extends MoodCompatActivity {
         if (username.isEmpty()) {
             toast(R.string.error_username_required);
             editTextUsername.requestFocus();
-        }
-        else if (email.isEmpty()) {
+        } else if (email.isEmpty()) {
             toast(R.string.error_email_required);
             editTextEmail.requestFocus();
-        }
-        else if (password.isEmpty()) {
+        } else if (password.isEmpty()) {
             toast(R.string.error_password_required);
             editTextPassword.requestFocus();
-        }
-        else if (password.length() < 6) {
+        } else if (password.length() < 6) {
             toast(R.string.error_password_too_short);
             editTextPassword.requestFocus();
-        }
-        else if (!password.equals(passwordRepeat)) {
+        } else if (!password.equals(passwordRepeat)) {
             toast(R.string.error_password_mismatch);
             editTextPasswordRepeat.requestFocus();
-        }
-        else {
+        } else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
 
             firebaseController.createUser(CreateAccountActivity.this, username, email, password, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean success) {
                     if (success) {
-                        toast("Account creation successful");
+                        toast(R.string.account_create_successful);
                         firebaseController.setCurrentUserData(username, new BooleanCallback() {
                             @Override
                             public void onCallback(boolean success) {
                                 if (success) {
                                     startActivityNoHistory(UserProfileActivity.class);
-                                }
-                                else {
+                                } else {
                                     toast("Could not save username, you can set it later");
                                 }
                                 progressOverlayContainer.setVisibility(View.GONE);
                             }
                         });
-                    }
-                    else {
+                    } else {
                         progressOverlayContainer.setVisibility(View.GONE);
                     }
                 }

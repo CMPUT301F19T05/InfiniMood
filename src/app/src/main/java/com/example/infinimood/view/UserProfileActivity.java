@@ -10,9 +10,9 @@ import com.example.infinimood.R;
 import com.example.infinimood.controller.StringCallback;
 
 /**
- *  UserProfileActivity.java
- *  Homepage when authenticated
- *  Access point for most functionality
+ * UserProfileActivity.java
+ * Homepage when authenticated
+ * Access point for most functionality
  */
 
 public class UserProfileActivity extends MoodCompatActivity {
@@ -55,7 +55,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         startActivity(intent);
     }
 
-    public void onSearchUsersClicked(View view){
+    public void onSearchUsersClicked(View view) {
         final Intent intent = new Intent(this, UsersActivity.class);
         startActivity(intent);
     }
@@ -78,4 +78,5 @@ public class UserProfileActivity extends MoodCompatActivity {
         final Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }
+
 }

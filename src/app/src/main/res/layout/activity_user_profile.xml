@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:onClick="onAddMoodClicked"
-        android:text="@string/goto_add_moood"
+        android:text="@string/goto_add_mood"
         app:layout_constraintBottom_toBottomOf="@+id/profileMoodHistoryButton"
         app:layout_constraintEnd_toStartOf="@+id/profileMoodHistoryButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -106,6 +106,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profileAddMoodButton" />
 
+    <!--
     <Button
         android:id="@+id/profilePrintMoodsButton"
         android:layout_width="wrap_content"
@@ -129,5 +130,6 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="554dp" />
+     -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
