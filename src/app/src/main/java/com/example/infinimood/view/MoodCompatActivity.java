@@ -28,7 +28,6 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     protected static MoodFactory moodFactory = new MoodFactory();
 
     public MoodCompatActivity() {
-
     }
 
     @Override
@@ -45,9 +44,10 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         toast(getString(id));
     }
 
-    protected void startActivityNoHistory(Class<? extends Activity> activity) {
+    public void startActivityNoHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 }
