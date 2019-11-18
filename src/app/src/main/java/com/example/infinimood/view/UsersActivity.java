@@ -109,11 +109,10 @@ public class UsersActivity extends MoodCompatActivity  {
     }
 
     public void findUsersBySubstring(String substring) {
-        for (int i = 0; i < currentlyShownUsers.size(); ++i) {
-            User user = currentlyShownUsers.get(i);
-            if (!user.getUsername().contains(substring)) {
-                currentlyShownUsers.remove(i);
-                continue;
+        currentlyShownUsers.clear();
+        for (final User user : users) {
+            if (user.getUsername().contains(substring)) {
+                currentlyShownUsers.add(user);
             }
         }
         update();
