@@ -16,8 +16,7 @@ import java.util.Date;
 public abstract class Mood {
 
     private String id;
-    private Date date;
-    private long time;
+    private long dateTimestamp;
     private String reason = "";
     private Location location = null;
     private String socialSituation;
@@ -27,27 +26,19 @@ public abstract class Mood {
     private String icon = "";
     private String color;
 
-    public Mood(String id, String icon, String reason, String socialSituation) {
-        this.id = id;
-        this.icon = icon;
-        this.reason = reason;
-        this.socialSituation = socialSituation;
-    }
-
     public Mood(String id,
-                Date date,
+                long dateTimestamp,
                 String reason,
                 Location location,
                 String socialSituation,
                 Bitmap image)
     {
         this.id = id;
-        this.date = date;
+        this.dateTimestamp = dateTimestamp;
         this.reason = reason;
         this.location = location;
         this.socialSituation = socialSituation;
         this.image = image;
-        this.time = date.getTime();
     }
 
     public String getId() {
@@ -58,12 +49,12 @@ public abstract class Mood {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public long getDate() {
+        return dateTimestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(long dateTimestamp) {
+        this.dateTimestamp = dateTimestamp;
     }
 
     public String getReason() {
@@ -122,26 +113,12 @@ public abstract class Mood {
         this.color = color;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
     public void print() {
         Log.i("", "ID : " + this.id);
         Log.i("", "Mood : " + this.mood);
         Log.i("", "Social Situation : " + this.socialSituation);
         Log.i("", "Reason : " + this.reason);
-        Log.i("", "Date : " + this.date.toString());
+        Log.i("", "Date : " + new Date(this.dateTimestamp).toString());
         Log.i("", "Emoji : " + this.icon);
     }
-
-    //TODO: Implement these function once Firebase is working
-    public void commitToDatabase() {
-
-    }
-
 }

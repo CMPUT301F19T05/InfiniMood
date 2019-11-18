@@ -14,7 +14,7 @@ import java.util.Date;
 public class SleepyMood extends Mood {
 
     public SleepyMood(String id,
-                     Date date,
+                     long date,
                      String reason,
                      Location location,
                      String socialSituation,

@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class AngryMood extends Mood {
     public AngryMood(String id,
-                     Date date,
+                     long date,
                      String reason,
                      Location location,
                      String socialSituation,

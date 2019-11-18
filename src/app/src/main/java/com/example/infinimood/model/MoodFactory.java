@@ -18,7 +18,7 @@ public class MoodFactory {
     public MoodFactory() {
     }
 
-    public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Bitmap moodImage) {
+    public Mood createMood(String id, String mood, long moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Bitmap moodImage) {
         Mood newMood;
 
         switch (mood) {

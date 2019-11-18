@@ -14,7 +14,7 @@ import java.util.Date;
 public class InLoveMood extends Mood {
 
     public InLoveMood(String id,
-                     Date date,
+                     long date,
                      String reason,
                      Location location,
                      String socialSituation,
