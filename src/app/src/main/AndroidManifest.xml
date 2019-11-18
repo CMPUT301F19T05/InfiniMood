@@ -24,7 +24,7 @@
         <activity android:name=".view.UserProfileActivity" />
         <activity android:name=".view.CreateAccountActivity" android:parentActivityName=".view.MainActivity"/>
         <activity android:name=".view.AddEditMoodActivity" android:parentActivityName=".view.MainActivity"/>
-        <activity android:name=".view.LocationActivity" />
+        <activity android:name=".view.ChooseLocationActivity" />
         <activity android:name=".view.UsersActivity" android:parentActivityName=".view.MainActivity"/>
 
         <meta-data

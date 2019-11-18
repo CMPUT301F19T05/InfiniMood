@@ -1,6 +1,7 @@
 package com.example.infinimood.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -25,15 +27,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 /**
- *  LocationActivity.java
+ *  ChooseLocationActivity.java
  *  Activity for displaying your current location on google maps
  */
 
-public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ChooseLocationActivity extends FragmentActivity implements
+        OnMapReadyCallback,
+        GoogleMap.OnMapClickListener {
     private Button backButton;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private GoogleMap myMap;
+    private LatLng selectedLocation;
+    private Marker currentMarker = null;
+    private static final int PICK_LOCATION = 2;
     private static final int REQUEST_CODE = 101;
+
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -66,19 +75,43 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                     SupportMapFragment supportMapFragment = (SupportMapFragment)
                             getSupportFragmentManager().findFragmentById(R.id.locationMap);
-                    supportMapFragment.getMapAsync(LocationActivity.this);
+                    supportMapFragment.getMapAsync(ChooseLocationActivity.this);
                 }
             }
         });
     }
 
+    public void onConfirmClick( View view ) {
+        Intent intent = new Intent();
+        Bundle b = new Bundle();
+        b.putString("LAT", String.valueOf( selectedLocation.latitude ) );
+        b.putString("LONG", String.valueOf( selectedLocation.longitude) );
+        intent.putExtras(b);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        myMap = googleMap;
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        selectedLocation = latLng;
         MarkerOptions myMarker = new MarkerOptions().position(latLng).title("You");
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-        googleMap.addMarker(myMarker);
+
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if( currentMarker != null ) {
+                    currentMarker.setVisible(false);
+                }
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position( latLng );
+                markerOptions.title( "Selected Location" );
+                currentMarker = myMap.addMarker( markerOptions );
+                selectedLocation = latLng;
+            }
+        });
     }
 
     @Override
@@ -90,5 +123,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position( latLng );
+        markerOptions.title( "Selected Location" );
+        myMap.addMarker( markerOptions );
+        selectedLocation = latLng;
     }
 }

@@ -56,6 +56,16 @@
         app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/chooseLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onChooseLocationPicked"
+        android:text="Loc"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/addEditDatePicker" />
+
     <ImageView
         android:id="@+id/testImageView"
         android:layout_width="50dp"
