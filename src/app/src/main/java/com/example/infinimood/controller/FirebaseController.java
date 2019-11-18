@@ -9,13 +9,11 @@ import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.model.MoodFactory;
 import com.example.infinimood.model.User;
-import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.MoodCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,12 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +54,7 @@ public class FirebaseController {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser = null;
 
-    private MoodController moodController = new MoodController();
+    private MoodFactory moodFactory = new MoodFactory();
 
     private Set<String> requestedFollowCurrentUser = new HashSet<String>();
     private Set<String> followingCurrentUser = new HashSet<String>();
@@ -311,7 +305,7 @@ public class FirebaseController {
                                 }
 
 
-                                Mood mood = moodController.createMood(id, moodEmotion, date, reason, l, socialSituation, image);
+                                Mood mood = moodFactory.createMood(id, moodEmotion, date, reason, l, socialSituation, image);
 
                                 moods.add(mood);
                             }

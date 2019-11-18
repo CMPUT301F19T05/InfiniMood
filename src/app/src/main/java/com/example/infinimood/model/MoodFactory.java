@@ -1,31 +1,21 @@
-package com.example.infinimood.controller;
+package com.example.infinimood.model;
 
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.media.Image;
-import android.util.Log;
 
-import com.example.infinimood.model.AfraidMood;
-import com.example.infinimood.model.AngryMood;
-import com.example.infinimood.model.CryingMood;
-import com.example.infinimood.model.HappyMood;
-import com.example.infinimood.model.InLoveMood;
-import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.SadMood;
-import com.example.infinimood.model.SleepyMood;
+import android.util.Log;
 
 import java.util.Date;
 
 /**
- *  MoodController.java
- *  Handles creation of moods
+ * MoodFactory.java
+ * Handles creation of moods
  */
-public class MoodController {
+public class MoodFactory {
 
-    private static final String TAG = "FirebaseController";
+    private static final String TAG = "MoodFactory";
 
-    public MoodController() {
-
+    public MoodFactory() {
     }
 
     public Mood createMood(String id, String mood, Date moodDate, String moodReason, Location moodLocation, String moodSocialSituation, Bitmap moodImage) {
@@ -59,4 +49,5 @@ public class MoodController {
         }
         return newMood;
     }
+
 }

@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- *  MoodHistoryAdapter.java
- *  Adapter for the ListView in MoodHistoryActivity
- *  TODO: Change the ListView to a RecyclerView (functionality for swiping, etc.)
+ * MoodHistoryAdapter.java
+ * Adapter for the ListView in MoodHistoryActivity
+ * TODO: Change the ListView to a RecyclerView (functionality for swiping, etc.)
  */
 
 public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
@@ -41,7 +41,6 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        return super.getView(position, convertView, parent);
         View view = convertView;
         LayoutInflater inflator = ((android.app.Activity) this.context).getLayoutInflater();
 
@@ -67,7 +66,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         layout.setBackground(gradient);
 
-        if (mood.getReason() == "") {
+        if (mood.getReason().equals("")) {
             mood_reason.setVisibility(View.GONE);
         } else {
             mood_reason.setVisibility(View.VISIBLE);
@@ -75,4 +74,5 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         return view;
     }
+
 }

@@ -13,14 +13,13 @@ import com.example.infinimood.model.User;
 
 import java.util.ArrayList;
 
-public class UserAdapter extends ArrayAdapter<User>  {
-
+public class UserAdapter extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
-    public UserAdapter(Context context, ArrayList <User> users){
-        super(context,0, users);
+    public UserAdapter(Context context, ArrayList<User> users) {
+        super(context, 0, users);
 
         this.context = context;
         this.users = users;
@@ -55,14 +54,12 @@ public class UserAdapter extends ArrayAdapter<User>  {
             requestedFollowTextView.setVisibility(View.GONE);
 
             unfollowButton.setVisibility(View.VISIBLE);
-        }
-        else if (user.isCurrentUserRequestedFollow()) {
+        } else if (user.isCurrentUserRequestedFollow()) {
             followButton.setVisibility(View.GONE);
             unfollowButton.setVisibility(View.GONE);
 
             requestedFollowTextView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             requestedFollowTextView.setVisibility(View.GONE);
             unfollowButton.setVisibility(View.GONE);
 
@@ -75,14 +72,12 @@ public class UserAdapter extends ArrayAdapter<User>  {
             declineButton.setVisibility(View.GONE);
 
             followsYouTextView.setVisibility(View.VISIBLE);
-        }
-        else if (user.isRequestedFollowCurrentUser()) {
+        } else if (user.isRequestedFollowCurrentUser()) {
             followsYouTextView.setVisibility(View.GONE);
 
             acceptButton.setVisibility(View.VISIBLE);
             declineButton.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             followsYouTextView.setVisibility(View.GONE);
             acceptButton.setVisibility(View.GONE);
             declineButton.setVisibility(View.GONE);
@@ -90,4 +85,5 @@ public class UserAdapter extends ArrayAdapter<User>  {
 
         return view;
     }
+
 }

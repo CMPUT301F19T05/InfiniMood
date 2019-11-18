@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.MainController;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 
 public class MainActivity extends MoodCompatActivity {
 
+    MainController controller;
+
     FrameLayout progressOverlayContainer;
 
     EditText editTextEmail;
@@ -32,6 +35,8 @@ public class MainActivity extends MoodCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
+
+        controller = new MainController(this);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
@@ -44,7 +49,7 @@ public class MainActivity extends MoodCompatActivity {
         super.onStart();
 
         if (firebaseController.userAuthenticated()) {
-            startActivityNoHistory(UserProfileActivity.class);
+            controller.userLoggedIn();
         }
     }
 
@@ -55,12 +60,10 @@ public class MainActivity extends MoodCompatActivity {
         if (email.isEmpty()) {
             toast("Please enter your email");
             editTextEmail.requestFocus();
-        }
-        else if (password.isEmpty()) {
+        } else if (password.isEmpty()) {
             toast("Please enter your password");
             editTextPassword.requestFocus();
-        }
-        else {
+        } else {
             progressOverlayContainer.setVisibility(View.VISIBLE);
             progressOverlayContainer.bringToFront();
 
@@ -77,7 +80,7 @@ public class MainActivity extends MoodCompatActivity {
     }
 
     public void onCreateAccountClicked(View view) {
-        final Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
+        controller.signUp();
     }
+
 }
