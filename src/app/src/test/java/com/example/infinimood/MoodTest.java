@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +25,7 @@ import static org.junit.Assert.fail;
 public class MoodTest {
 
     private final static String TEST_ID = "1";
-    private final static Date TEST_DATE = new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime();
+    private final static long TEST_DATE = new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime();
     private final static String TEST_REASON = "test123";
     private final static Location TEST_LOCATION = null;
     private final static String TEST_SOCIAL_SITUATION = SocialSituation.WITH_CROWD.getDescription();
@@ -39,7 +38,7 @@ public class MoodTest {
         try {
             constructor = moodClass.getConstructor(
                     String.class,
-                    Date.class,
+                    long.class,
                     String.class,
                     Location.class,
                     String.class,
@@ -81,7 +80,7 @@ public class MoodTest {
     }
 
     private void testSetDate(Mood mood) {
-        final Date newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime();
+        final long newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime().getTime();
         mood.setDate(newDate);
         assertEquals(mood.getDate(), newDate);
     }
