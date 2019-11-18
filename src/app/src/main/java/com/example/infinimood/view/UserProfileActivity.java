@@ -75,7 +75,7 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onLocationClicked(View view) {
-        final Intent intent = new Intent(this, LocationActivity.class);
+        final Intent intent = new Intent(this, ChooseLocationActivity.class);
         startActivity(intent);
     }
 
