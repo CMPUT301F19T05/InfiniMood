@@ -23,6 +23,7 @@ import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -42,6 +43,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     private static final String TAG = "AddEditMoodActivity";
     private static final int PICK_IMAGE = 1;
+    private static final int PICK_LOCATION = 2;
 
     private DatePicker datePicker;
     private TimePicker timePicker;
@@ -52,7 +54,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private ImageView testImage;
 
     private String moodEmotion;
-    private Date moodDate;
+    private long moodDate;
     private String moodReason;
     private String moodSocialSituation;
     private Location moodLocation = null;
@@ -155,6 +157,19 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 e.printStackTrace();
             }
         }
+        else if( requestCode == PICK_LOCATION && resultCode == RESULT_OK ) {
+            String longitude = data.getExtras().getString("LONG");
+            String latitude = data.getExtras().getString("LAT");
+            Location l = new Location("dummy");
+            l.setLatitude( Double.parseDouble(latitude) );
+            l.setLongitude(Double.parseDouble(longitude) );
+            moodLocation = l;
+        }
+    }
+
+    public void onChooseLocationPicked( View view ) {
+        final Intent intent = new Intent(this, ChooseLocationActivity.class);
+        startActivityForResult(intent, PICK_LOCATION);
     }
 
     public void onSubmitClicked(View view) {
@@ -178,7 +193,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
         calendar.set(Calendar.MINUTE, timePicker.getMinute());
         calendar.set(Calendar.SECOND, 0);
-        moodDate = calendar.getTime();
+        moodDate = calendar.getTime().getTime();
 
         String uuid = UUID.randomUUID().toString();
 

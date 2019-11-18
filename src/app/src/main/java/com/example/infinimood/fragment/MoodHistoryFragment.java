@@ -51,7 +51,7 @@ public class MoodHistoryFragment extends DialogFragment {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
 
-        this.moodDate = mood.getDate();
+        this.moodDate = new Date(mood.getDate());
         this.moodMood = mood.getMood();
         this.moodReason = mood.getReason();
         this.moodLocation = mood.getLocation();

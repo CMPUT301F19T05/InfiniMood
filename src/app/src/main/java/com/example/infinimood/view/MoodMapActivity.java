@@ -8,17 +8,23 @@ import android.util.Log;
 
 import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.MoodConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Location;
 import android.widget.Toast;
+
+import java.util.Collections;
+import java.util.Date;
 
 import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;
@@ -62,17 +68,41 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         return c;
     }
 
+    public MarkerOptions getMarkerOptions( Mood mood ) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position( new LatLng( mood.getLocation().getLatitude(),
+                        mood.getLocation().getLongitude() ) );
+        markerOptions.title( getMoodStringInfo( mood ) );
+        // get the color of the mood and turn it into a Hue
+        String color = mood.getColor();
+        float hue[] = new float[3];
+        int red = Integer.parseInt( color.substring(1, 3), 16 );
+        int green = Integer.parseInt( color.substring(3, 5), 16 );
+        int blue = Integer.parseInt( color.substring(5, 7), 16 );
+        android.graphics.Color.RGBToHSV(
+                red,
+                green,
+                blue,
+                hue
+        );
+        markerOptions.icon( BitmapDescriptorFactory.defaultMarker(hue[1] * 360.0f) );
+        return markerOptions;
+    }
+
     public void toast( String str ) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 str,Toast.LENGTH_SHORT);
         toast.show();
     }
 
-    public void toastMood( Mood mood ) {
-        String str = "You were ".concat( mood.getMood() )
+    public String getMoodStringInfo( Mood mood ) {
+        return "You were ".concat( mood.getMood() )
                 .concat(" on ").concat( mood.getDate().toString() );
+    }
+
+    public void toastMood( Mood mood ) {
         Toast toast = Toast.makeText(getApplicationContext(),
-                str,Toast.LENGTH_SHORT);
+                getMoodStringInfo( mood ),Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -94,31 +124,27 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
             if( l == null ) {
                 continue;
             }
-            CircleOptions circleOptions = getCircleOptions( moods.get(i) );
+            //CircleOptions circleOptions = getCircleOptions( moods.get(i) );
+            //this.googleMap.addCircle( circleOptions );
 
-            Log.i("", String.valueOf( l.getLatitude() ));
-            Log.i("", String.valueOf( l.getLongitude() ));
+            MarkerOptions markerOptions = getMarkerOptions(moods.get(i) );
+            this.googleMap.addMarker( markerOptions );
+
             latlong = new LatLng( l.getLatitude(), l.getLongitude() );
-            this.googleMap.addCircle( circleOptions );
         }
 
-        // Kind of random zoom preferences based on what I liked
-        this.googleMap.setMaxZoomPreference(20);
-        this.googleMap.setMinZoomPreference(15);
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng( latlong ));
+        this.googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( latlong, 15.0f ) );
+
 
         this.googleMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
             @Override
             public void onCircleClick(Circle circle) {
-                /* TODO: Simply iterate through the moods to find the most recent
-                mood with the same color and location, and print some information
-                about it. Perhaps the toast could be clickable allowing the user to
-                edit the mood.
-                 */
                 String color = Integer.toHexString( circle.getFillColor() );
                 LatLng loc = circle.getCenter();
 
-                //toast( color );
+                MoodComparator moodComparator = new MoodComparator();
+                moodComparator.reverse();
+                Collections.sort(moods, moodComparator);
 
                 for(int i = 0; i < moods.size(); i++ ) {
                     Mood m = moods.get(i);
