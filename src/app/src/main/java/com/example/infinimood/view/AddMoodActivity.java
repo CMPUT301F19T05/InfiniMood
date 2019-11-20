@@ -34,14 +34,14 @@ import java.util.UUID;
 import androidx.core.app.ActivityCompat;
 
 /**
- *  AddEditMoodActivity.java
+ *  AddMoodActivity.java
  *  Activity for creating mood objects and editing existing mood objects
  *  TODO: Edit functionality
  */
 
-public class AddEditMoodActivity extends MoodCompatActivity {
+public class AddMoodActivity extends MoodCompatActivity {
 
-    private static final String TAG = "AddEditMoodActivity";
+    private static final String TAG = "AddMoodActivity";
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
 
@@ -131,7 +131,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                     toast("Current Location Added");
                 } else {
                     // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
-                    toast("See updateCurrentLocation() in AddEditMoodActivity.java");
+                    toast("See updateCurrentLocation() in AddMoodActivity.java");
                 }
             }
         });
