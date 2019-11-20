@@ -24,6 +24,7 @@
         <activity android:name=".view.UserProfileActivity" />
         <activity android:name=".view.CreateAccountActivity" android:parentActivityName=".view.MainActivity"/>
         <activity android:name=".view.AddMoodActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.EditMoodActivity" android:parentActivityName=".view.MainActivity"/>
         <activity android:name=".view.ChooseLocationActivity" />
         <activity android:name=".view.UsersActivity" android:parentActivityName=".view.MainActivity"/>
 

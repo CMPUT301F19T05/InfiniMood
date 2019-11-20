@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,13 +35,13 @@ import java.util.UUID;
 import androidx.core.app.ActivityCompat;
 
 /**
- *  AddMoodActivity.java
- *  Activity for creating mood objects
+ *  EditMoodActivity.java
+ *  Activity for editing existing mood objects
  */
 
-public class AddMoodActivity extends MoodCompatActivity {
+public class EditMoodActivity extends MoodCompatActivity {
 
-    private static final String TAG = "AddMoodActivity";
+    private static final String TAG = "EditMoodActivity";
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
 
@@ -80,6 +81,44 @@ public class AddMoodActivity extends MoodCompatActivity {
         addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
         testImage = findViewById(R.id.testImageView);
 
+        // extract mood info from intent
+        Intent intent = getIntent();
+        moodId = intent.getStringExtra("moodId");
+        moodDate = intent.getLongExtra("moodDate", 0);
+        moodReason = intent.getStringExtra("moodReason");
+        moodSocialSituation = intent.getStringExtra("moodSocialSituation");
+        moodEmotion = intent.getStringExtra("moodMood");
+
+        // set date and time pickers to the mood's date and time
+        Date date = new Date(moodDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        timePicker.setMinute(calendar.get(Calendar.MINUTE));
+        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        timePicker.setIs24HourView(false);
+
+        // set mood spinner to mood's emotion
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.emojis_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moodSpinner.setAdapter(adapter);
+        if (moodEmotion != null) {
+            int spinnerPosition = adapter.getPosition(moodEmotion);
+            moodSpinner.setSelection(spinnerPosition);
+        }
+
+        // set social situation spinner to mood's social situation
+        adapter = ArrayAdapter.createFromResource(this, R.array.situations_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        socialSituationSpinner.setAdapter(adapter);
+        if (moodSocialSituation != null) {
+            int spinnerPosition = adapter.getPosition(moodSocialSituation);
+            socialSituationSpinner.setSelection(spinnerPosition);
+        }
+
+        // set reason input text to mood's reason
+        reasonInput.setText(moodReason);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         updateCurrentLocation();
@@ -195,7 +234,6 @@ public class AddMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         moodDate = calendar.getTime().getTime();
 
-        moodId = UUID.randomUUID().toString();
 
         Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
@@ -203,10 +241,10 @@ public class AddMoodActivity extends MoodCompatActivity {
             @Override
             public void onCallback(boolean success) {
                 if (success) {
-                    toast("Successfully added Mood event");
+                    toast("Successfully edited Mood event");
                 }
                 else {
-                    toast("Failed to add Mood event");
+                    toast("Failed to edit Mood event");
                 }
             }
         });
