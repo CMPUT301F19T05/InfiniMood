@@ -1,6 +1,7 @@
 package com.example.infinimood.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -236,9 +237,11 @@ public class EditMoodActivity extends MoodCompatActivity {
                 else {
                     toast("Failed to edit Mood event");
                 }
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("moodId", moodId);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         });
-
-        finish();
     }
 }
