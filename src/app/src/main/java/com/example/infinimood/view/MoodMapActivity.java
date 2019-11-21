@@ -15,13 +15,11 @@ import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.GetMoodCallback;
 import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.MoodConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,7 +61,7 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(mood.getLocation().getLatitude(),
                 mood.getLocation().getLongitude()));
-        markerOptions.title( getMoodStringInfo( mood ) );
+        markerOptions.title(getMoodStringInfo(mood));
 
         // get the color of the mood and turn it into a Hue
         String color = mood.getColor();
@@ -127,21 +125,15 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                String moodId = data.getStringExtra("moodId");
-                Marker marker = markerHashMap.get(moodId);
-                Mood mood = (Mood) marker.getTag();
-                firebaseController.refreshMood(mood, new GetMoodCallback() {
-                    @Override
-                    public void onCallback(Mood mood) {
-                        Marker oldMarker = markerHashMap.get(mood.getId());
-                        oldMarker.remove();
+                Mood mood = data.getParcelableExtra("mood");
 
-                        MarkerOptions markerOptions = getMarkerOptions(mood);
-                        Marker newMarker = googleMap.addMarker(markerOptions);
-                        newMarker.setTag(mood);
-                        markerHashMap.put(mood.getId(), newMarker);
-                    }
-                });
+                Marker oldMarker = markerHashMap.get(mood.getId());
+                oldMarker.remove();
+
+                MarkerOptions markerOptions = getMarkerOptions(mood);
+                Marker newMarker = googleMap.addMarker(markerOptions);
+                newMarker.setTag(mood);
+                markerHashMap.put(mood.getId(), newMarker);
             }
         }
     }

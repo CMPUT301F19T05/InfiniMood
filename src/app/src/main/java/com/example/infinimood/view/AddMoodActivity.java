@@ -18,24 +18,23 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import androidx.core.app.ActivityCompat;
+
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
-import androidx.core.app.ActivityCompat;
 
 /**
- *  AddMoodActivity.java
- *  Activity for creating mood objects
+ * AddMoodActivity.java
+ * Activity for creating mood objects
  */
 
 public class AddMoodActivity extends MoodCompatActivity {
@@ -137,7 +136,7 @@ public class AddMoodActivity extends MoodCompatActivity {
         });
     }
 
-    public void onUploadPhotoClicked(View view){
+    public void onUploadPhotoClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE);
@@ -152,22 +151,20 @@ public class AddMoodActivity extends MoodCompatActivity {
             try {
                 moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 testImage.setImageBitmap(moodImage);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else if( requestCode == PICK_LOCATION && resultCode == RESULT_OK ) {
+        } else if (requestCode == PICK_LOCATION && resultCode == RESULT_OK) {
             String longitude = data.getExtras().getString("LONG");
             String latitude = data.getExtras().getString("LAT");
             Location l = new Location("dummy");
-            l.setLatitude( Double.parseDouble(latitude) );
-            l.setLongitude(Double.parseDouble(longitude) );
+            l.setLatitude(Double.parseDouble(latitude));
+            l.setLongitude(Double.parseDouble(longitude));
             moodLocation = l;
         }
     }
 
-    public void onChooseLocationPicked( View view ) {
+    public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
         intent.putExtra("EDITING", false);
         startActivityForResult(intent, PICK_LOCATION);
@@ -205,8 +202,7 @@ public class AddMoodActivity extends MoodCompatActivity {
             public void onCallback(boolean success) {
                 if (success) {
                     toast("Successfully added Mood event");
-                }
-                else {
+                } else {
                     toast("Failed to add Mood event");
                 }
             }
