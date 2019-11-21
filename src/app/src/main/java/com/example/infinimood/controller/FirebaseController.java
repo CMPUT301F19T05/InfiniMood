@@ -288,6 +288,55 @@ public class FirebaseController {
                 });
     }
 
+    public void refreshMood(Mood mood, GetMoodCallback callback) {
+        assert(userAuthenticated());
+
+        firebaseFirestore
+                .collection("users")
+                .document(firebaseUser.getUid())
+                .collection("moods")
+                .document(mood.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+
+                            String moodEmotion = (String) document.get("mood");
+                            String id = (String) document.get("id");
+
+                            long dateTimestamp = (long) document.get("date");
+
+                            String reason = (String) document.get("reason");
+                            String locationString = (String) document.get("location");
+                            String socialSituation = (String) document.get("socialSituation");
+                            String imageString = (String) document.get("image");
+
+                            Location l = null;
+                            if (locationString != null) {
+                                l = new Location("dummy provider");
+                                String[] location = locationString.split(",");
+                                l.setLatitude(Double.parseDouble(location[0]));
+                                l.setLongitude(Double.parseDouble(location[1]));
+                            }
+
+                            Bitmap image = null;
+                            if (imageString != null){
+                                image = convertStringToBitmap(imageString);
+                            }
+
+                            Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
+
+                            callback.onCallback(mood);
+                        }
+                        else {
+                            Log.e(TAG, "Error getting document");
+                        }
+                    }
+                });
+    }
+
     public void refreshUserMoods(GetMoodsCallback callback) {
         assert(userAuthenticated());
 

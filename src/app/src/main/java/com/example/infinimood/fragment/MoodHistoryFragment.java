@@ -1,5 +1,6 @@
 package com.example.infinimood.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -29,6 +30,8 @@ import java.util.Date;
 
 public class MoodHistoryFragment extends DialogFragment {
 
+    private static final String TAG = "MoodHistoryFragment";
+
     private FirebaseController firebaseController = new FirebaseController();
 
     private TextView moodDateTextView;
@@ -40,6 +43,7 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private Mood mood;
     private BooleanCallback onDeleteCallback;
+    private BooleanCallback onEditCallback;
 
     private Date moodDate;
     private String moodMood;
@@ -50,9 +54,10 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
 
-    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
+    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback, BooleanCallback onEditCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
+        this.onEditCallback = onEditCallback;
 
         this.moodDate = new Date(mood.getDate());
         this.moodMood = mood.getMood();
@@ -97,7 +102,7 @@ public class MoodHistoryFragment extends DialogFragment {
                 .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MoodHistoryFragment.super.getContext(), EditMoodActivity.class);
+                        Intent intent = new Intent(getActivity(), EditMoodActivity.class);
 
                         intent.putExtra("moodId", mood.getId());
                         intent.putExtra("moodDate", mood.getDate());
@@ -108,7 +113,7 @@ public class MoodHistoryFragment extends DialogFragment {
 //                        intent.putExtra("moodImage", mood.getImage());
                         intent.putExtra("moodMood", mood.getMood());
 
-                        startActivity(intent);
+                        getActivity().startActivityForResult(intent, 1);
                     }
                 })
                 .setPositiveButton("OK", null)
@@ -119,4 +124,18 @@ public class MoodHistoryFragment extends DialogFragment {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "\n\n\n\nOnActivityResult\n\n\n\n");
+        onEditCallback.onCallback(true);
+//        if (requestCode == 1) {
+//            if(resultCode == Activity.RESULT_OK){
+//                onEditCallback.onCallback(true);
+//            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                onEditCallback.onCallback(false);
+//            }
+//        }
+//        onEditCallback.onCallback(false);
+    }
 }

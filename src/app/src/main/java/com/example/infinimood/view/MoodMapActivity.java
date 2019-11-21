@@ -2,11 +2,16 @@ package com.example.infinimood.view;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.GetMoodCallback;
+import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.MoodConstants;
@@ -18,20 +23,25 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Location;
 import android.widget.Toast;
 
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashMap;
 
 import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
-public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    private static final String TAG = "MoodMapActivity";
 
     private GoogleMap googleMap;
+    private HashMap<String, Mood> moodHashMap = new HashMap<>();
+    private HashMap<String, Marker> markerHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +82,9 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position( new LatLng( mood.getLocation().getLatitude(),
                         mood.getLocation().getLongitude() ) );
-        markerOptions.title( getMoodStringInfo( mood ) );
+//        markerOptions.title( getMoodStringInfo( mood ) );
+        markerOptions.title(mood.getId());
+        moodHashMap.put(mood.getId(), mood);
         // get the color of the mood and turn it into a Hue
         String color = mood.getColor();
         float hue[] = new float[3];
@@ -106,16 +118,90 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         toast.show();
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        String id = marker.getTitle();
+        Mood mood = moodHashMap.get(id);
+        markerHashMap.put(id, marker);
+        firebaseController.refreshMood(mood, new GetMoodCallback() {
+            @Override
+            public void onCallback(Mood mood) {
+                moodHashMap.put(id, mood);
+                new MoodHistoryFragment(mood, new BooleanCallback() {
+                    @Override
+                    public void onCallback(boolean success) {
+                        if (success) {
+                            toast("Mood deleted");
+                            moodHashMap.remove(mood.getId());
+                            marker.remove();
+                        } else {
+                            toast("Could not delete mood");
+                        }
+                    }
+                }, new BooleanCallback() {
+                    @Override
+                    public void onCallback(boolean success) {
+                        if (success) {
+                            firebaseController.refreshMood(mood, new GetMoodCallback() {
+                                @Override
+                                public void onCallback(Mood mood) {
+                                    Log.i(TAG, marker.getPosition().toString());
+                                    marker.setPosition(new LatLng(mood.getLocation().getLatitude(), mood.getLocation().getLongitude()));
+                                    Log.i(TAG, marker.getPosition().toString());
+                                    moodHashMap.put(mood.getId(), mood);
+                                }
+                            });
+                        }
+                    }
+                }).show(getSupportFragmentManager(), "SHOW_MOOD");
+            }
+        });
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "This is running");
+        Log.i(TAG, String.valueOf(requestCode));
+        Log.i(TAG, String.valueOf(resultCode));
+        Log.i(TAG, data.getStringExtra("moodId"));
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "After super");
+        Log.i(TAG, String.valueOf(requestCode));
+        Log.i(TAG, String.valueOf(resultCode));
+        Log.i(TAG, data.getStringExtra("moodId"));
+
+        if (requestCode == 1) {
+            Log.i(TAG, "This is also running");
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i(TAG, "This is also also running");
+                String moodId = data.getStringExtra("moodId");
+                Mood mood = moodHashMap.get(moodId);
+                firebaseController.refreshMood(mood, new GetMoodCallback() {
+                    @Override
+                    public void onCallback(Mood mood) {
+                        Log.i(TAG, "This is also also also running");
+                        mood.print();
+                        markerHashMap.get(mood.getId()).remove();
+                        markerHashMap.remove(mood.getId());
+                        MarkerOptions markerOptions = getMarkerOptions(mood);
+                        googleMap.addMarker( markerOptions );
+                        moodHashMap.put(mood.getId(), mood);
+                    }
+                });
+            }
+        }
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * Currently go through all Moods, and add fun circles to the map
-     * for each of them, still need to set the onClickListener to do
-     * the right stuff
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+
+        this.googleMap.setOnMarkerClickListener(this);
 
         Location l;
         LatLng latlong = new LatLng(0,0);
@@ -124,8 +210,6 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
             if( l == null ) {
                 continue;
             }
-            //CircleOptions circleOptions = getCircleOptions( moods.get(i) );
-            //this.googleMap.addCircle( circleOptions );
 
             MarkerOptions markerOptions = getMarkerOptions(moods.get(i) );
             this.googleMap.addMarker( markerOptions );
@@ -134,36 +218,5 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         }
 
         this.googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( latlong, 15.0f ) );
-
-
-        this.googleMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
-            @Override
-            public void onCircleClick(Circle circle) {
-                String color = Integer.toHexString( circle.getFillColor() );
-                LatLng loc = circle.getCenter();
-
-                MoodComparator moodComparator = new MoodComparator();
-                moodComparator.reverse();
-                Collections.sort(moods, moodComparator);
-
-                for(int i = 0; i < moods.size(); i++ ) {
-                    Mood m = moods.get(i);
-                    if (m.getLocation() == null) {
-                        continue;
-                    }
-
-                    if( m.getColor().substring(1).equals( color.substring(2) ) ){
-                        Log.i("", "color matched");
-                        if( m.getLocation().getLatitude() == loc.latitude
-                                && m.getLocation().getLongitude() == loc.longitude) {
-                            toastMood( m );
-                            break;
-                        }
-                    }
-                }
-
-
-            }
-        });
     }
 }
