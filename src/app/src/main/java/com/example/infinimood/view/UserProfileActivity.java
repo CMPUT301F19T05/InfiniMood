@@ -3,6 +3,7 @@ package com.example.infinimood.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,17 +48,17 @@ public class UserProfileActivity extends MoodCompatActivity {
         });
     }
 
-    public void onAddMoodClicked(View view) {
+    public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddMoodActivity.class);
         startActivity(intent);
     }
 
-    public void onMoodHistoryClicked(View view) {
+    public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
         startActivity(intent);
     }
 
-    public void onSearchUsersClicked(View view) {
+    public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
         startActivity(intent);
     }
