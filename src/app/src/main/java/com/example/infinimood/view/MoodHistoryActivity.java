@@ -2,6 +2,7 @@ package com.example.infinimood.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -98,5 +99,27 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         final Intent intent = new Intent(this, MoodMapActivity.class);
         startActivity(intent);
     }
+
+    // We should have a NavBar class for these methods
+    public void onSearchUsersClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UsersActivity.class);
+        startActivity(intent);
+    }
+
+    public void onAddMoodClicked(MenuItem item) {
+        final Intent intent = new Intent(this, AddMoodActivity.class);
+        startActivity(intent);
+    }
+
+    public void onMoodHistoryClicked(MenuItem item) {
+        final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    public void onUserProfileClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
+    }
+
 
 }
