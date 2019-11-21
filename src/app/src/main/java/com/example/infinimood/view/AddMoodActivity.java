@@ -169,6 +169,7 @@ public class AddMoodActivity extends MoodCompatActivity {
 
     public void onChooseLocationPicked( View view ) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
+        intent.putExtra("EDITING", false);
         startActivityForResult(intent, PICK_LOCATION);
     }
 

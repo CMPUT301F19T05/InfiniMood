@@ -61,8 +61,6 @@ public class EditMoodActivity extends MoodCompatActivity {
     private Location moodLocation = null;
     private Bitmap moodImage = null;
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +86,20 @@ public class EditMoodActivity extends MoodCompatActivity {
         moodReason = intent.getStringExtra("moodReason");
         moodSocialSituation = intent.getStringExtra("moodSocialSituation");
         moodEmotion = intent.getStringExtra("moodMood");
+
+        double latitude = intent.getDoubleExtra("moodLatitude", 0);
+        double longitude = intent.getDoubleExtra("moodLongitude", 0);
+
+        moodLocation = new Location("");
+        moodLocation.setLatitude(latitude);
+        moodLocation.setLongitude(longitude);
+
+        if (moodLocation != null) {
+            Log.i(TAG, moodLocation.toString());
+        }
+        else {
+            Log.i(TAG, "Mood location is null");
+        }
 
         // set date and time pickers to the mood's date and time
         Date date = new Date(moodDate);
@@ -120,9 +132,6 @@ public class EditMoodActivity extends MoodCompatActivity {
         // set reason input text to mood's reason
         reasonInput.setText(moodReason);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        updateCurrentLocation();
-
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -150,28 +159,6 @@ public class EditMoodActivity extends MoodCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
-            }
-        });
-    }
-
-    private void updateCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            return;
-        }
-
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    moodLocation = location;
-                    toast("Current Location Added");
-                } else {
-                    // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
-                    toast("See updateCurrentLocation() in AddMoodActivity.java");
-                }
             }
         });
     }
@@ -208,6 +195,9 @@ public class EditMoodActivity extends MoodCompatActivity {
 
     public void onChooseLocationPicked( View view ) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
+        intent.putExtra("EDITING", true);
+        intent.putExtra("moodLatitude", moodLocation.getLatitude());
+        intent.putExtra("moodLongitude", moodLocation.getLongitude());
         startActivityForResult(intent, PICK_LOCATION);
     }
 
