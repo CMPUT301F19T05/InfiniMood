@@ -63,6 +63,11 @@ public class UserProfileActivity extends MoodCompatActivity {
         startActivity(intent);
     }
 
+    public void onUserProfileClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
+    }
+
     public void onLogoutClicked(View view) {
         firebaseController.signOut();
         startActivityNoHistory(MainActivity.class);
