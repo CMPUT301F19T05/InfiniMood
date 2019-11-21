@@ -1,8 +1,7 @@
 package com.example.infinimood.view;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
@@ -22,21 +21,14 @@ import android.widget.TimePicker;
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.model.Mood;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
-import androidx.core.app.ActivityCompat;
 
 /**
- *  EditMoodActivity.java
- *  Activity for editing existing mood objects
+ * EditMoodActivity.java
+ * Activity for editing existing mood objects
  */
 
 public class EditMoodActivity extends MoodCompatActivity {
@@ -60,6 +52,8 @@ public class EditMoodActivity extends MoodCompatActivity {
     private String moodSocialSituation;
     private Location moodLocation = null;
     private Bitmap moodImage = null;
+    private String moodIcon;
+    private String moodColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +75,20 @@ public class EditMoodActivity extends MoodCompatActivity {
 
         // extract mood info from intent
         Intent intent = getIntent();
-        moodId = intent.getStringExtra("moodId");
-        moodDate = intent.getLongExtra("moodDate", 0);
-        moodReason = intent.getStringExtra("moodReason");
-        moodSocialSituation = intent.getStringExtra("moodSocialSituation");
-        moodEmotion = intent.getStringExtra("moodMood");
+        Mood mood = intent.getParcelableExtra("mood");
 
-        double latitude = intent.getDoubleExtra("moodLatitude", 0);
-        double longitude = intent.getDoubleExtra("moodLongitude", 0);
-
-        moodLocation = new Location("");
-        moodLocation.setLatitude(latitude);
-        moodLocation.setLongitude(longitude);
+        moodId = mood.getId();
+        moodDate = mood.getDate();
+        moodReason = mood.getReason();
+        moodLocation = mood.getLocation();
+        moodSocialSituation = mood.getSocialSituation();
+        moodEmotion = mood.getMood();
+        moodIcon = mood.getIcon();
+        moodColor = mood.getColor();
 
         if (moodLocation != null) {
             Log.i(TAG, moodLocation.toString());
-        }
-        else {
+        } else {
             Log.i(TAG, "Mood location is null");
         }
 
@@ -163,7 +154,7 @@ public class EditMoodActivity extends MoodCompatActivity {
         });
     }
 
-    public void onUploadPhotoClicked(View view){
+    public void onUploadPhotoClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE);
@@ -178,26 +169,23 @@ public class EditMoodActivity extends MoodCompatActivity {
             try {
                 moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 testImage.setImageBitmap(moodImage);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else if( requestCode == PICK_LOCATION && resultCode == RESULT_OK ) {
+        } else if (requestCode == PICK_LOCATION && resultCode == RESULT_OK) {
             String longitude = data.getExtras().getString("LONG");
             String latitude = data.getExtras().getString("LAT");
             Location l = new Location("dummy");
-            l.setLatitude( Double.parseDouble(latitude) );
-            l.setLongitude(Double.parseDouble(longitude) );
+            l.setLatitude(Double.parseDouble(latitude));
+            l.setLongitude(Double.parseDouble(longitude));
             moodLocation = l;
         }
     }
 
-    public void onChooseLocationPicked( View view ) {
+    public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
         intent.putExtra("EDITING", true);
-        intent.putExtra("moodLatitude", moodLocation.getLatitude());
-        intent.putExtra("moodLongitude", moodLocation.getLongitude());
+        intent.putExtra("location", moodLocation);
         startActivityForResult(intent, PICK_LOCATION);
     }
 
@@ -224,7 +212,6 @@ public class EditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         moodDate = calendar.getTime().getTime();
 
-
         Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
@@ -232,13 +219,15 @@ public class EditMoodActivity extends MoodCompatActivity {
             public void onCallback(boolean success) {
                 if (success) {
                     toast("Successfully edited Mood event");
-                }
-                else {
+                } else {
                     toast("Failed to edit Mood event");
                 }
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("mood", newMood);
+
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         });
-
-        finish();
     }
 }

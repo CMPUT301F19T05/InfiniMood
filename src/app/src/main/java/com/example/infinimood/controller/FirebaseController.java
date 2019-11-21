@@ -35,7 +35,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -43,8 +42,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *  FirebaseController.java
- *  Handles firebase-related functionality
+ * FirebaseController.java
+ * Handles firebase-related functionality
  */
 public class FirebaseController {
 
@@ -80,7 +79,7 @@ public class FirebaseController {
     }
 
     public void signOut() {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
         firebaseAuth.signOut();
         firebaseUser = firebaseAuth.getCurrentUser();
     }
@@ -90,7 +89,7 @@ public class FirebaseController {
     }
 
     public void getUsername(StringCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         firebaseFirestore.collection("users")
                 .document(firebaseUser.getUid())
@@ -103,8 +102,7 @@ public class FirebaseController {
                             if (result != null) {
                                 callback.onCallback((String) result.get("username"));
                             }
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "Getting username failed");
                         }
                     }
@@ -133,8 +131,7 @@ public class FirebaseController {
                                             firebaseUser = firebaseAuth.getCurrentUser();
                                             if (task.isSuccessful()) {
                                                 callback.onCallback(true);
-                                            }
-                                            else {
+                                            } else {
                                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                                 callback.onCallback(false);
 
@@ -150,19 +147,16 @@ public class FirebaseController {
                                                 catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                                     Log.d(TAG, "onComplete: malformed_email");
                                                     ((CreateAccountActivity) context).toast(R.string.error_email_invalid);
-                                                }
-                                                catch (FirebaseAuthUserCollisionException existEmail) {
+                                                } catch (FirebaseAuthUserCollisionException existEmail) {
                                                     Log.d(TAG, "onComplete: exist_email");
                                                     ((CreateAccountActivity) context).toast(R.string.error_email_taken);
-                                                }
-                                                catch (Exception e) {
+                                                } catch (Exception e) {
                                                     Log.d(TAG, "onComplete: " + e.getMessage());
                                                 }
                                             }
                                         }
                                     });
-                        }
-                        else {
+                        } else {
                             ((CreateAccountActivity) context).toast("Failed creating account");
                             callback.onCallback(false);
                         }
@@ -171,7 +165,7 @@ public class FirebaseController {
     }
 
     public void setCurrentUserData(String username, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
@@ -195,8 +189,7 @@ public class FirebaseController {
                         firebaseUser = firebaseAuth.getCurrentUser();
                         if (task.isSuccessful()) {
                             callback.onCallback(true);
-                        }
-                        else {
+                        } else {
                             callback.onCallback(false);
                             try {
                                 throw task.getException();
@@ -210,8 +203,7 @@ public class FirebaseController {
                             catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
                                 Log.d(TAG, "onComplete: wrong_password");
                                 ((MoodCompatActivity) context).toast("Incorrect password");
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 Log.d(TAG, "onComplete: " + e.getMessage());
                                 ((MoodCompatActivity) context).toast(R.string.login_failed);
                             }
@@ -221,7 +213,7 @@ public class FirebaseController {
     }
 
     public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         String uid = firebaseUser.getUid();
 
@@ -262,7 +254,7 @@ public class FirebaseController {
     }
 
     public void deleteMoodEventFromDB(Mood mood, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         final String uid = firebaseUser.getUid();
 
@@ -276,7 +268,7 @@ public class FirebaseController {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Successfully deleted mood");
-                                callback.onCallback(true);
+                        callback.onCallback(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -288,8 +280,56 @@ public class FirebaseController {
                 });
     }
 
+    public void refreshMood(Mood mood, GetMoodCallback callback) {
+        assert (userAuthenticated());
+
+        firebaseFirestore
+                .collection("users")
+                .document(firebaseUser.getUid())
+                .collection("moods")
+                .document(mood.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+
+                            String moodEmotion = (String) document.get("mood");
+                            String id = (String) document.get("id");
+
+                            long dateTimestamp = (long) document.get("date");
+
+                            String reason = (String) document.get("reason");
+                            String locationString = (String) document.get("location");
+                            String socialSituation = (String) document.get("socialSituation");
+                            String imageString = (String) document.get("image");
+
+                            Location l = null;
+                            if (locationString != null) {
+                                l = new Location("dummy provider");
+                                String[] location = locationString.split(",");
+                                l.setLatitude(Double.parseDouble(location[0]));
+                                l.setLongitude(Double.parseDouble(location[1]));
+                            }
+
+                            Bitmap image = null;
+                            if (imageString != null) {
+                                image = convertStringToBitmap(imageString);
+                            }
+
+                            Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
+
+                            callback.onCallback(mood);
+                        } else {
+                            Log.e(TAG, "Error getting document");
+                        }
+                    }
+                });
+    }
+
     public void refreshUserMoods(GetMoodsCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         firebaseFirestore
                 .collection("users")
@@ -321,7 +361,7 @@ public class FirebaseController {
                                 }
 
                                 Bitmap image = null;
-                                if (imageString != null){
+                                if (imageString != null) {
                                     image = convertStringToBitmap(imageString);
                                 }
 
@@ -330,8 +370,7 @@ public class FirebaseController {
                                 moods.add(mood);
                             }
                             callback.onCallback(moods);
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "Error getting documents");
                         }
                     }
@@ -339,7 +378,7 @@ public class FirebaseController {
     }
 
     public void getUsers(GetUsersCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         ArrayList<User> users = new ArrayList<User>();
         String currentUserId = firebaseUser.getUid();
@@ -388,18 +427,18 @@ public class FirebaseController {
     }
 
     public void requestToFollow(User user, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         // make sure the current user doesn't already follow them
         // and the current user hasn't already requested to follow them
-        assert(!user.isCurrentUserFollows());
-        assert(!user.isCurrentUserRequestedFollow());
+        assert (!user.isCurrentUserFollows());
+        assert (!user.isCurrentUserRequestedFollow());
 
         String followerId = firebaseAuth.getUid();
         String followeeId = user.getUserID();
 
         // make sure we're not trying to follow ourself
-        assert(!followerId.equals(followeeId));
+        assert (!followerId.equals(followeeId));
 
         // the document to write to firestore
         Map<String, Object> followData = new HashMap<>();
@@ -430,15 +469,13 @@ public class FirebaseController {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 callback.onCallback(true);
-                                            }
-                                            else {
+                                            } else {
                                                 Log.e(TAG, "write failed");
                                                 callback.onCallback(false);
                                             }
                                         }
                                     });
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "write failed");
                             callback.onCallback(false);
                         }
@@ -447,17 +484,17 @@ public class FirebaseController {
     }
 
     public void declineFollowRequest(User user, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         // make sure that they requested to follow the current user
         // and that they aren't already following the current user
-        assert(user.isRequestedFollowCurrentUser());
-        assert(!user.isFollowsCurrentUser());
+        assert (user.isRequestedFollowCurrentUser());
+        assert (!user.isFollowsCurrentUser());
 
         String followerId = user.getUserID();
         String followeeId = firebaseAuth.getUid();
 
-        assert(!followerId.equals(followeeId));
+        assert (!followerId.equals(followeeId));
 
         // delete from their following collection
         firebaseFirestore
@@ -482,15 +519,13 @@ public class FirebaseController {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 callback.onCallback(true);
-                                            }
-                                            else {
+                                            } else {
                                                 Log.e(TAG, "delete failed");
                                                 callback.onCallback(false);
                                             }
                                         }
                                     });
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "delete failed");
                             callback.onCallback(false);
                         }
@@ -499,17 +534,17 @@ public class FirebaseController {
     }
 
     public void acceptFollowRequest(User user, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         // make sure that they requested to follow the current user
         // and that they aren't already following the current user
-        assert(user.isRequestedFollowCurrentUser());
-        assert(!user.isFollowsCurrentUser());
+        assert (user.isRequestedFollowCurrentUser());
+        assert (!user.isFollowsCurrentUser());
 
         String followerId = user.getUserID();
         String followeeId = firebaseAuth.getUid();
 
-        assert(!followerId.equals(followeeId));
+        assert (!followerId.equals(followeeId));
 
         // the document to write to firestore
         Map<String, Object> followData = new HashMap<>();
@@ -540,15 +575,13 @@ public class FirebaseController {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 callback.onCallback(true);
-                                            }
-                                            else {
+                                            } else {
                                                 Log.e(TAG, "write failed");
                                                 callback.onCallback(false);
                                             }
                                         }
                                     });
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "write failed");
                             callback.onCallback(false);
                         }
@@ -557,16 +590,16 @@ public class FirebaseController {
     }
 
     public void unfollowUser(User user, BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         // make sure that the current user follows them
-        assert(user.isCurrentUserFollows());
-        assert(!user.isCurrentUserRequestedFollow());
+        assert (user.isCurrentUserFollows());
+        assert (!user.isCurrentUserRequestedFollow());
 
         String followerId = firebaseAuth.getUid();
         String followeeId = user.getUserID();
 
-        assert(!followerId.equals(followeeId));
+        assert (!followerId.equals(followeeId));
 
         // delete from their followers collection
         firebaseFirestore
@@ -591,15 +624,13 @@ public class FirebaseController {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 callback.onCallback(true);
-                                            }
-                                            else {
+                                            } else {
                                                 Log.e(TAG, "delete failed");
                                                 callback.onCallback(false);
                                             }
                                         }
                                     });
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "delete failed");
                             callback.onCallback(false);
                         }
@@ -608,7 +639,7 @@ public class FirebaseController {
     }
 
     private void getFollowing(BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         currentUserFollowing.clear();
         currentUserRequestedFollow.clear();
@@ -630,14 +661,12 @@ public class FirebaseController {
                                 boolean accepted = (boolean) document.get("accepted");
                                 if (accepted) {
                                     currentUserFollowing.add(followeeId);
-                                }
-                                else {
+                                } else {
                                     currentUserRequestedFollow.add(followeeId);
                                 }
                             }
                             callback.onCallback(true);
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "Error getting documents");
                             callback.onCallback(false);
                         }
@@ -646,7 +675,7 @@ public class FirebaseController {
     }
 
     private void getFollowers(BooleanCallback callback) {
-        assert(userAuthenticated());
+        assert (userAuthenticated());
 
         followingCurrentUser.clear();
         requestedFollowCurrentUser.clear();
@@ -668,14 +697,12 @@ public class FirebaseController {
                                 boolean accepted = (boolean) document.get("accepted");
                                 if (accepted) {
                                     followingCurrentUser.add(followerId);
-                                }
-                                else {
+                                } else {
                                     requestedFollowCurrentUser.add(followerId);
                                 }
                             }
                             callback.onCallback(true);
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "Error getting documents");
                             callback.onCallback(false);
                         }
@@ -686,14 +713,14 @@ public class FirebaseController {
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
-    private String convertBitmapToString(Bitmap bitmap)
-    {
+
+    private String convertBitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
 
-    private Bitmap convertStringToBitmap(String encoded){
+    private Bitmap convertStringToBitmap(String encoded) {
         try {
             byte[] encodedByte = Base64.decode(encoded, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0,

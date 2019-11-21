@@ -1,5 +1,6 @@
 package com.example.infinimood.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MoodHistoryFragment extends DialogFragment {
+
+    private static final String TAG = "MoodHistoryFragment";
 
     private FirebaseController firebaseController = new FirebaseController();
 
@@ -97,18 +100,20 @@ public class MoodHistoryFragment extends DialogFragment {
                 .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MoodHistoryFragment.super.getContext(), EditMoodActivity.class);
+                        Intent intent = new Intent(getActivity(), EditMoodActivity.class);
 
-                        intent.putExtra("moodId", mood.getId());
-                        intent.putExtra("moodDate", mood.getDate());
-                        intent.putExtra("moodReason", mood.getReason());
-                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
-                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
-                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
-//                        intent.putExtra("moodImage", mood.getImage());
-                        intent.putExtra("moodMood", mood.getMood());
+//                        intent.putExtra("moodId", mood.getId());
+//                        intent.putExtra("moodDate", mood.getDate());
+//                        intent.putExtra("moodReason", mood.getReason());
+//                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
+//                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
+//                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
+////                        intent.putExtra("moodImage", mood.getImage());
+//                        intent.putExtra("moodMood", mood.getMood());
 
-                        startActivity(intent);
+                        intent.putExtra("mood", mood);
+
+                        getActivity().startActivityForResult(intent, 1);
                     }
                 })
                 .setPositiveButton("OK", null)
@@ -118,5 +123,4 @@ public class MoodHistoryFragment extends DialogFragment {
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
-
 }

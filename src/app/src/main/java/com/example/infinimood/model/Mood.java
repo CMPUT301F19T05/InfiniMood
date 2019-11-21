@@ -1,19 +1,18 @@
 package com.example.infinimood.model;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.location.Location;
-import android.media.Image;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Date;
 
 /**
- *  Mood.java
- *  Mood event superclass, contains all functionality for mood objects
+ * Mood.java
+ * Mood event superclass, contains all functionality for mood objects
  */
-
-public abstract class Mood {
+public class Mood implements Parcelable {
 
     private String id;
     private long dateTimestamp;
@@ -31,8 +30,7 @@ public abstract class Mood {
                 String reason,
                 Location location,
                 String socialSituation,
-                Bitmap image)
-    {
+                Bitmap image) {
         this.id = id;
         this.dateTimestamp = dateTimestamp;
         this.reason = reason;
@@ -40,6 +38,58 @@ public abstract class Mood {
         this.socialSituation = socialSituation;
         this.image = image;
     }
+
+    public Mood(Parcel in) {
+        readFromParcel(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeLong(dateTimestamp);
+        dest.writeString(reason);
+        dest.writeDouble(location.getLatitude());
+        dest.writeDouble(location.getLongitude());
+        dest.writeString(socialSituation);
+        // TODO: Write image
+        dest.writeString(mood);
+        dest.writeString(icon);
+        dest.writeString(color);
+    }
+
+    private void readFromParcel(Parcel in) {
+        this.id = in.readString();
+        this.dateTimestamp = in.readLong();
+        this.reason = in.readString();
+
+        double latitude = in.readDouble();
+        double longitude = in.readDouble();
+        this.location = new Location("");
+        this.location.setLatitude(latitude);
+        this.location.setLongitude(longitude);
+
+        this.socialSituation = in.readString();
+        this.mood = in.readString();
+        this.icon = in.readString();
+        this.color = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR =
+            new Parcelable.Creator() {
+                public Mood createFromParcel(Parcel in) {
+                    return new Mood(in);
+                }
+
+                public Mood[] newArray(int size) {
+                    return new Mood[size];
+                }
+            };
+
 
     public String getId() {
         return id;
