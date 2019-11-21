@@ -21,7 +21,6 @@ public class UserProfileActivity extends MoodCompatActivity {
     private static final String TAG = "UserProfileActivity";
 
     TextView textViewUsername;
-    NavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
