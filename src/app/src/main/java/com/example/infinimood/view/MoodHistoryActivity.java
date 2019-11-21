@@ -69,16 +69,6 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                             toast("Could not delete mood");
                         }
                     }
-                }, new BooleanCallback() {
-                    @Override
-                    public void onCallback(boolean bool) {
-                        if (bool) {
-                            toast("Mood edited");
-                            update();
-                        } else {
-                            toast("Could not edit mood");
-                        }
-                    }
                 }).show(getSupportFragmentManager(), "SHOW_MOOD");
             }
         });

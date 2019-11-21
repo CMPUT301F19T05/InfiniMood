@@ -43,7 +43,6 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private Mood mood;
     private BooleanCallback onDeleteCallback;
-    private BooleanCallback onEditCallback;
 
     private Date moodDate;
     private String moodMood;
@@ -54,10 +53,9 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
 
-    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback, BooleanCallback onEditCallback) {
+    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
-        this.onEditCallback = onEditCallback;
 
         this.moodDate = new Date(mood.getDate());
         this.moodMood = mood.getMood();
@@ -122,20 +120,5 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "\n\n\n\nOnActivityResult\n\n\n\n");
-        onEditCallback.onCallback(true);
-//        if (requestCode == 1) {
-//            if(resultCode == Activity.RESULT_OK){
-//                onEditCallback.onCallback(true);
-//            }
-//            if (resultCode == Activity.RESULT_CANCELED) {
-//                onEditCallback.onCallback(false);
-//            }
-//        }
-//        onEditCallback.onCallback(false);
     }
 }
