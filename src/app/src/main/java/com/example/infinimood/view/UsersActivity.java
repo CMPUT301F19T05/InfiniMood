@@ -15,6 +15,7 @@ import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.GetUsersCallback;
 import com.example.infinimood.controller.UserAdapter;
 import com.example.infinimood.model.User;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -29,11 +30,15 @@ public class UsersActivity extends MoodCompatActivity  {
 
     private ArrayList<User> users;
     private ArrayList<User> currentlyShownUsers;
+    BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_users);
+
+        navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
@@ -218,21 +223,25 @@ public class UsersActivity extends MoodCompatActivity  {
     // We should have a NavBar class for these methods
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddMoodActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 }

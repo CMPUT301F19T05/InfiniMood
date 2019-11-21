@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.StringCallback;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 /**
@@ -22,6 +23,7 @@ public class UserProfileActivity extends MoodCompatActivity {
     private static final String TAG = "UserProfileActivity";
 
     TextView textViewUsername;
+    BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,8 @@ public class UserProfileActivity extends MoodCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         textViewUsername = findViewById(R.id.profileUsernameTextView);
-
+        navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
     @Override
@@ -50,21 +53,25 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddMoodActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
