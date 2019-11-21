@@ -379,13 +379,9 @@ public class FirebaseController {
                                                 }
                                             }
                                         });
-                            } else {
-
                             }
                         }
                     });
-                } else {
-
                 }
             }
         });

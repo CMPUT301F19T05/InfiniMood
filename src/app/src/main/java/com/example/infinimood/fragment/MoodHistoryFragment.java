@@ -3,6 +3,7 @@ package com.example.infinimood.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.view.EditMoodActivity;
+import com.example.infinimood.view.MoodHistoryActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,11 +94,26 @@ public class MoodHistoryFragment extends DialogFragment {
                         firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
                     }
                 })
-                .setNegativeButton("Edit", null)
+                .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(MoodHistoryFragment.super.getContext(), EditMoodActivity.class);
+
+                        intent.putExtra("moodId", mood.getId());
+                        intent.putExtra("moodDate", mood.getDate());
+                        intent.putExtra("moodReason", mood.getReason());
+                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
+                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
+                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
+//                        intent.putExtra("moodImage", mood.getImage());
+                        intent.putExtra("moodMood", mood.getMood());
+
+                        startActivity(intent);
+                    }
+                })
                 .setPositiveButton("OK", null)
                 .create();
     }
-
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));

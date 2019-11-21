@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,14 +35,13 @@ import java.util.UUID;
 import androidx.core.app.ActivityCompat;
 
 /**
- *  AddEditMoodActivity.java
- *  Activity for creating mood objects and editing existing mood objects
- *  TODO: Edit functionality
+ *  EditMoodActivity.java
+ *  Activity for editing existing mood objects
  */
 
-public class AddEditMoodActivity extends MoodCompatActivity {
+public class EditMoodActivity extends MoodCompatActivity {
 
-    private static final String TAG = "AddEditMoodActivity";
+    private static final String TAG = "EditMoodActivity";
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
 
@@ -53,14 +53,13 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private Button addEditSubmitButton;
     private ImageView testImage;
 
+    private String moodId;
     private String moodEmotion;
     private long moodDate;
     private String moodReason;
     private String moodSocialSituation;
     private Location moodLocation = null;
     private Bitmap moodImage = null;
-
-    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +79,58 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
         testImage = findViewById(R.id.testImageView);
 
+        // extract mood info from intent
+        Intent intent = getIntent();
+        moodId = intent.getStringExtra("moodId");
+        moodDate = intent.getLongExtra("moodDate", 0);
+        moodReason = intent.getStringExtra("moodReason");
+        moodSocialSituation = intent.getStringExtra("moodSocialSituation");
+        moodEmotion = intent.getStringExtra("moodMood");
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        updateCurrentLocation();
+        double latitude = intent.getDoubleExtra("moodLatitude", 0);
+        double longitude = intent.getDoubleExtra("moodLongitude", 0);
+
+        moodLocation = new Location("");
+        moodLocation.setLatitude(latitude);
+        moodLocation.setLongitude(longitude);
+
+        if (moodLocation != null) {
+            Log.i(TAG, moodLocation.toString());
+        }
+        else {
+            Log.i(TAG, "Mood location is null");
+        }
+
+        // set date and time pickers to the mood's date and time
+        Date date = new Date(moodDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        timePicker.setMinute(calendar.get(Calendar.MINUTE));
+        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        timePicker.setIs24HourView(false);
+
+        // set mood spinner to mood's emotion
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.emojis_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moodSpinner.setAdapter(adapter);
+        if (moodEmotion != null) {
+            int spinnerPosition = adapter.getPosition(moodEmotion);
+            moodSpinner.setSelection(spinnerPosition);
+        }
+
+        // set social situation spinner to mood's social situation
+        adapter = ArrayAdapter.createFromResource(this, R.array.situations_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        socialSituationSpinner.setAdapter(adapter);
+        if (moodSocialSituation != null) {
+            int spinnerPosition = adapter.getPosition(moodSocialSituation);
+            socialSituationSpinner.setSelection(spinnerPosition);
+        }
+
+        // set reason input text to mood's reason
+        reasonInput.setText(moodReason);
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,28 +159,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
-            }
-        });
-    }
-
-    private void updateCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            return;
-        }
-
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    moodLocation = location;
-                    toast("Current Location Added");
-                } else {
-                    // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
-                    toast("See updateCurrentLocation() in AddEditMoodActivity.java");
-                }
             }
         });
     }
@@ -169,6 +195,9 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     public void onChooseLocationPicked( View view ) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
+        intent.putExtra("EDITING", true);
+        intent.putExtra("moodLatitude", moodLocation.getLatitude());
+        intent.putExtra("moodLongitude", moodLocation.getLongitude());
         startActivityForResult(intent, PICK_LOCATION);
     }
 
@@ -195,18 +224,17 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         moodDate = calendar.getTime().getTime();
 
-        String uuid = UUID.randomUUID().toString();
 
-        Mood newMood = moodFactory.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
+        Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
             @Override
             public void onCallback(boolean success) {
                 if (success) {
-                    toast("Successfully added Mood event");
+                    toast("Successfully edited Mood event");
                 }
                 else {
-                    toast("Failed to add Mood event");
+                    toast("Failed to edit Mood event");
                 }
             }
         });
