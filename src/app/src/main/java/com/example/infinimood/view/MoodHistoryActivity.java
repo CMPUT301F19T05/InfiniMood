@@ -16,6 +16,7 @@ import com.example.infinimood.controller.MoodHistoryAdapter;
 import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,11 +34,16 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     private ListView moodListView;
 
+    BottomNavigationView navigationView;
+
     // runs when the activity is created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
+
+        navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.getMenu().getItem(2).setChecked(true);
 
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
@@ -103,21 +109,25 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     // We should have a NavBar class for these methods
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddMoodActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
+        item.setChecked(true);
         startActivity(intent);
     }
 
