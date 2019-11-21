@@ -102,14 +102,16 @@ public class MoodHistoryFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getActivity(), EditMoodActivity.class);
 
-                        intent.putExtra("moodId", mood.getId());
-                        intent.putExtra("moodDate", mood.getDate());
-                        intent.putExtra("moodReason", mood.getReason());
-                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
-                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
-                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
-//                        intent.putExtra("moodImage", mood.getImage());
-                        intent.putExtra("moodMood", mood.getMood());
+//                        intent.putExtra("moodId", mood.getId());
+//                        intent.putExtra("moodDate", mood.getDate());
+//                        intent.putExtra("moodReason", mood.getReason());
+//                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
+//                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
+//                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
+////                        intent.putExtra("moodImage", mood.getImage());
+//                        intent.putExtra("moodMood", mood.getMood());
+
+                        intent.putExtra("mood", mood);
 
                         getActivity().startActivityForResult(intent, 1);
                     }
