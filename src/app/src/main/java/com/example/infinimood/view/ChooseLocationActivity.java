@@ -94,10 +94,32 @@ public class ChooseLocationActivity extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+        Intent intent = getIntent();
+
+        boolean editing = intent.getBooleanExtra("EDITING", false);
+
+        LatLng latLng = null;
+        if (editing) {
+            double latitude = intent.getDoubleExtra("moodLatitude", 0);
+            double longitude = intent.getDoubleExtra("moodLongitude", 0);
+            latLng = new LatLng(latitude, longitude);
+        }
+        else {
+            latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        }
+
         selectedLocation = latLng;
         MarkerOptions myMarker = new MarkerOptions().position(latLng).title("You");
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
+
+        if( currentMarker != null ) {
+            currentMarker.setVisible(false);
+        }
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position( latLng );
+        markerOptions.title( "Selected Location" );
+        currentMarker = myMap.addMarker( markerOptions );
 
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
