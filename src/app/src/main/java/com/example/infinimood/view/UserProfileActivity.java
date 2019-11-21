@@ -48,7 +48,7 @@ public class UserProfileActivity extends MoodCompatActivity {
     }
 
     public void onAddMoodClicked(View view) {
-        final Intent intent = new Intent(this, AddEditMoodActivity.class);
+        final Intent intent = new Intent(this, AddMoodActivity.class);
         startActivity(intent);
     }
 
