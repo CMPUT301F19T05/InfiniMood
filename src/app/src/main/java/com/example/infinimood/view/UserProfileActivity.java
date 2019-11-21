@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.StringCallback;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * UserProfileActivity.java
@@ -27,6 +28,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         textViewUsername = findViewById(R.id.profileUsernameTextView);
+
     }
 
     @Override
