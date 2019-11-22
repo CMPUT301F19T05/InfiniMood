@@ -114,7 +114,8 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     }
 
     public void onAddMoodClicked(MenuItem item) {
-        final Intent intent = new Intent(this, AddMoodActivity.class);
+        final Intent intent = new Intent(this, AddEditMoodActivity.class);
+        intent.putExtra("requestCode", ADD_MOOD);
         item.setChecked(true);
         startActivity(intent);
     }

@@ -1,6 +1,5 @@
 package com.example.infinimood.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -22,8 +21,7 @@ import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.view.EditMoodActivity;
-import com.example.infinimood.view.MoodHistoryActivity;
+import com.example.infinimood.view.AddEditMoodActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +29,10 @@ import java.util.Date;
 public class MoodHistoryFragment extends DialogFragment {
 
     private static final String TAG = "MoodHistoryFragment";
+
+    // request codes
+    protected static final int ADD_MOOD = 3;
+    protected static final int EDIT_MOOD = 4;
 
     private FirebaseController firebaseController = new FirebaseController();
 
@@ -100,20 +102,12 @@ public class MoodHistoryFragment extends DialogFragment {
                 .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getActivity(), EditMoodActivity.class);
+                        Intent intent = new Intent(getActivity(), AddEditMoodActivity.class);
 
-//                        intent.putExtra("moodId", mood.getId());
-//                        intent.putExtra("moodDate", mood.getDate());
-//                        intent.putExtra("moodReason", mood.getReason());
-//                        intent.putExtra("moodLatitude", mood.getLocation().getLatitude());
-//                        intent.putExtra("moodLongitude", mood.getLocation().getLongitude());
-//                        intent.putExtra("moodSocialSituation", mood.getSocialSituation());
-////                        intent.putExtra("moodImage", mood.getImage());
-//                        intent.putExtra("moodMood", mood.getMood());
-
+                        intent.putExtra("requestCode", EDIT_MOOD);
                         intent.putExtra("mood", mood);
 
-                        getActivity().startActivityForResult(intent, 1);
+                        getActivity().startActivityForResult(intent, EDIT_MOOD);
                     }
                 })
                 .setPositiveButton("OK", null)
