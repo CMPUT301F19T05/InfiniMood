@@ -43,7 +43,10 @@
     <string name="users_button">Users</string>
     <string name="Search_users_hint">Search …</string>
 
-    <string name="Upload_Photo_Button">Photo</string>
+    <string name="Upload_Photo_Button">Upload Image</string>
+
+    <string name="add_mood_title">Add Mood Event</string>
+    <string name="edit_mood_title">Edit Mood Event</string>
 
     <string-array name="emojis_array">
         <item>Happy</item>

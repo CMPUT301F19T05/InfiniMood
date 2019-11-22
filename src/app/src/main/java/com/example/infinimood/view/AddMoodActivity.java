@@ -71,13 +71,13 @@ public class AddMoodActivity extends MoodCompatActivity {
         }
 
         // find views
-        datePicker = findViewById(R.id.addEditDatePicker);
-        timePicker = findViewById(R.id.addEditTimePicker);
-        moodSpinner = findViewById(R.id.addEditMoodSpinner);
-        reasonInput = findViewById(R.id.addEditReasonEditText);
-        socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
-        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
-        testImage = findViewById(R.id.testImageView);
+//        datePicker = findViewById(R.id.addEditDatePicker);
+//        timePicker = findViewById(R.id.addEditTimePicker);
+//        moodSpinner = findViewById(R.id.addEditMoodSpinner);
+//        reasonInput = findViewById(R.id.addEditReasonEditText);
+//        socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
+//        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
+//        testImage = findViewById(R.id.testImageView);
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);

@@ -16,15 +16,24 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.DatePickerCallback;
+import com.example.infinimood.controller.TimePickerCallback;
+import com.example.infinimood.fragment.DatePickerFragment;
+import com.example.infinimood.fragment.TimePickerFragment;
 import com.example.infinimood.model.Mood;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * EditMoodActivity.java
@@ -37,14 +46,15 @@ public class EditMoodActivity extends MoodCompatActivity {
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
 
-    private DatePicker datePicker;
-    private TimePicker timePicker;
+    // views
+    private TextView titleTextView;
     private Spinner moodSpinner;
-    private EditText reasonInput;
     private Spinner socialSituationSpinner;
-    private Button addEditSubmitButton;
-    private ImageView testImage;
+    private EditText reasonEditText;
+    private TextView selectedTimeTextView;
+    private TextView selectedDateTextView;
 
+    // mood attributes
     private String moodId;
     private String moodEmotion;
     private long moodDate;
@@ -65,13 +75,14 @@ public class EditMoodActivity extends MoodCompatActivity {
         }
 
         // find views
-        datePicker = findViewById(R.id.addEditDatePicker);
-        timePicker = findViewById(R.id.addEditTimePicker);
+        titleTextView = findViewById(R.id.addEditTitleTextView);
         moodSpinner = findViewById(R.id.addEditMoodSpinner);
-        reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
-        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
-        testImage = findViewById(R.id.testImageView);
+        reasonEditText = findViewById(R.id.addEditReasonEditText);
+        selectedTimeTextView = findViewById(R.id.addEditSelectedTimeTextView);
+        selectedDateTextView = findViewById(R.id.addEditSelectedDateTextView);
+
+        titleTextView.setText(R.string.edit_mood_title);
 
         // extract mood info from intent
         Intent intent = getIntent();
@@ -134,10 +145,7 @@ public class EditMoodActivity extends MoodCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        timePicker.setMinute(calendar.get(Calendar.MINUTE));
-        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-        timePicker.setIs24HourView(false);
+        updateDate();
 
         // set mood spinner to mood's emotion
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.emojis_array, android.R.layout.simple_spinner_item);
@@ -158,7 +166,7 @@ public class EditMoodActivity extends MoodCompatActivity {
         }
 
         // set reason input text to mood's reason
-        reasonInput.setText(moodReason);
+        reasonEditText.setText(moodReason);
     }
 
     // start android image selection
@@ -177,7 +185,7 @@ public class EditMoodActivity extends MoodCompatActivity {
             Uri uri = data.getData();
             try {
                 moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                testImage.setImageBitmap(moodImage);
+//                testImage.setImageBitmap(moodImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -199,6 +207,50 @@ public class EditMoodActivity extends MoodCompatActivity {
         startActivityForResult(intent, PICK_LOCATION);
     }
 
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment(new TimePickerCallback() {
+            @Override
+            public void OnCallback(int hourOfDay, int minute) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(moodDate));
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                moodDate = calendar.getTime().getTime();
+                updateDate();
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment(new DatePickerCallback() {
+            @Override
+            public void OnCallback(int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(moodDate));
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                moodDate = calendar.getTime().getTime();
+                updateDate();
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void updateDate() {
+        Date date = new Date(moodDate);
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        String timeString = timeFormat.format(date);
+        String dateString = dateFormat.format(date);
+
+        selectedTimeTextView.setText(timeString);
+        selectedDateTextView.setText(dateString);
+    }
+
     public void onSubmitClicked(View view) {
         // check for empty fields
         if (moodEmotion.equals("")) {
@@ -210,17 +262,7 @@ public class EditMoodActivity extends MoodCompatActivity {
             return;
         }
 
-        moodReason = reasonInput.getText().toString();
-
-        // extract date / time from datePicker and timePicker
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, datePicker.getYear());
-        calendar.set(Calendar.MONTH, datePicker.getMonth());
-        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-        calendar.set(Calendar.MINUTE, timePicker.getMinute());
-        calendar.set(Calendar.SECOND, 0);
-        moodDate = calendar.getTime().getTime();
+        moodReason = reasonEditText.getText().toString();
 
         Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
