@@ -17,45 +17,7 @@
         android:onClick="onLogoutClicked"
         android:text="@string/logout"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/profileAddMoodButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_weight="1"
-        android:onClick="onAddMoodClicked"
-        android:text="@string/goto_add_mood"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintStart_toEndOf="@+id/usersButton" />
-
-    <Button
-        android:id="@+id/profileMoodHistoryButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_weight="1"
-        android:onClick="onMoodHistoryClicked"
-        android:text="@string/goto_mood_history"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toStartOf="@+id/profileLogoutButton"
-        app:layout_constraintStart_toEndOf="@+id/profileAddMoodButton" />
-
-    <Button
-        android:id="@+id/usersButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_weight="1"
-        android:onClick="onSearchUsersClicked"
-        android:text="@string/users_button"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
