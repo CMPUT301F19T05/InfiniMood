@@ -77,6 +77,43 @@ public class EditMoodActivity extends MoodCompatActivity {
         Intent intent = getIntent();
         Mood mood = intent.getParcelableExtra("mood");
 
+        // set widgets to match the mood event
+        if (mood != null) {
+            fillWithMoodEvent(mood);
+        } else {
+            Log.e(TAG, "Mood is null in EditMoodActivity");
+            finish();
+        }
+
+        // change moodEmotion according to the mood spinner
+        moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                moodEmotion = (String) moodSpinner.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.e(TAG, "This shouldn't happen (empty mood spinner)");
+            }
+        });
+
+        // change moodSocialSituation according to the social situation spinner
+        socialSituationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                moodSocialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
+            }
+        });
+    }
+
+    // set the EditTexts, Spinners, Pickers, etc. to match a given mood event
+    public void fillWithMoodEvent(Mood mood) {
         moodId = mood.getId();
         moodDate = mood.getDate();
         moodReason = mood.getReason();
@@ -122,44 +159,16 @@ public class EditMoodActivity extends MoodCompatActivity {
 
         // set reason input text to mood's reason
         reasonInput.setText(moodReason);
-
-        // change moodEmotion according to the mood spinner
-        moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String mood = (String) moodSpinner.getItemAtPosition(i);
-                moodEmotion = mood;
-                Log.i(TAG, moodEmotion);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.e(TAG, "This shouldn't happen (empty mood spinner)");
-            }
-        });
-
-        // change moodSocialSituation according to the social situation spinner
-        socialSituationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String socialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
-                moodSocialSituation = socialSituation;
-                Log.i(TAG, moodSocialSituation);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
-            }
-        });
     }
 
+    // start android image selection
     public void onUploadPhotoClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE);
     }
 
+    // handle the result of selecting images and locations
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -182,6 +191,7 @@ public class EditMoodActivity extends MoodCompatActivity {
         }
     }
 
+    // start ChooseLocationActivity
     public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
         intent.putExtra("EDITING", true);
@@ -202,7 +212,7 @@ public class EditMoodActivity extends MoodCompatActivity {
 
         moodReason = reasonInput.getText().toString();
 
-        // Extract date / time from datePicker and timePicker
+        // extract date / time from datePicker and timePicker
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, datePicker.getYear());
         calendar.set(Calendar.MONTH, datePicker.getMonth());
@@ -214,6 +224,7 @@ public class EditMoodActivity extends MoodCompatActivity {
 
         Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
 
+        // update the mood event in firebase
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
             @Override
             public void onCallback(boolean success) {
@@ -222,7 +233,10 @@ public class EditMoodActivity extends MoodCompatActivity {
                 } else {
                     toast("Failed to edit Mood event");
                 }
+
                 Intent returnIntent = new Intent();
+
+                // return the new mood event to the activity that called this
                 returnIntent.putExtra("mood", newMood);
 
                 setResult(Activity.RESULT_OK, returnIntent);
