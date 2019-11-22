@@ -13,24 +13,29 @@ import com.example.infinimood.controller.StringCallback;
 import com.example.infinimood.controller.TimePickerCallback;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     private TimePickerCallback callback;
+    private Date date;
 
-    public TimePickerFragment(TimePickerCallback callback) {
+    public TimePickerFragment(long date, TimePickerCallback callback) {
         this.callback = callback;
+        this.date = new Date(date);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
-        final Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        return dialog;
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

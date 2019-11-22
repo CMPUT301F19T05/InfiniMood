@@ -1,13 +1,16 @@
 package com.example.infinimood.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
@@ -28,23 +32,32 @@ import com.example.infinimood.controller.TimePickerCallback;
 import com.example.infinimood.fragment.DatePickerFragment;
 import com.example.infinimood.fragment.TimePickerFragment;
 import com.example.infinimood.model.Mood;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
- * EditMoodActivity.java
- * Activity for editing existing mood objects
+ * AddEditMoodActivity.java
+ * Activity for adding new mood events and editing existing mood events
  */
 
-public class EditMoodActivity extends MoodCompatActivity {
+public class AddEditMoodActivity extends MoodCompatActivity {
 
-    private static final String TAG = "EditMoodActivity";
+    private static final String TAG = "AddEditMoodActivity";
+
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
+
+    private int requestCode;
 
     // views
     private TextView titleTextView;
@@ -53,6 +66,7 @@ public class EditMoodActivity extends MoodCompatActivity {
     private EditText reasonEditText;
     private TextView selectedTimeTextView;
     private TextView selectedDateTextView;
+    private BottomNavigationView navigationView;
 
     // mood attributes
     private String moodId;
@@ -64,6 +78,9 @@ public class EditMoodActivity extends MoodCompatActivity {
     private Bitmap moodImage = null;
     private String moodIcon;
     private String moodColor;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +98,46 @@ public class EditMoodActivity extends MoodCompatActivity {
         reasonEditText = findViewById(R.id.addEditReasonEditText);
         selectedTimeTextView = findViewById(R.id.addEditSelectedTimeTextView);
         selectedDateTextView = findViewById(R.id.addEditSelectedDateTextView);
+        navigationView = findViewById(R.id.bottom_navigation);
 
-        titleTextView.setText(R.string.edit_mood_title);
+        navigationView.getMenu().getItem(1).setChecked(true);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         // extract mood info from intent
         Intent intent = getIntent();
-        Mood mood = intent.getParcelableExtra("mood");
 
-        // set widgets to match the mood event
-        if (mood != null) {
-            fillWithMoodEvent(mood);
-        } else {
-            Log.e(TAG, "Mood is null in EditMoodActivity");
-            finish();
+        requestCode = intent.getIntExtra("requestCode", ADD_MOOD);
+
+        if (requestCode == ADD_MOOD) {
+            titleTextView.setText(R.string.add_mood_title);
+
+            moodId = UUID.randomUUID().toString();
+
+            updateCurrentLocation();
+
+            // set date and time pickers to the mood's date and time
+            Date date = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            moodDate = calendar.getTime().getTime();
+
+            updateDate();
+
+        } else if (requestCode == EDIT_MOOD) {
+            titleTextView.setText(R.string.edit_mood_title);
+
+            Mood mood = intent.getParcelableExtra("mood");
+
+            // set widgets to match the mood event
+            if (mood != null) {
+                fillWithMoodEvent(mood);
+            } else {
+                Log.e(TAG, "Mood is null in AddEditMoodActivity");
+                finish();
+            }
         }
+
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -134,10 +177,8 @@ public class EditMoodActivity extends MoodCompatActivity {
         moodIcon = mood.getIcon();
         moodColor = mood.getColor();
 
-        if (moodLocation != null) {
-            Log.i(TAG, moodLocation.toString());
-        } else {
-            Log.i(TAG, "Mood location is null");
+        if (moodLocation == null) {
+            updateCurrentLocation();
         }
 
         // set date and time pickers to the mood's date and time
@@ -207,8 +248,30 @@ public class EditMoodActivity extends MoodCompatActivity {
         startActivityForResult(intent, PICK_LOCATION);
     }
 
+    private void updateCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    moodLocation = location;
+                    toast("Current Location Added");
+                } else {
+                    // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
+                    toast("See updateCurrentLocation() in AddMoodActivity.java");
+                }
+            }
+        });
+    }
+
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment(new TimePickerCallback() {
+        DialogFragment newFragment = new TimePickerFragment(moodDate, new TimePickerCallback() {
             @Override
             public void OnCallback(int hourOfDay, int minute) {
                 Calendar calendar = Calendar.getInstance();
@@ -223,7 +286,7 @@ public class EditMoodActivity extends MoodCompatActivity {
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment(new DatePickerCallback() {
+        DialogFragment newFragment = new DatePickerFragment(moodDate, new DatePickerCallback() {
             @Override
             public void OnCallback(int year, int month, int day) {
                 Calendar calendar = Calendar.getInstance();
@@ -271,9 +334,17 @@ public class EditMoodActivity extends MoodCompatActivity {
             @Override
             public void onCallback(boolean success) {
                 if (success) {
-                    toast("Successfully edited Mood event");
+                    if (requestCode == ADD_MOOD) {
+                        toast("Successfully added Mood event");
+                    } else if (requestCode == EDIT_MOOD) {
+                        toast("Successfully edited Mood event");
+                    }
                 } else {
-                    toast("Failed to edit Mood event");
+                    if (requestCode == ADD_MOOD) {
+                        toast("Failed to add Mood event");
+                    } else if (requestCode == EDIT_MOOD) {
+                        toast("Failed to edit Mood event");
+                    }
                 }
 
                 Intent returnIntent = new Intent();
@@ -285,5 +356,31 @@ public class EditMoodActivity extends MoodCompatActivity {
                 finish();
             }
         });
+    }
+
+    // We should have a NavBar class for these methods
+    public void onSearchUsersClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UsersActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onAddMoodClicked(MenuItem item) {
+        final Intent intent = new Intent(this, AddEditMoodActivity.class);
+        intent.putExtra("requestCode", ADD_MOOD);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onMoodHistoryClicked(MenuItem item) {
+        final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onUserProfileClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UserProfileActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
     }
 }

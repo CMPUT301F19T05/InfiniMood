@@ -2,6 +2,7 @@ package com.example.infinimood.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,13 +23,14 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
 
+    // request codes
+    protected static final int ADD_MOOD = 3;
+    protected static final int EDIT_MOOD = 4;
+
     protected static ArrayList<Mood> moods = new ArrayList<>();
 
     protected static FirebaseController firebaseController = new FirebaseController();
     protected static MoodFactory moodFactory = new MoodFactory();
-
-    public MoodCompatActivity() {
-    }
 
     @Override
     protected void onStart() {
@@ -49,5 +51,4 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
 }
