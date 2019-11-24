@@ -14,13 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
@@ -189,7 +185,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         updateDate();
 
         // set mood spinner to mood's emotion
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.emojis_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.moods_icons_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         moodSpinner.setAdapter(adapter);
         if (moodEmotion != null) {

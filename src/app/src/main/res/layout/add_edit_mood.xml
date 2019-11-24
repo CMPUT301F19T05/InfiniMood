@@ -90,7 +90,7 @@
         android:id="@+id/addEditMoodSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/emojis_array"
+        android:entries="@array/moods_icons_array"
         android:prompt="@string/emoji_prompt"
         app:layout_constraintBottom_toBottomOf="@+id/addEditMoodTextView"
         app:layout_constraintEnd_toEndOf="parent"
