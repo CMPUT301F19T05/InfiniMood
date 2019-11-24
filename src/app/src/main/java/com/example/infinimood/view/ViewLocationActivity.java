@@ -52,14 +52,6 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
         mood = intent.getParcelableExtra("mood");
     }
 
-    // Helper method that takes a color string in hex format
-    // and turns it into a transparent color
-    public int makeColorTransparent(String color) {
-        Log.i("", color);
-        String transparentColor = "#33".concat(color.substring(1));
-        return Color.parseColor(transparentColor);
-    }
-
     public MarkerOptions getMarkerOptions(Mood mood) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(mood.getLocation().getLatitude(),
@@ -69,18 +61,11 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
         markerOptions.title(l.getLatitude() + " , " + l.getLongitude());
 
         // get the color of the mood and turn it into a Hue
-        String color = mood.getColor();
-        float hue[] = new float[3];
-        int red = Integer.parseInt(color.substring(1, 3), 16);
-        int green = Integer.parseInt(color.substring(3, 5), 16);
-        int blue = Integer.parseInt(color.substring(5, 7), 16);
-        android.graphics.Color.RGBToHSV(
-                red,
-                green,
-                blue,
-                hue
-        );
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hue[1] * 360.0f));
+        String hexColor = mood.getColor();
+        float hsv[] = new float[3];
+        Color.colorToHSV(Color.parseColor(hexColor), hsv);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hsv[0]));
+
         return markerOptions;
     }
 
