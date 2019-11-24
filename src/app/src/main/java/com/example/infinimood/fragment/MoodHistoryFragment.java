@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +23,11 @@ import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.view.AddEditMoodActivity;
+import com.example.infinimood.view.ViewLocationActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MoodHistoryFragment extends DialogFragment {
 
@@ -33,66 +36,73 @@ public class MoodHistoryFragment extends DialogFragment {
     // request codes
     protected static final int ADD_MOOD = 3;
     protected static final int EDIT_MOOD = 4;
+    protected static final int VIEW_LOCATION = 5;
 
     private FirebaseController firebaseController = new FirebaseController();
-
-    private TextView moodDateTextView;
-    private TextView moodMoodTextView;
-    private TextView moodReasonTextView;
-    private TextView moodLocationTextView;
-    private TextView moodSocialSituationTextView;
-    private ImageView moodImageImageView;
 
     private Mood mood;
     private BooleanCallback onDeleteCallback;
 
-    private Date moodDate;
-    private String moodMood;
-    private String moodReason = "";
-    private Location moodLocation = null;
-    private String moodSocialSituation;
-    private Bitmap moodImage = null;
-
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a");
-
     public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
-
-        this.moodDate = new Date(mood.getDate());
-        this.moodMood = mood.getMood();
-        this.moodReason = mood.getReason();
-        this.moodLocation = mood.getLocation();
-        this.moodSocialSituation = mood.getSocialSituation();
-        this.moodImage = mood.getImage();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_mood_history, null);
-        moodDateTextView = view.findViewById(R.id.moodDateTextView);
-        moodMoodTextView = view.findViewById(R.id.moodMoodTextView);
-        moodReasonTextView = view.findViewById(R.id.moodReasonTextView);
-        moodLocationTextView = view.findViewById(R.id.moodLocationTextView);
-        moodSocialSituationTextView = view.findViewById(R.id.moodSocialSituationTextView);
-        moodImageImageView = view.findViewById(R.id.moodImageImageView);
 
-        moodDateTextView.setText(dateFormat.format(moodDate));
-        moodMoodTextView.setText(moodMood);
-        moodReasonTextView.setText(moodReason);
-        if (moodLocation != null) {
-            moodLocationTextView.setText(locationToString(moodLocation));
+        TextView moodTextView = view.findViewById(R.id.moodFragmentMoodFieldTextView);
+        TextView socialSituationTextView = view.findViewById(R.id.moodFragmentSocialSituationFieldTextView);
+        TextView reasonTextView = view.findViewById(R.id.moodFragmentReasonFieldTextView);
+        TextView timeTextView = view.findViewById(R.id.moodFragmentTimeFieldTextView);
+        TextView dateTextView = view.findViewById(R.id.moodFragmentDateFieldTextView);
+        ImageView imageImageView = view.findViewById(R.id.moodImageImageView);
+        Button viewLocationButton = view.findViewById(R.id.moodFragmentLocationButton);
+
+        Date date = new Date(mood.getDate());
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        String timeString = timeFormat.format(date);
+        String dateString = dateFormat.format(date);
+
+        timeTextView.setText(timeString);
+        dateTextView.setText(dateString);
+
+        String moodText = mood.getIcon() + ' ' + mood.getMood();
+        moodTextView.setText(moodText);
+
+        if (!mood.getReason().equals("")) {
+            reasonTextView.setText(mood.getReason());
+        } else {
+            reasonTextView.setVisibility(View.GONE);
+            view.findViewById(R.id.moodFragmentReasonTextView).setVisibility(View.GONE);
         }
-        moodSocialSituationTextView.setText(moodSocialSituation);
-        if (moodImage != null) {
-            Log.i("test", "image error");
+
+        socialSituationTextView.setText(mood.getSocialSituation());
+
+        imageImageView.setImageBitmap(mood.getImage());
+
+        if (mood.getLocation() == null) {
+            viewLocationButton.setVisibility(View.GONE);
+        } else {
+            viewLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), ViewLocationActivity.class);
+                    intent.putExtra("mood", mood);
+                    getActivity().startActivityForResult(intent, VIEW_LOCATION);
+                }
+            });
         }
-        moodImageImageView.setImageBitmap(moodImage);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Mood")
+//                .setTitle("Mood")
                 .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

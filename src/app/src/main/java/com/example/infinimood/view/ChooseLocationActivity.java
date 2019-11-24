@@ -35,6 +35,7 @@ public class ChooseLocationActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
     private Button backButton;
+    private Button currentButton;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleMap myMap;
@@ -53,6 +54,14 @@ public class ChooseLocationActivity extends FragmentActivity implements
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        currentButton = findViewById(R.id.locationCurrentButton);
+        currentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateLastLocation();
             }
         });
 

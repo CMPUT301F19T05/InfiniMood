@@ -1,108 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/moodFragmentConstraintLayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/dateTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:ems="10"
-        android:textStyle="bold"
-        android:text="Date and Time: " />
-
-    <TextView
-        android:id="@+id/moodDateTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:ems="10"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/moodTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:textStyle="bold"
-        android:text="Mood: " />
-
-    <TextView
-        android:id="@+id/moodMoodTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:ems="10"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/reasonTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:textStyle="bold"
-        android:text="Reason:" />
-
-    <TextView
-        android:id="@+id/moodReasonTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:ems="10"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/locationTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:textStyle="bold"
-        android:text="Location:" />
-
-    <TextView
-        android:id="@+id/moodLocationTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:ems="10"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/socialSituationTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:textStyle="bold"
-        android:text="Social Situation:" />
-
-    <TextView
-        android:id="@+id/moodSocialSituationTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:ems="10"
-        android:text="TextView" />
 
     <ImageView
         android:id="@+id/moodImageImageView"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/moodFragmentMoodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Mood"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/moodFragmentReasonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Reason"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentSocialSituationTextView" />
+
+    <TextView
+        android:id="@+id/moodFragmentSocialSituationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Social"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentMoodTextView" />
+
+    <TextView
+        android:id="@+id/moodFragmentDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Date"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentTimeTextView" />
+
+    <TextView
+        android:id="@+id/moodFragmentTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Time"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentReasonTextView" />
+
+    <TextView
+        android:id="@+id/moodFragmentMoodFieldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Mood"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentMoodTextView"
+        app:layout_constraintStart_toStartOf="@+id/moodFragmentFieldGuideline"
+        app:layout_constraintTop_toTopOf="@+id/moodFragmentMoodTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/moodFragmentSocialSituationFieldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Social"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentSocialSituationTextView"
+        app:layout_constraintStart_toStartOf="@+id/moodFragmentFieldGuideline"
+        app:layout_constraintTop_toTopOf="@+id/moodFragmentSocialSituationTextView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/moodFragmentReasonFieldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reason"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentReasonTextView"
+        app:layout_constraintStart_toStartOf="@+id/moodFragmentFieldGuideline"
+        app:layout_constraintTop_toTopOf="@+id/moodFragmentReasonTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/moodFragmentTimeFieldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentTimeTextView"
+        app:layout_constraintStart_toStartOf="@+id/moodFragmentFieldGuideline"
+        app:layout_constraintTop_toTopOf="@+id/moodFragmentTimeTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/moodFragmentDateFieldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentDateTextView"
+        app:layout_constraintStart_toStartOf="@+id/moodFragmentFieldGuideline"
+        app:layout_constraintTop_toTopOf="@+id/moodFragmentDateTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/moodFragmentFieldGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="96dp" />
+
+    <Button
+        android:id="@+id/moodFragmentLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="View Location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentDateTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
