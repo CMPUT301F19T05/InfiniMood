@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.view.AddEditMoodActivity;
+import com.example.infinimood.view.ViewLocationActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +36,7 @@ public class MoodHistoryFragment extends DialogFragment {
     // request codes
     protected static final int ADD_MOOD = 3;
     protected static final int EDIT_MOOD = 4;
+    protected static final int VIEW_LOCATION = 5;
 
     private FirebaseController firebaseController = new FirebaseController();
 
@@ -56,6 +59,7 @@ public class MoodHistoryFragment extends DialogFragment {
         TextView timeTextView = view.findViewById(R.id.moodFragmentTimeFieldTextView);
         TextView dateTextView = view.findViewById(R.id.moodFragmentDateFieldTextView);
         ImageView imageImageView = view.findViewById(R.id.moodImageImageView);
+        Button viewLocationButton = view.findViewById(R.id.moodFragmentLocationButton);
 
         Date date = new Date(mood.getDate());
 
@@ -82,9 +86,18 @@ public class MoodHistoryFragment extends DialogFragment {
 
         imageImageView.setImageBitmap(mood.getImage());
 
-//        if (moodLocation != null) {
-//            moodLocationTextView.setText(locationToString(moodLocation));
-//        }
+        if (mood.getLocation() == null) {
+            viewLocationButton.setVisibility(View.GONE);
+        } else {
+            viewLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), ViewLocationActivity.class);
+                    intent.putExtra("mood", mood);
+                    getActivity().startActivityForResult(intent, VIEW_LOCATION);
+                }
+            });
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
