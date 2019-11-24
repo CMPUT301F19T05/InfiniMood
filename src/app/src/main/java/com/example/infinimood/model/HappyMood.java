@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.media.Image;
 
+import com.example.infinimood.R;
+
 import java.util.Date;
 
 /**
