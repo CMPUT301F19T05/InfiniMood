@@ -18,9 +18,8 @@ public class SleepyMood extends Mood {
                      String reason,
                      Location location,
                      String socialSituation,
-                      Bitmap image)
-    {
-        super(id, date, reason, location, socialSituation, image);
+                      boolean hasImage) {
+        super(id, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.SLEEPY_STRING);
         super.setIcon(constants.SLEEPY_ICON);

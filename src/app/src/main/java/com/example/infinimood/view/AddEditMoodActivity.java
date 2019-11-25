@@ -72,6 +72,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private String moodSocialSituation;
     private Location moodLocation = null;
     private Bitmap moodImage = null;
+    private boolean moodHasImage = false;
+    private boolean uploadedImage = false;
     private String moodIcon;
     private String moodColor;
 
@@ -171,6 +173,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodLocation = mood.getLocation();
         moodSocialSituation = mood.getSocialSituation();
         moodEmotion = mood.getMood();
+        moodHasImage = mood.hasImage();
         moodIcon = mood.getIcon();
         moodColor = mood.getColor();
 
@@ -223,7 +226,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             Uri uri = data.getData();
             try {
                 moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//                testImage.setImageBitmap(moodImage);
+                moodHasImage = true;
+                uploadedImage = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -324,8 +328,28 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         moodReason = reasonEditText.getText().toString();
 
-        Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
+        Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
+        if (uploadedImage) {
+            firebaseController.addImageToDB(newMood, moodImage, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    if (bool) {
+                        toast("Image upload successful");
+                        addMoodToDB(newMood);
+                    } else {
+                        toast("Image upload failed");
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+                }
+            });
+        } else {
+            addMoodToDB(newMood);
+        }
+    }
+
+    public void addMoodToDB(Mood newMood) {
         // update the mood event in firebase
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
             @Override
@@ -336,21 +360,21 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                     } else if (requestCode == EDIT_MOOD) {
                         toast("Successfully edited Mood event");
                     }
+
+                    Intent returnIntent = new Intent();
+                    // return the new mood event to the activity that called this
+                    returnIntent.putExtra("mood", newMood);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
                 } else {
                     if (requestCode == ADD_MOOD) {
                         toast("Failed to add Mood event");
                     } else if (requestCode == EDIT_MOOD) {
                         toast("Failed to edit Mood event");
                     }
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
                 }
-
-                Intent returnIntent = new Intent();
-
-                // return the new mood event to the activity that called this
-                returnIntent.putExtra("mood", newMood);
-
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
             }
         });
     }

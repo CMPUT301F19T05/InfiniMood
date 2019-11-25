@@ -19,7 +19,7 @@ public class Mood implements Parcelable {
     private String reason = "";
     private Location location = null;
     private String socialSituation;
-    private Bitmap image = null;
+    private boolean hasImage = false;
 
     private String mood = "";
     private String icon = "";
@@ -30,13 +30,13 @@ public class Mood implements Parcelable {
                 String reason,
                 Location location,
                 String socialSituation,
-                Bitmap image) {
+                boolean hasImage) {
         this.id = id;
         this.dateTimestamp = dateTimestamp;
         this.reason = reason;
         this.location = location;
         this.socialSituation = socialSituation;
-        this.image = image;
+        this.hasImage = hasImage;
     }
 
     public Mood(Parcel in) {
@@ -56,7 +56,7 @@ public class Mood implements Parcelable {
         dest.writeDouble(location.getLatitude());
         dest.writeDouble(location.getLongitude());
         dest.writeString(socialSituation);
-        // TODO: Write image
+        dest.writeString(String.valueOf(hasImage));
         dest.writeString(mood);
         dest.writeString(icon);
         dest.writeString(color);
@@ -74,6 +74,8 @@ public class Mood implements Parcelable {
         this.location.setLongitude(longitude);
 
         this.socialSituation = in.readString();
+        this.hasImage = Boolean.valueOf(in.readString());
+
         this.mood = in.readString();
         this.icon = in.readString();
         this.color = in.readString();
@@ -131,12 +133,12 @@ public class Mood implements Parcelable {
         this.socialSituation = socialSituation;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public boolean hasImage() {
+        return hasImage;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
 
     public String getMood() {
