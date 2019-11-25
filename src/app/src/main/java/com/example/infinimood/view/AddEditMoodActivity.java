@@ -8,12 +8,14 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,6 +56,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
+    private static final int TAKE_IMAGE = 4;
     protected static final int VIEW_LOCATION = 5;
 
 
@@ -66,6 +70,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private TextView selectedTimeTextView;
     private TextView selectedDateTextView;
     private BottomNavigationView navigationView;
+
+    //buttons
+    private Button cameraButton;
+    private Button galleryButton;
+    private Button photoViewButton;
 
     // mood attributes
     private String moodId;
@@ -100,6 +109,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         selectedTimeTextView = findViewById(R.id.addEditSelectedTimeTextView);
         selectedDateTextView = findViewById(R.id.addEditSelectedDateTextView);
         navigationView = findViewById(R.id.bottom_navigation);
+        galleryButton = findViewById(R.id.uploadPhotoButton);
+        cameraButton = findViewById(R.id.takePhotoButton);
+        photoViewButton = findViewById(R.id.addEditViewImageButton);
+
+        updatePhotoButtons();
 
         navigationView.getMenu().getItem(1).setChecked(true);
 
@@ -220,20 +234,31 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         startActivityForResult(intent, PICK_IMAGE);
     }
 
+    public void onTakePhotoClicked(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_IMAGE);
+    }
+
     // handle the result of selecting images and locations
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             try {
                 moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 moodHasImage = true;
                 uploadedImage = true;
+                updatePhotoButtons();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if(requestCode == TAKE_IMAGE && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            moodImage = (Bitmap) extras.get("data");
+            moodHasImage = true;
+            uploadedImage = true;
+            updatePhotoButtons();
         } else if (requestCode == PICK_LOCATION && resultCode == RESULT_OK) {
 
             boolean addedLocation = data.getBooleanExtra("ADDED", false);
@@ -394,10 +419,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     }
 
     public void onViewImageClicked(View view) {
-        if (!moodHasImage) {
-            toast("Upload an image first");
-            return;
-        }
+
         if (moodHasImage && moodImage == null) {
             Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
             new ViewImageFragment(newMood, new BooleanCallback() {
@@ -406,6 +428,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                     uploadedImage = false;
                     moodHasImage = false;
                     moodImage = null;
+                    updatePhotoButtons();
                 }
             }).show(getSupportFragmentManager(), "VIEW_IMAGE");
         }
@@ -416,6 +439,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                     uploadedImage = false;
                     moodHasImage = false;
                     moodImage = null;
+                    updatePhotoButtons();
                 }
             }).show(getSupportFragmentManager(), "VIEW_IMAGE");
         }
@@ -430,6 +454,18 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             Intent intent = new Intent(this, ViewLocationActivity.class);
             intent.putExtra("mood", newMood);
             startActivityForResult(intent, VIEW_LOCATION);
+        }
+    }
+
+    public void updatePhotoButtons(){
+        if(moodImage != null){
+            galleryButton.setVisibility(View.INVISIBLE);
+            cameraButton.setVisibility(View.INVISIBLE);
+            photoViewButton.setVisibility(View.VISIBLE);
+        } else{
+            galleryButton.setVisibility(View.VISIBLE);
+            cameraButton.setVisibility(View.VISIBLE);
+            photoViewButton.setVisibility(View.INVISIBLE);
         }
     }
 
