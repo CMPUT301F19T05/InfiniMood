@@ -17,8 +17,8 @@ public class AfraidMood extends Mood {
                       String reason,
                       Location location,
                       String socialSituation,
-                      Bitmap image) {
-        super(id, date, reason, location, socialSituation, image);
+                      boolean hasImage) {
+        super(id, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.AFRAID_STRING);
         super.setIcon(constants.AFRAID_ICON);
