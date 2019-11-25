@@ -1,7 +1,5 @@
 package com.example.infinimood.controller;
 
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -10,22 +8,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodFactory;
 import com.example.infinimood.model.User;
-import com.example.infinimood.view.CreateAccountActivity;
-import com.example.infinimood.view.MoodCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -111,109 +101,6 @@ public class FirebaseController {
                             }
                         } else {
                             Log.e(TAG, "Getting username failed");
-                        }
-                    }
-                });
-    }
-
-    public void createUser(Context context, String newUsername, String email, String password, BooleanCallback callback) {
-        firebaseFirestore
-                .collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String username = (String) document.get("username");
-                                if (newUsername.equals(username)) {
-                                    callback.onCallback(false);
-                                    ((CreateAccountActivity) context).toast(R.string.error_username_taken);
-                                }
-                            }
-                            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            firebaseUser = firebaseAuth.getCurrentUser();
-                                            if (task.isSuccessful()) {
-                                                callback.onCallback(true);
-                                            } else {
-                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                callback.onCallback(false);
-
-                                                try {
-                                                    throw task.getException();
-                                                }
-                                                // if user enters wrong email.
-                                                catch (FirebaseAuthWeakPasswordException weakPassword) {
-                                                    Log.d(TAG, "onComplete: weak_password");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_password_too_short);
-                                                }
-                                                // if user enters wrong password.
-                                                catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
-                                                    Log.d(TAG, "onComplete: malformed_email");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_email_invalid);
-                                                } catch (FirebaseAuthUserCollisionException existEmail) {
-                                                    Log.d(TAG, "onComplete: exist_email");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_email_taken);
-                                                } catch (Exception e) {
-                                                    Log.d(TAG, "onComplete: " + e.getMessage());
-                                                }
-                                            }
-                                        }
-                                    });
-                        } else {
-                            ((CreateAccountActivity) context).toast("Failed creating account");
-                            callback.onCallback(false);
-                        }
-                    }
-                });
-    }
-
-    public void setCurrentUserData(String username, BooleanCallback callback) {
-        assert (userAuthenticated());
-
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("username", username);
-
-        firebaseFirestore.collection("users")
-                .document(firebaseAuth.getCurrentUser().getUid())
-                .set(userData)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        callback.onCallback(task.isSuccessful());
-                    }
-                });
-    }
-
-    public void signIn(Context context, String email, String password, BooleanCallback callback) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        if (task.isSuccessful()) {
-                            callback.onCallback(true);
-                        } else {
-                            callback.onCallback(false);
-                            try {
-                                throw task.getException();
-                            }
-                            // if user enters wrong email.
-                            catch (FirebaseAuthInvalidUserException invalidEmail) {
-                                Log.d(TAG, "onComplete: invalid_email");
-                                ((MoodCompatActivity) context).toast("Invalid email");
-                            }
-                            // if user enters wrong password.
-                            catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                                Log.d(TAG, "onComplete: wrong_password");
-                                ((MoodCompatActivity) context).toast("Incorrect password");
-                            } catch (Exception e) {
-                                Log.d(TAG, "onComplete: " + e.getMessage());
-                                ((MoodCompatActivity) context).toast(R.string.login_failed);
-                            }
                         }
                     }
                 });
