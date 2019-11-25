@@ -319,7 +319,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         Date date = new Date(moodDate);
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy", Locale.getDefault());
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         String timeString = timeFormat.format(date);
         String dateString = dateFormat.format(date);
