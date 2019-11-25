@@ -55,6 +55,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         user =  (User)i.getSerializableExtra("user");
 
         if (!firebaseController.userAuthenticated()) {
+
             startActivityNoHistory(MainActivity.class);
         }
         else{

@@ -23,7 +23,7 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
 
-    // request codes
+    // Request codes
     protected static final int ADD_MOOD = 3;
     protected static final int EDIT_MOOD = 4;
 
@@ -47,9 +47,20 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         toast(getString(id));
     }
 
+    public void startActivityWithHistory(Class<? extends Activity> activity) {
+        final Intent intent = new Intent(this, activity);
+        startActivity(intent);
+    }
+
     public void startActivityNoHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void refreshAuth() {
+        // TODO: Temporary
+        firebaseController.userAuthenticated();
+    }
+
 }
