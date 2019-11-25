@@ -27,6 +27,7 @@ import com.example.infinimood.controller.DatePickerCallback;
 import com.example.infinimood.controller.TimePickerCallback;
 import com.example.infinimood.fragment.DatePickerFragment;
 import com.example.infinimood.fragment.TimePickerFragment;
+import com.example.infinimood.fragment.ViewImageFragment;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,6 +53,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
+    protected static final int VIEW_LOCATION = 5;
+
 
     private int requestCode;
 
@@ -112,7 +115,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
             moodId = UUID.randomUUID().toString();
 
-            updateCurrentLocation();
+//            updateCurrentLocation();
 
             // set date and time pickers to the mood's date and time
             Date date = new Date();
@@ -177,9 +180,9 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodIcon = mood.getIcon();
         moodColor = mood.getColor();
 
-        if (moodLocation == null) {
-            updateCurrentLocation();
-        }
+//        if (moodLocation == null) {
+//            updateCurrentLocation();
+//        }
 
         // set date and time pickers to the mood's date and time
         Date date = new Date(moodDate);
@@ -232,20 +235,30 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 e.printStackTrace();
             }
         } else if (requestCode == PICK_LOCATION && resultCode == RESULT_OK) {
-            String longitude = data.getExtras().getString("LONG");
-            String latitude = data.getExtras().getString("LAT");
-            Location l = new Location("dummy");
-            l.setLatitude(Double.parseDouble(latitude));
-            l.setLongitude(Double.parseDouble(longitude));
-            moodLocation = l;
+
+            boolean addedLocation = data.getBooleanExtra("ADDED", false);
+
+            if (addedLocation) {
+                double latitude = data.getDoubleExtra("LAT", 0);
+                double longitude = data.getDoubleExtra("LON", 0);
+                moodLocation = new Location("");
+                moodLocation.setLatitude(latitude);
+                moodLocation.setLongitude(longitude);
+            } else {
+                moodLocation = null;
+            }
         }
     }
 
     // start ChooseLocationActivity
     public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
-        intent.putExtra("EDITING", true);
-        intent.putExtra("location", moodLocation);
+        if (moodLocation != null) {
+            intent.putExtra("HAS_LOCATION", true);
+            intent.putExtra("location", moodLocation);
+        } else {
+            intent.putExtra("HAS_LOCATION", false);
+        }
         startActivityForResult(intent, PICK_LOCATION);
     }
 
@@ -306,7 +319,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         Date date = new Date(moodDate);
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy", Locale.getDefault());
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         String timeString = timeFormat.format(date);
         String dateString = dateFormat.format(date);
@@ -377,6 +391,32 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 }
             }
         });
+    }
+
+    public void onViewImageClicked(View view) {
+        if (!moodHasImage) {
+            toast("Upload an image first");
+            return;
+        }
+        if (moodHasImage && moodImage == null) {
+            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
+            new ViewImageFragment(newMood).show(getSupportFragmentManager(), "VIEW_IMAGE");
+        }
+        if (moodHasImage && moodImage != null) {
+            new ViewImageFragment(moodImage).show(getSupportFragmentManager(), "VIEW_IMAGE");
+        }
+    }
+
+    public void onViewLocationClicked(View view) {
+        if (moodLocation == null) {
+            toast("Choose a location first");
+            return;
+        } else {
+            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+            Intent intent = new Intent(this, ViewLocationActivity.class);
+            intent.putExtra("mood", newMood);
+            startActivityForResult(intent, VIEW_LOCATION);
+        }
     }
 
     // We should have a NavBar class for these methods

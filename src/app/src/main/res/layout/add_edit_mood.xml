@@ -23,6 +23,7 @@
 
     <Button
         android:id="@+id/addEditSubmitButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
         android:clickable="false"
@@ -30,35 +31,33 @@
         android:text="Submit"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseLocationButton" />
-
-    <Button
-        android:id="@+id/uploadPhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:onClick="onUploadPhotoClicked"
-        android:text="@string/Upload_Photo_Button"
-        app:layout_constraintBottom_toBottomOf="@+id/chooseLocationButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/chooseLocationButton"
-        app:layout_constraintTop_toTopOf="@+id/chooseLocationButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/addEditImageTextView" />
 
     <Button
         android:id="@+id/chooseLocationButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:onClick="onChooseLocationPicked"
-        android:text="Select Location"
-        app:layout_constraintBottom_toTopOf="@+id/addEditSubmitButton"
-        app:layout_constraintEnd_toStartOf="@+id/uploadPhotoButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditDateTextView" />
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditViewLocationButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditViewLocationButton" />
+
+    <Button
+        android:id="@+id/uploadPhotoButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:onClick="onUploadPhotoClicked"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditImageTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditImageTextView" />
 
     <Spinner
         android:id="@+id/addEditSocialSituationSpinner"
@@ -76,13 +75,14 @@
         android:id="@+id/addEditReasonEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="Reason (Optional)"
         android:inputType="text"
         android:maxLength="20"
         app:layout_constraintBottom_toBottomOf="@+id/addEditReasonTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/addEditReasonTextView"
         app:layout_constraintTop_toTopOf="@+id/addEditReasonTextView" />
 
@@ -105,32 +105,32 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/addEditMoodTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addEditDatePickerButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:onClick="showDatePickerDialog"
-        android:text="Select Date"
-        app:layout_constraintBottom_toTopOf="@+id/uploadPhotoButton"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditSelectedDateTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditTimePickerButton" />
+        app:layout_constraintTop_toTopOf="@+id/addEditSelectedDateTextView" />
 
     <Button
         android:id="@+id/addEditTimePickerButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:onClick="showTimePickerDialog"
-        android:text="Select Time"
-        app:layout_constraintBottom_toBottomOf="@+id/addEditTimeTextView"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditSelectedTimeTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addEditTimeTextView"
-        app:layout_constraintVertical_bias="0.636" />
+        app:layout_constraintTop_toTopOf="@+id/addEditSelectedTimeTextView" />
 
     <TextView
         android:id="@+id/addEditTimeTextView"
@@ -139,6 +139,7 @@
         android:layout_marginStart="8dp"
         android:text="Time"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/addEditDateTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addEditReasonTextView" />
@@ -150,10 +151,10 @@
         android:layout_marginStart="8dp"
         android:text="Date"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/addEditDatePickerButton"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditLocationTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addEditDatePickerButton"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintTop_toBottomOf="@+id/addEditTimeTextView" />
 
     <TextView
         android:id="@+id/addEditSocialSituationTextView"
@@ -162,6 +163,7 @@
         android:layout_marginStart="8dp"
         android:text="Social"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/addEditReasonTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addEditMoodTextView" />
@@ -173,6 +175,7 @@
         android:layout_marginStart="8dp"
         android:text="Reason"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/addEditTimeTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addEditSocialSituationTextView" />
@@ -184,6 +187,7 @@
         android:layout_marginStart="8dp"
         android:text="Mood"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addEditTitleTextView" />
@@ -192,23 +196,71 @@
         android:id="@+id/addEditSelectedDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Selected Date"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/addEditDateTextView"
-        app:layout_constraintStart_toEndOf="@+id/addEditDateTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addEditDatePickerButton"
         app:layout_constraintTop_toTopOf="@+id/addEditDateTextView" />
 
     <TextView
         android:id="@+id/addEditSelectedTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Selected Time"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/addEditTimeTextView"
-        app:layout_constraintStart_toEndOf="@+id/addEditTimeTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addEditTimePickerButton"
         app:layout_constraintTop_toTopOf="@+id/addEditTimeTextView" />
+
+    <TextView
+        android:id="@+id/addEditLocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Location"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditImageTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditDateTextView" />
+
+    <TextView
+        android:id="@+id/addEditImageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Image"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSubmitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditLocationTextView" />
+
+    <Button
+        android:id="@+id/addEditViewLocationButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="onViewLocationClicked"
+        android:text="View"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditLocationTextView"
+        app:layout_constraintEnd_toStartOf="@+id/chooseLocationButton"
+        app:layout_constraintTop_toTopOf="@+id/addEditLocationTextView" />
+
+    <Button
+        android:id="@+id/addEditViewImageButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="onViewImageClicked"
+        android:text="View"
+        app:layout_constraintBottom_toBottomOf="@+id/uploadPhotoButton"
+        app:layout_constraintEnd_toStartOf="@+id/uploadPhotoButton"
+        app:layout_constraintTop_toTopOf="@+id/uploadPhotoButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

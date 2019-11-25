@@ -61,7 +61,27 @@ public class ChooseLocationActivity extends FragmentActivity implements
         currentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateLastLocation();
+                Task<Location> task = fusedLocationProviderClient.getLastLocation();
+                task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            currentLocation = location;
+                            selectedLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                            Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 16.5f));
+
+                            if (currentMarker != null) {
+                                currentMarker.remove();
+                            }
+
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(selectedLocation);
+                            markerOptions.title("Selected Location");
+                            currentMarker = myMap.addMarker(markerOptions);
+                        }
+                    }
+                });
             }
         });
 
@@ -81,7 +101,8 @@ public class ChooseLocationActivity extends FragmentActivity implements
             public void onSuccess(Location location) {
                 if (location != null) {
                     currentLocation = location;
-                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                    selectedLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                     SupportMapFragment supportMapFragment = (SupportMapFragment)
                             getSupportFragmentManager().findFragmentById(R.id.locationMap);
                     supportMapFragment.getMapAsync(ChooseLocationActivity.this);
@@ -92,10 +113,15 @@ public class ChooseLocationActivity extends FragmentActivity implements
 
     public void onConfirmClick(View view) {
         Intent intent = new Intent();
-        Bundle b = new Bundle();
-        b.putString("LAT", String.valueOf(selectedLocation.latitude));
-        b.putString("LONG", String.valueOf(selectedLocation.longitude));
-        intent.putExtras(b);
+
+        if (selectedLocation != null) {
+            intent.putExtra("ADDED", true);
+            intent.putExtra("LAT", selectedLocation.latitude);
+            intent.putExtra("LON", selectedLocation.longitude);
+        } else {
+            intent.putExtra("ADDED", false);
+        }
+
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -106,10 +132,10 @@ public class ChooseLocationActivity extends FragmentActivity implements
 
         Intent intent = getIntent();
 
-        boolean editing = intent.getBooleanExtra("EDITING", false);
+        boolean hasLocation = intent.getBooleanExtra("HAS_LOCATION", false);
 
         LatLng latLng = null;
-        if (editing) {
+        if (hasLocation) {
             Location location = intent.getParcelableExtra("location");
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
         } else {
@@ -121,8 +147,9 @@ public class ChooseLocationActivity extends FragmentActivity implements
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
 
         if (currentMarker != null) {
-            currentMarker.setVisible(false);
+            currentMarker.remove();
         }
+
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Selected Location");
@@ -132,7 +159,7 @@ public class ChooseLocationActivity extends FragmentActivity implements
             @Override
             public void onMapClick(LatLng latLng) {
                 if (currentMarker != null) {
-                    currentMarker.setVisible(false);
+                    currentMarker.remove();
                 }
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
@@ -161,5 +188,10 @@ public class ChooseLocationActivity extends FragmentActivity implements
         markerOptions.title("Selected Location");
         myMap.addMarker(markerOptions);
         selectedLocation = latLng;
+    }
+
+    public void onClearClicked(View view) {
+        currentMarker.remove();
+        selectedLocation = null;
     }
 }

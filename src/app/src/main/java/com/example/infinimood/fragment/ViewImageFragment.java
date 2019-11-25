@@ -36,11 +36,15 @@ public class ViewImageFragment extends DialogFragment {
 
     private FirebaseController firebaseController = new FirebaseController();
 
-    private Mood mood;
-    private Bitmap bitmap;
+    private Mood mood = null;
+    private Bitmap bitmap = null;
 
     public ViewImageFragment(Mood mood) {
         this.mood = mood;
+    }
+
+    public ViewImageFragment(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     @NonNull
@@ -50,21 +54,26 @@ public class ViewImageFragment extends DialogFragment {
 
         ImageView imageView = view.findViewById(R.id.viewImageFragmentImageView);
 
-        firebaseController.getImageFromDB(this.mood, new BitmapCallback() {
-            @Override
-            public void onCallback(Bitmap bitmap) {
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
-                } else {
-                    getActivity().getFragmentManager().popBackStack();
+        if (mood == null && bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else if (mood != null && bitmap == null) {
+            firebaseController.getImageFromDB(this.mood, new BitmapCallback() {
+                @Override
+                public void onCallback(Bitmap bitmap) {
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    } else {
+                        getActivity().getFragmentManager().popBackStack();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setPositiveButton("OK", null)
-                .create();
+
+        builder.setView(view);
+        builder.setPositiveButton("OK", null);
+
+        return builder.create();
     }
 }
