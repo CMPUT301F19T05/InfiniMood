@@ -41,7 +41,7 @@ public class UsersActivity extends MoodCompatActivity  {
         navigationView.getMenu().getItem(0).setChecked(true);
 
         if (!firebaseController.userAuthenticated()) {
-            startActivityNoHistory(MainActivity.class);
+            startActivityNoHistory(LoginActivity.class);
         }
 
         firebaseController.getUsers(new GetUsersCallback() {

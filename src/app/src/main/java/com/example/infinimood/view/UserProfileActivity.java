@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.infinimood.R;
 import com.example.infinimood.controller.StringCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 /**
  * UserProfileActivity.java
@@ -40,7 +39,7 @@ public class UserProfileActivity extends MoodCompatActivity {
         super.onStart();
 
         if (!firebaseController.userAuthenticated()) {
-            startActivityNoHistory(MainActivity.class);
+            startActivityNoHistory(LoginActivity.class);
         }
 
         firebaseController.getUsername(new StringCallback() {
@@ -78,7 +77,7 @@ public class UserProfileActivity extends MoodCompatActivity {
 
     public void onLogoutClicked(View view) {
         firebaseController.signOut();
-        startActivityNoHistory(MainActivity.class);
+        startActivityNoHistory(LoginActivity.class);
     }
 
     // print all of the current user's mood events to console
