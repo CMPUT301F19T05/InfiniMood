@@ -1,6 +1,5 @@
 package com.example.infinimood;
 
-import android.graphics.Bitmap;
 import android.location.Location;
 
 import com.example.infinimood.model.AfraidMood;
@@ -29,7 +28,7 @@ public class MoodTest {
     private final static String TEST_REASON = "test123";
     private final static Location TEST_LOCATION = null;
     private final static String TEST_SOCIAL_SITUATION = SocialSituation.WITH_CROWD.getDescription();
-    private final static Bitmap TEST_IMAGE = null;
+    private final static boolean TEST_HAS_IMAGE = false;
 
     private Mood testConstructor(Class<? extends Mood> moodClass) {
         final Constructor<? extends Mood> constructor;
@@ -42,7 +41,7 @@ public class MoodTest {
                     String.class,
                     Location.class,
                     String.class,
-                    Bitmap.class
+                    boolean.class
             );
         } catch (NoSuchMethodException ex) {
             fail();
@@ -56,7 +55,7 @@ public class MoodTest {
                     TEST_REASON,
                     TEST_LOCATION,
                     TEST_SOCIAL_SITUATION,
-                    TEST_IMAGE
+                    TEST_HAS_IMAGE
             );
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException ex) {
             fail();
@@ -68,7 +67,7 @@ public class MoodTest {
         assertEquals(mood.getReason(), TEST_REASON);
         assertEquals(mood.getLocation(), TEST_LOCATION);
         assertEquals(mood.getSocialSituation(), TEST_SOCIAL_SITUATION);
-        assertEquals(mood.hasImage(), TEST_IMAGE);
+        assertEquals(mood.hasImage(), TEST_HAS_IMAGE);
 
         return mood;
     }
