@@ -68,7 +68,7 @@ public class MoodTest {
         assertEquals(mood.getReason(), TEST_REASON);
         assertEquals(mood.getLocation(), TEST_LOCATION);
         assertEquals(mood.getSocialSituation(), TEST_SOCIAL_SITUATION);
-        assertEquals(mood.getImage(), TEST_IMAGE);
+        assertEquals(mood.hasImage(), TEST_IMAGE);
 
         return mood;
     }
