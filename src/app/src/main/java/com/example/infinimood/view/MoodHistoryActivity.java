@@ -56,7 +56,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
         if (!firebaseController.userAuthenticated()) {
 
-            startActivityNoHistory(MainActivity.class);
+            startActivityNoHistory(LoginActivity.class);
         }
         else{
             moodHistoryTextView = findViewById(R.id.moodHistoryTitle);
