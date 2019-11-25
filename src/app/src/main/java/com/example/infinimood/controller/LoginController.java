@@ -8,14 +8,14 @@ import com.example.infinimood.R;
 import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.LoginActivity;
 import com.example.infinimood.view.UserProfileActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 /**
- *
+ * LoginController.java
+ * Controller for the login activity
  */
 
 public class LoginController extends BaseController {
@@ -39,26 +39,24 @@ public class LoginController extends BaseController {
             activity.focusPasswordField();
         } else {
             activity.showOverlay();
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            activity.refreshAuth();
-                            if (task.isSuccessful()) {
-                                activity.startActivityNoHistory(UserProfileActivity.class);
-                            } else {
-                                try {
-                                    throw task.getException();
-                                } catch (FirebaseAuthInvalidUserException invalidEmail) {
-                                    activity.toast("Invalid email");
-                                } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                                    activity.toast("Incorrect password");
-                                } catch (Exception e) {
-                                    activity.toast(R.string.login_failed);
-                                }
+            firebaseAuth
+                    .signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
+                        activity.refreshAuth();
+                        if (task.isSuccessful()) {
+                            activity.startActivityNoHistory(UserProfileActivity.class);
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                activity.toast(R.string.error_email_invalid);
+                            } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                activity.toast(R.string.login_wrong_password);
+                            } catch (Exception e) {
+                                activity.toast(R.string.login_failed);
                             }
-                            activity.hideOverlay();
                         }
+                        activity.hideOverlay();
                     });
         }
     }
