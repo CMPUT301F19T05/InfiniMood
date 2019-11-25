@@ -84,7 +84,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         setContentView(R.layout.add_edit_mood);
 
         if (!firebaseController.userAuthenticated()) {
-            startActivityNoHistory(MainActivity.class);
+            startActivityNoHistory(LoginActivity.class);
         }
 
         // find views
