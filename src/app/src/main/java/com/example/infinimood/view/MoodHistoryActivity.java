@@ -2,12 +2,14 @@ package com.example.infinimood.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
@@ -16,6 +18,7 @@ import com.example.infinimood.controller.MoodHistoryAdapter;
 import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -33,6 +36,9 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     private Switch reverseToggle;
 
     private ListView moodListView;
+    private TextView moodHistoryTextView;
+
+    private User user = null;
 
     BottomNavigationView navigationView;
 
@@ -45,8 +51,12 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.getMenu().getItem(2).setChecked(true);
 
+        Intent i = getIntent();
+        user =  (User)i.getSerializableExtra("user");
+
         if (!firebaseController.userAuthenticated()) {
-            startActivityNoHistory(LoginActivity.class);
+
+            startActivityNoHistory(MainActivity.class);
         } else {
             moodListView = findViewById(R.id.moodHistoryListView);
 
@@ -55,13 +65,13 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     comparator.reverse();
-                    update();
+                    update(user);
                 }
             });
-
             // update the UI
-            update();
+            update(user);
         }
+
         moodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,7 +81,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                     public void onCallback(boolean bool) {
                         if (bool) {
                             toast("Mood deleted");
-                            update();
+                            update(user);
                         } else {
                             toast("Could not delete mood");
                         }
@@ -84,22 +94,36 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        update();
+        update(user);
     }
 
-    public void update() {
-        firebaseController.refreshUserMoods(new GetMoodsCallback() {
-            @Override
-            public void onCallback(ArrayList<Mood> moodsArrayList) {
-                moods = moodsArrayList;
-                Collections.sort(moods, comparator);
-                adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
-                moodListView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();  // update the ListView
-            }
-        });
+    public void update(User user) {
+        if (user == null) {
+            firebaseController.refreshUserMoods(new GetMoodsCallback() {
+                @Override
+                public void onCallback(ArrayList<Mood> moodsArrayList) {
+                    moods = moodsArrayList;
+                    Collections.sort(moods, comparator);
+                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
+                    moodListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();  // update the ListView
+                }
+            });
+        }
+        else {
+            firebaseController.refreshOtherUserMoods(user, new GetMoodsCallback() {
+                @Override
+                public void onCallback(ArrayList<Mood> moodsArrayList) {
+                    otherUserMoods = moodsArrayList;
+                    Collections.sort(otherUserMoods, comparator);
+                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, otherUserMoods);
+                    moodListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();  // update the ListView
+                }
+            });
+        }
     }
+
 
     public void moodMapClick(View view) {
         final Intent intent = new Intent(this, MoodMapActivity.class);

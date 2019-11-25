@@ -2,12 +2,14 @@ package com.example.infinimood.model;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 /**
  *  User.java
  *  User class
  */
 
-public class User {
+public class User implements Serializable {
 
     private String userID;
     private String username;

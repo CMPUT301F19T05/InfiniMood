@@ -28,6 +28,7 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     protected static final int EDIT_MOOD = 4;
 
     protected static ArrayList<Mood> moods = new ArrayList<>();
+    protected static ArrayList<Mood> otherUserMoods = new ArrayList<>();
 
     protected static FirebaseController firebaseController = new FirebaseController();
     protected static MoodFactory moodFactory = new MoodFactory();

@@ -54,8 +54,6 @@ public class UsersActivity extends MoodCompatActivity  {
                     currentlyShownUsers.add(user);
                 }
 
-                searchListView = findViewById(R.id.searchListView);
-
                 modeSpinner = findViewById(R.id.searchSpinner);
                 modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -107,12 +105,22 @@ public class UsersActivity extends MoodCompatActivity  {
                         return false;
                     }
                 });
+                searchListView = findViewById(R.id.searchListView);
+                searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        User user = (User) searchListView.getItemAtPosition(position);
+                        if (user.isCurrentUserFollows()) {
+                            Intent i = new Intent(UsersActivity.this, MoodHistoryActivity.class);
+                            i.putExtra("user", user);
+                            startActivity(i);
+                        }
+                    }
+                });
 
                 update();
             }
         });
-
-
     }
 
     public void findUsersBySubstring(String substring) {
