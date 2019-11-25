@@ -18,6 +18,7 @@ import com.example.infinimood.controller.BitmapCallback;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.view.AddEditMoodActivity;
 
 public class ViewImageFragment extends DialogFragment {
 
