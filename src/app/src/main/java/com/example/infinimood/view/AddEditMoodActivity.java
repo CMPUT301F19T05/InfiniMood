@@ -140,6 +140,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 moodEmotion = (String) moodSpinner.getItemAtPosition(i);
+                moodEmotion = moodEmotion.substring(3);
             }
 
             @Override
