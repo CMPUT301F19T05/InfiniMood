@@ -53,8 +53,17 @@ public class Mood implements Parcelable {
         dest.writeString(id);
         dest.writeLong(dateTimestamp);
         dest.writeString(reason);
-        dest.writeDouble(location.getLatitude());
-        dest.writeDouble(location.getLongitude());
+
+        if (location != null) {
+            dest.writeString(String.valueOf(true));
+            dest.writeDouble(location.getLatitude());
+            dest.writeDouble(location.getLongitude());
+        } else {
+            dest.writeString(String.valueOf(false));
+            dest.writeDouble(0);
+            dest.writeDouble(0);
+        }
+
         dest.writeString(socialSituation);
         dest.writeString(String.valueOf(hasImage));
         dest.writeString(mood);
@@ -67,11 +76,16 @@ public class Mood implements Parcelable {
         this.dateTimestamp = in.readLong();
         this.reason = in.readString();
 
-        double latitude = in.readDouble();
-        double longitude = in.readDouble();
-        this.location = new Location("");
-        this.location.setLatitude(latitude);
-        this.location.setLongitude(longitude);
+        boolean hasLocation = Boolean.valueOf(in.readString());
+        if (hasLocation) {
+            this.location = new Location("");
+            this.location.setLatitude(in.readDouble());
+            this.location.setLongitude(in.readDouble());
+        } else {
+            this.location = null;
+            in.readDouble();
+            in.readDouble();
+        }
 
         this.socialSituation = in.readString();
         this.hasImage = Boolean.valueOf(in.readString());
