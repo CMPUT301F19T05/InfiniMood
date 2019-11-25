@@ -57,7 +57,12 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         if (!firebaseController.userAuthenticated()) {
 
             startActivityNoHistory(MainActivity.class);
-        } else {
+        }
+        else{
+            moodHistoryTextView = findViewById(R.id.moodHistoryTitle);
+            if (user != null){
+                moodHistoryTextView.setText(user.getUsername() + "'s Recent Moods");
+            }
             moodListView = findViewById(R.id.moodHistoryListView);
 
             reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
