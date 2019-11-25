@@ -140,10 +140,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Image"
-        app:layout_constraintBottom_toBottomOf="@+id/moodFragmentLocationButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/moodFragmentLocationButton"
-        app:layout_constraintTop_toTopOf="@+id/moodFragmentLocationButton" />
+        app:layout_constraintTop_toBottomOf="@+id/moodFragmentDateTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

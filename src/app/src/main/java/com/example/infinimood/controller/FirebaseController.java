@@ -252,7 +252,7 @@ public class FirebaseController {
         });
     }
 
-    public void getImageFromDB(Mood mood, BitmapCallback callback) {
+    public void getMoodImageFromDB(Mood mood, BitmapCallback callback) {
         assert (userAuthenticated());
 
         String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
@@ -279,6 +279,29 @@ public class FirebaseController {
                 // Handle any errors
                 Log.e(TAG, "Failed to download image");
                 callback.onCallback(null);
+            }
+        });
+    }
+
+    public void deleteMoodImageFromDB(Mood mood, BooleanCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "Successfully deleted image");
+                callback.onCallback(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Failed to delete image");
+                callback.onCallback(false);
             }
         });
     }
@@ -337,7 +360,12 @@ public class FirebaseController {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Successfully deleted mood");
-                        callback.onCallback(true);
+                        deleteMoodImageFromDB(mood, new BooleanCallback() {
+                            @Override
+                            public void onCallback(boolean bool) {
+                                callback.onCallback(true);
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -814,23 +842,5 @@ public class FirebaseController {
 
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
-    }
-
-    private String convertBitmapToString(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
-    }
-
-    private Bitmap convertStringToBitmap(String encoded) {
-        try {
-            byte[] encodedByte = Base64.decode(encoded, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0,
-                    encodedByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
     }
 }
