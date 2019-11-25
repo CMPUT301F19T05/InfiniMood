@@ -400,10 +400,24 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         }
         if (moodHasImage && moodImage == null) {
             Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
-            new ViewImageFragment(newMood).show(getSupportFragmentManager(), "VIEW_IMAGE");
+            new ViewImageFragment(newMood, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    uploadedImage = false;
+                    moodHasImage = false;
+                    moodImage = null;
+                }
+            }).show(getSupportFragmentManager(), "VIEW_IMAGE");
         }
         if (moodHasImage && moodImage != null) {
-            new ViewImageFragment(moodImage).show(getSupportFragmentManager(), "VIEW_IMAGE");
+            new ViewImageFragment(moodImage, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    uploadedImage = false;
+                    moodHasImage = false;
+                    moodImage = null;
+                }
+            }).show(getSupportFragmentManager(), "VIEW_IMAGE");
         }
     }
 
