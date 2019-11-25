@@ -16,6 +16,7 @@ import com.example.infinimood.controller.MoodHistoryAdapter;
 import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
+import com.example.infinimood.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     private ListView moodListView;
 
+    private Intent i = null;
+
     BottomNavigationView navigationView;
 
     // runs when the activity is created
@@ -45,9 +48,12 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.getMenu().getItem(2).setChecked(true);
 
+        i = getIntent();
+
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
-        } else {
+        }
+        else if (i.getExtras() == null){
             moodListView = findViewById(R.id.moodHistoryListView);
 
             reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
@@ -58,9 +64,22 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                     update();
                 }
             });
-
             // update the UI
             update();
+        }
+        else {
+            User user = (User) i.getSerializableExtra("user");
+            moodListView = findViewById(R.id.moodHistoryListView);
+
+            reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
+            reverseToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    comparator.reverse();
+                    update(user);
+                }
+            });
+            update(user);
         }
         moodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,6 +109,18 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     public void update() {
         firebaseController.refreshUserMoods(new GetMoodsCallback() {
+            @Override
+            public void onCallback(ArrayList<Mood> moodsArrayList) {
+                moods = moodsArrayList;
+                Collections.sort(moods, comparator);
+                adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
+                moodListView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();  // update the ListView
+            }
+        });
+    }
+    public void update(User user) {
+        firebaseController.refreshOtherUserMoods(user, new GetMoodsCallback() {
             @Override
             public void onCallback(ArrayList<Mood> moodsArrayList) {
                 moods = moodsArrayList;

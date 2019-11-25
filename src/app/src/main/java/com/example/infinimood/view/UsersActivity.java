@@ -55,6 +55,15 @@ public class UsersActivity extends MoodCompatActivity  {
                 }
 
                 searchListView = findViewById(R.id.searchListView);
+                searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        User user = searchAdapter.getItem(position);
+                        Intent i = new Intent(UsersActivity.this, MoodHistoryActivity.class);
+                        i.putExtra("user", user);
+                        startActivity(i);
+                    }
+                });
 
                 modeSpinner = findViewById(R.id.searchSpinner);
                 modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,8 +120,6 @@ public class UsersActivity extends MoodCompatActivity  {
                 update();
             }
         });
-
-
     }
 
     public void findUsersBySubstring(String substring) {
