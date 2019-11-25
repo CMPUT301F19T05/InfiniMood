@@ -45,6 +45,7 @@ import java.util.Set;
  * FirebaseController.java
  * Handles firebase-related functionality
  */
+
 public class FirebaseController {
 
     private static final String TAG = "FirebaseController";
@@ -177,37 +178,6 @@ public class FirebaseController {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         callback.onCallback(task.isSuccessful());
-                    }
-                });
-    }
-
-    public void signIn(Context context, String email, String password, BooleanCallback callback) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        if (task.isSuccessful()) {
-                            callback.onCallback(true);
-                        } else {
-                            callback.onCallback(false);
-                            try {
-                                throw task.getException();
-                            }
-                            // if user enters wrong email.
-                            catch (FirebaseAuthInvalidUserException invalidEmail) {
-                                Log.d(TAG, "onComplete: invalid_email");
-                                ((MoodCompatActivity) context).toast("Invalid email");
-                            }
-                            // if user enters wrong password.
-                            catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                                Log.d(TAG, "onComplete: wrong_password");
-                                ((MoodCompatActivity) context).toast("Incorrect password");
-                            } catch (Exception e) {
-                                Log.d(TAG, "onComplete: " + e.getMessage());
-                                ((MoodCompatActivity) context).toast(R.string.login_failed);
-                            }
-                        }
                     }
                 });
     }

@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.infinimood.view.CreateAccountActivity;
-import com.example.infinimood.view.MainActivity;
+import com.example.infinimood.view.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.robotium.solo.Solo;
 
@@ -19,8 +19,8 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(
-            MainActivity.class,
+    public ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(
+            LoginActivity.class,
             true,
             true
     );
@@ -44,11 +44,11 @@ public class MainActivityTest {
 
     @Test
     public void testStartCreateAccountActivity() {
-        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
+        solo.assertCurrentActivity("Expected login screen to show", LoginActivity.class);
         solo.clickOnView(solo.getView(R.id.loginSignUpTextView));
         solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
         solo.clickOnButton(solo.getString(R.string.back));
-        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
+        solo.assertCurrentActivity("Expected login screen to show", LoginActivity.class);
     }
 
 }
