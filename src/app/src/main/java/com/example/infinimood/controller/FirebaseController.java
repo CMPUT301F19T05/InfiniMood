@@ -31,6 +31,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -53,6 +57,7 @@ public class FirebaseController {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser = null;
+    private FirebaseStorage firebaseStorage;
 
     private MoodFactory moodFactory = new MoodFactory();
 
@@ -72,6 +77,7 @@ public class FirebaseController {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseStorage = FirebaseStorage.getInstance();
     }
 
     public boolean userAuthenticated() {
@@ -182,6 +188,101 @@ public class FirebaseController {
                 });
     }
 
+    public void signIn(Context context, String email, String password, BooleanCallback callback) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        firebaseUser = firebaseAuth.getCurrentUser();
+                        if (task.isSuccessful()) {
+                            callback.onCallback(true);
+                        } else {
+                            callback.onCallback(false);
+                            try {
+                                throw task.getException();
+                            }
+                            // if user enters wrong email.
+                            catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                Log.d(TAG, "onComplete: invalid_email");
+                                ((MoodCompatActivity) context).toast("Invalid email");
+                            }
+                            // if user enters wrong password.
+                            catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                Log.d(TAG, "onComplete: wrong_password");
+                                ((MoodCompatActivity) context).toast("Incorrect password");
+                            } catch (Exception e) {
+                                Log.d(TAG, "onComplete: " + e.getMessage());
+                                ((MoodCompatActivity) context).toast(R.string.login_failed);
+                            }
+                        }
+                    }
+                });
+    }
+
+    public void addImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("image/jpeg")
+                .build();
+
+        UploadTask uploadTask = imageRef.putBytes(data, metadata);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e(TAG, "Image upload failed");
+                callback.onCallback(false);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                Log.i(TAG, "Image upload successful");
+                callback.onCallback(true);
+            }
+        });
+    }
+
+    public void getImageFromDB(Mood mood, BitmapCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if (bitmap != null) {
+                    Log.i(TAG, "Successfully downloaded image");
+                    callback.onCallback(bitmap);
+                } else {
+                    Log.i(TAG, "Failed to download image");
+                    callback.onCallback(null);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.e(TAG, "Failed to download image");
+                callback.onCallback(null);
+            }
+        });
+    }
+
     public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -194,11 +295,9 @@ public class FirebaseController {
         moodMap.put("socialSituation", mood.getSocialSituation());
         moodMap.put("reason", mood.getReason());
         moodMap.put("date", mood.getDate());
+        moodMap.put("hasImage", String.valueOf(mood.hasImage()));
         if (mood.getLocation() != null) {
             moodMap.put("location", locationToString(mood.getLocation()));
-        }
-        if (mood.getImage() != null) {
-            moodMap.put("image", convertBitmapToString(mood.getImage()));
         }
 
         firebaseFirestore
@@ -273,7 +372,7 @@ public class FirebaseController {
                             String reason = (String) document.get("reason");
                             String locationString = (String) document.get("location");
                             String socialSituation = (String) document.get("socialSituation");
-                            String imageString = (String) document.get("image");
+                            boolean hasImage = Boolean.valueOf((String) document.get("hasImage"));
 
                             Location l = null;
                             if (locationString != null) {
@@ -283,12 +382,7 @@ public class FirebaseController {
                                 l.setLongitude(Double.parseDouble(location[1]));
                             }
 
-                            Bitmap image = null;
-                            if (imageString != null) {
-                                image = convertStringToBitmap(imageString);
-                            }
-
-                            Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
+                            Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                             callback.onCallback(mood);
                         } else {
@@ -320,7 +414,7 @@ public class FirebaseController {
                                 String reason = (String) document.get("reason");
                                 String locationString = (String) document.get("location");
                                 String socialSituation = (String) document.get("socialSituation");
-                                String imageString = (String) document.get("image");
+                                boolean hasImage = Boolean.valueOf((String) document.get("hasImage"));
 
                                 Location l = null;
                                 if (locationString != null) {
@@ -330,12 +424,7 @@ public class FirebaseController {
                                     l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
-                                Bitmap image = null;
-                                if (imageString != null) {
-                                    image = convertStringToBitmap(imageString);
-                                }
-
-                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
+                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                                 moods.add(mood);
                             }
@@ -368,7 +457,7 @@ public class FirebaseController {
                                 String reason = (String) document.get("reason");
                                 String locationString = (String) document.get("location");
                                 String socialSituation = (String) document.get("socialSituation");
-                                String imageString = (String) document.get("image");
+                                boolean hasImage = Boolean.valueOf((String) document.get("hasImage"));
 
                                 Location l = null;
                                 if (locationString != null) {
@@ -378,12 +467,7 @@ public class FirebaseController {
                                     l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
-                                Bitmap image = null;
-                                if (imageString != null) {
-                                    image = convertStringToBitmap(imageString);
-                                }
-
-                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, image);
+                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                                 otherUserMoods.add(mood);
                             }

@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
+import com.example.infinimood.controller.BitmapCallback;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
@@ -58,8 +59,8 @@ public class MoodHistoryFragment extends DialogFragment {
         TextView reasonTextView = view.findViewById(R.id.moodFragmentReasonFieldTextView);
         TextView timeTextView = view.findViewById(R.id.moodFragmentTimeFieldTextView);
         TextView dateTextView = view.findViewById(R.id.moodFragmentDateFieldTextView);
-        ImageView imageImageView = view.findViewById(R.id.moodImageImageView);
         Button viewLocationButton = view.findViewById(R.id.moodFragmentLocationButton);
+        Button viewImageButton = view.findViewById(R.id.moodFragmentImageButton);
 
         Date date = new Date(mood.getDate());
 
@@ -84,8 +85,6 @@ public class MoodHistoryFragment extends DialogFragment {
 
         socialSituationTextView.setText(mood.getSocialSituation());
 
-        imageImageView.setImageBitmap(mood.getImage());
-
         if (mood.getLocation() == null) {
             viewLocationButton.setVisibility(View.GONE);
         } else {
@@ -99,10 +98,20 @@ public class MoodHistoryFragment extends DialogFragment {
             });
         }
 
+        if (mood.hasImage()) {
+            viewImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new ViewImageFragment(mood).show(getActivity().getSupportFragmentManager(), "VIEW_IMAGE");
+                }
+            });
+        } else {
+            viewImageButton.setVisibility(View.GONE);
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-//                .setTitle("Mood")
                 .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -122,9 +131,5 @@ public class MoodHistoryFragment extends DialogFragment {
                 })
                 .setPositiveButton("OK", null)
                 .create();
-    }
-
-    private String locationToString(Location location) {
-        return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
 }
