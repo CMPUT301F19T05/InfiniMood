@@ -1,7 +1,5 @@
 package com.example.infinimood.controller;
 
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
@@ -62,8 +60,7 @@ public class LoginController extends BaseController {
     }
 
     public void signUp() {
-        final Intent intent = new Intent(activity, CreateAccountActivity.class);
-        activity.startActivity(intent);
+        activity.startActivityWithHistory(CreateAccountActivity.class);
     }
 
 }
