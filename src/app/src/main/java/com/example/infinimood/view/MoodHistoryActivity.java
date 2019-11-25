@@ -2,12 +2,14 @@ package com.example.infinimood.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
@@ -34,8 +36,9 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     private Switch reverseToggle;
 
     private ListView moodListView;
+    private TextView moodHistoryTextView;
 
-    private Intent i = null;
+    private User user = null;
 
     BottomNavigationView navigationView;
 
@@ -48,27 +51,13 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.getMenu().getItem(2).setChecked(true);
 
-        i = getIntent();
+        Intent i = getIntent();
+        user =  (User)i.getSerializableExtra("user");
 
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(MainActivity.class);
         }
-        else if (i.getExtras() == null){
-            moodListView = findViewById(R.id.moodHistoryListView);
-
-            reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
-            reverseToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    comparator.reverse();
-                    update();
-                }
-            });
-            // update the UI
-            update();
-        }
-        else {
-            User user = (User) i.getSerializableExtra("user");
+        else{
             moodListView = findViewById(R.id.moodHistoryListView);
 
             reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
@@ -79,8 +68,10 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                     update(user);
                 }
             });
+            // update the UI
             update(user);
         }
+
         moodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,7 +81,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                     public void onCallback(boolean bool) {
                         if (bool) {
                             toast("Mood deleted");
-                            update();
+                            update(user);
                         } else {
                             toast("Could not delete mood");
                         }
@@ -103,34 +94,36 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        update();
+        update(user);
     }
 
-    public void update() {
-        firebaseController.refreshUserMoods(new GetMoodsCallback() {
-            @Override
-            public void onCallback(ArrayList<Mood> moodsArrayList) {
-                moods = moodsArrayList;
-                Collections.sort(moods, comparator);
-                adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
-                moodListView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();  // update the ListView
-            }
-        });
-    }
     public void update(User user) {
-        firebaseController.refreshOtherUserMoods(user, new GetMoodsCallback() {
-            @Override
-            public void onCallback(ArrayList<Mood> moodsArrayList) {
-                moods = moodsArrayList;
-                Collections.sort(moods, comparator);
-                adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
-                moodListView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();  // update the ListView
-            }
-        });
+        if (user == null) {
+            firebaseController.refreshUserMoods(new GetMoodsCallback() {
+                @Override
+                public void onCallback(ArrayList<Mood> moodsArrayList) {
+                    moods = moodsArrayList;
+                    Collections.sort(moods, comparator);
+                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
+                    moodListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();  // update the ListView
+                }
+            });
+        }
+        else {
+            firebaseController.refreshOtherUserMoods(user, new GetMoodsCallback() {
+                @Override
+                public void onCallback(ArrayList<Mood> moodsArrayList) {
+                    otherUserMoods = moodsArrayList;
+                    Collections.sort(otherUserMoods, comparator);
+                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, otherUserMoods);
+                    moodListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();  // update the ListView
+                }
+            });
+        }
     }
+
 
     public void moodMapClick(View view) {
         final Intent intent = new Intent(this, MoodMapActivity.class);
