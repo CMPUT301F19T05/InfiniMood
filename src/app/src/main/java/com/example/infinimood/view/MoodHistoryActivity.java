@@ -58,6 +58,10 @@ public class MoodHistoryActivity extends MoodCompatActivity {
             startActivityNoHistory(MainActivity.class);
         }
         else{
+            moodHistoryTextView = findViewById(R.id.moodHistoryTitle);
+            if (user != null){
+                moodHistoryTextView.setText(user.getUsername() + "'s Recent Moods");
+            }
             moodListView = findViewById(R.id.moodHistoryListView);
 
             reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
