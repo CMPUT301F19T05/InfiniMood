@@ -2,6 +2,7 @@ package com.example.infinimood.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BitmapCallback;
+import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 
@@ -26,12 +28,24 @@ public class ViewImageFragment extends DialogFragment {
     private Mood mood = null;
     private Bitmap bitmap = null;
 
+    private BooleanCallback deleteCallback = null;
+
     public ViewImageFragment(Mood mood) {
         this.mood = mood;
     }
 
     public ViewImageFragment(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+    public ViewImageFragment(Mood mood, BooleanCallback deleteCallback) {
+        this.mood = mood;
+        this.deleteCallback = deleteCallback;
+    }
+
+    public ViewImageFragment(Bitmap bitmap, BooleanCallback deleteCallback) {
+        this.bitmap = bitmap;
+        this.deleteCallback = deleteCallback;
     }
 
     @NonNull
@@ -60,6 +74,15 @@ public class ViewImageFragment extends DialogFragment {
 
         builder.setView(view);
         builder.setPositiveButton("OK", null);
+
+        if (deleteCallback != null) {
+            builder.setNegativeButton("REMOVE", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    deleteCallback.onCallback(true);
+                }
+            });
+        }
 
         return builder.create();
     }
