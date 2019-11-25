@@ -25,6 +25,8 @@
     <string name="error_password_too_short">Please enter a longer password</string>
     <string name="error_password_mismatch">Please enter the same password</string>
     <string name="account_create_successful">Account created</string>
+    <string name="account_create_failed">Account creation failed, please try again</string>
+    <string name="could_not_save_username">Could not save username</string>
 
     <string name="user_profile_welcome">Welcome back!</string>
     <string name="logout">Logout</string>

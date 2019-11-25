@@ -1,5 +1,7 @@
 package com.example.infinimood.controller;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
@@ -17,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
  */
 
 public class LoginController extends BaseController {
+
+    private static final String TAG = "LoginController";
 
     private LoginActivity activity;
 
@@ -51,6 +55,7 @@ public class LoginController extends BaseController {
                             } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
                                 activity.toast(R.string.login_wrong_password);
                             } catch (Exception e) {
+                                Log.w(TAG, e);
                                 activity.toast(R.string.login_failed);
                             }
                         }
