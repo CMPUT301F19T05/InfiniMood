@@ -21,7 +21,7 @@ public class MoodComparatorTest {
             null,
             null,
             SocialSituation.WITH_CROWD.getDescription(),
-            null
+            false
     );
 
     private Mood happyAprilMood = new HappyMood(
@@ -30,7 +30,7 @@ public class MoodComparatorTest {
             null,
             null,
             SocialSituation.WITH_CROWD.getDescription(),
-            null
+            false
     );
 
     private Mood sadMayMood = new SadMood(
@@ -39,7 +39,7 @@ public class MoodComparatorTest {
             null,
             null,
             SocialSituation.WITH_CROWD.getDescription(),
-            null
+            false
     );
 
     private MoodComparator getNormalComparator() {
