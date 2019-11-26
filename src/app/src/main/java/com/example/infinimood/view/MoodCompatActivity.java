@@ -24,8 +24,11 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     private static final String TAG = "MoodCompatActivity";
 
     // Request codes
+    protected static final int PICK_IMAGE = 1;
+    protected static final int PICK_LOCATION = 2;
     protected static final int ADD_MOOD = 3;
     protected static final int EDIT_MOOD = 4;
+    protected static final int VIEW_LOCATION = 5;
 
     protected static ArrayList<Mood> moods = new ArrayList<>();
     protected static ArrayList<Mood> otherUserMoods = new ArrayList<>();

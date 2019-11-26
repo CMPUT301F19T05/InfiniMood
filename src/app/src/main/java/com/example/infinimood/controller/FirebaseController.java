@@ -219,7 +219,7 @@ public class FirebaseController {
                 });
     }
 
-    public void addImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
+    public void uploadMoodImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
         assert (userAuthenticated());
 
         String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
@@ -245,7 +245,6 @@ public class FirebaseController {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 Log.i(TAG, "Image upload successful");
                 callback.onCallback(true);
             }
@@ -287,6 +286,92 @@ public class FirebaseController {
         assert (userAuthenticated());
 
         String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "Successfully deleted image");
+                callback.onCallback(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Failed to delete image");
+                callback.onCallback(false);
+            }
+        });
+    }
+
+    public void uploadProfileImageToDB(Bitmap bitmap, BooleanCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + "profile";
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("image/jpeg")
+                .build();
+
+        UploadTask uploadTask = imageRef.putBytes(data, metadata);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e(TAG, "Image upload failed");
+                callback.onCallback(false);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.i(TAG, "Image upload successful");
+                callback.onCallback(true);
+            }
+        });
+    }
+
+    public void getProfileImageFromDB(BitmapCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + "profile";
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if (bitmap != null) {
+                    Log.i(TAG, "Successfully downloaded image");
+                    callback.onCallback(bitmap);
+                } else {
+                    Log.i(TAG, "Failed to download image");
+                    callback.onCallback(null);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.e(TAG, "Failed to download image");
+                callback.onCallback(null);
+            }
+        });
+    }
+
+    public void deleteProfileImageFromDB(BooleanCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + firebaseUser.getUid() + '/' + "profile";
 
         StorageReference storageRef = firebaseStorage.getReference();
         StorageReference imageRef = storageRef.child(filename);
