@@ -61,10 +61,10 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
         mood_date.setText(dateFormat.format(mood.getDate()));
         mood_reason.setText(mood.getReason());
 
-        Drawable gradient = context.getDrawable(R.drawable.gradient);
-        gradient.setTint(Color.parseColor(mood.getColor()));
+        Drawable shape = context.getDrawable(R.drawable.listshape);
+        shape.setTint(Color.parseColor(mood.getColor()));
 
-        layout.setBackground(gradient);
+        layout.setBackground(shape);
 
         if (mood.getReason().equals("")) {
             mood_reason.setVisibility(View.GONE);
