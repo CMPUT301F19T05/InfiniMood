@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.CreateAccountController;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +26,8 @@ import java.util.regex.Pattern;
 
 public class CreateAccountActivity extends MoodCompatActivity {
 
+    private CreateAccountController controller;
+
     private FrameLayout progressOverlayContainer;
 
     private EditText editTextUsername;
@@ -36,6 +39,8 @@ public class CreateAccountActivity extends MoodCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
+
+        controller = new CreateAccountController(this);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
@@ -50,47 +55,32 @@ public class CreateAccountActivity extends MoodCompatActivity {
         final String email = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
         final String passwordRepeat = editTextPasswordRepeat.getText().toString();
+        controller.createAccount(username, email, password, passwordRepeat);
+    }
 
-        if (username.isEmpty()) {
-            toast(R.string.error_username_required);
-            editTextUsername.requestFocus();
-        } else if (email.isEmpty()) {
-            toast(R.string.error_email_required);
-            editTextEmail.requestFocus();
-        } else if (password.isEmpty()) {
-            toast(R.string.error_password_required);
-            editTextPassword.requestFocus();
-        } else if (password.length() < 6) {
-            toast(R.string.error_password_too_short);
-            editTextPassword.requestFocus();
-        } else if (!password.equals(passwordRepeat)) {
-            toast(R.string.error_password_mismatch);
-            editTextPasswordRepeat.requestFocus();
-        } else {
-            progressOverlayContainer.setVisibility(View.VISIBLE);
+    public void focusUsernameField() {
+        editTextUsername.requestFocus();
+    }
 
-            firebaseController.createUser(CreateAccountActivity.this, username, email, password, new BooleanCallback() {
-                @Override
-                public void onCallback(boolean success) {
-                    if (success) {
-                        toast(R.string.account_create_successful);
-                        firebaseController.setCurrentUserData(username, new BooleanCallback() {
-                            @Override
-                            public void onCallback(boolean success) {
-                                if (success) {
-                                    startActivityNoHistory(UserProfileActivity.class);
-                                } else {
-                                    toast("Could not save username, you can set it later");
-                                }
-                                progressOverlayContainer.setVisibility(View.GONE);
-                            }
-                        });
-                    } else {
-                        progressOverlayContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
-        }
+    public void focusEmailField() {
+        editTextEmail.requestFocus();
+    }
+
+    public void focusPasswordField() {
+        editTextPassword.requestFocus();
+    }
+
+    public void focusPasswordRepeatField() {
+        editTextPasswordRepeat.requestFocus();
+    }
+
+    public void showOverlay() {
+        progressOverlayContainer.setVisibility(View.VISIBLE);
+        progressOverlayContainer.bringToFront();
+    }
+
+    public void hideOverlay() {
+        progressOverlayContainer.setVisibility(View.GONE);
     }
 
     public void onBackClicked(View view) {
