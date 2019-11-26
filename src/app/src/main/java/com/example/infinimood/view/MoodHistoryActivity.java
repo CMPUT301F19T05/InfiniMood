@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
@@ -33,7 +34,7 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     private MoodHistoryAdapter adapter;
     private MoodComparator comparator = new MoodComparator();
-    private Switch reverseToggle;
+    private ToggleButton reverseToggle;
 
     private ListView moodListView;
     private TextView moodHistoryTextView;

@@ -15,6 +15,7 @@ tools:context=".view.MoodHistoryActivity">
         android:text="My Recent Moods"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,6 +26,8 @@ tools:context=".view.MoodHistoryActivity">
         android:id="@+id/moodHistoryListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:divider="@null"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +46,15 @@ tools:context=".view.MoodHistoryActivity">
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/moodHistoryListView" />
 
-    <Switch
+    <ToggleButton
         android:id="@+id/moodHistorySortOrderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="34dp"
+        android:layout_height="28dp"
+        android:background="@drawable/toggle_selector"
         android:checked="true"
+        android:textOff=""
+        android:textOn=""
+        android:alpha="0.7"
         app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
         app:layout_constraintEnd_toEndOf="@+id/moodHistoryTitle"
         app:layout_constraintTop_toTopOf="@+id/moodHistoryTitle" />
