@@ -57,7 +57,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private static final int TAKE_IMAGE = 4;
     protected static final int VIEW_LOCATION = 5;
 
-
     private int requestCode;
 
     // views
@@ -386,7 +385,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
         if (uploadedImage) {
-            firebaseController.addImageToDB(newMood, moodImage, new BooleanCallback() {
+            firebaseController.uploadMoodImageToDB(newMood, moodImage, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean bool) {
                     if (bool) {
