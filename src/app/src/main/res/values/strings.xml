@@ -73,11 +73,11 @@
     </string-array>
 
     <string-array name="moods_icons_array">
-        <item>&#x1F60A; Happy</item>
+        <item>&#x1F600; Happy</item>
         <item>&#x1F614; Sad</item>
-        <item>&#x1F621; Angry</item>
-        <item>&#x1F628; Afraid</item>
-        <item>&#x1F622; Crying</item>
+        <item>&#x1F620; Angry</item>
+        <item>&#x1F631; Afraid</item>
+        <item>&#x1F602; Crying</item>
         <item>&#x1F60D; In Love</item>
         <item>&#x1F634; Sleepy</item>
     </string-array>
@@ -89,16 +89,17 @@
     </string-array>
 
     <!-- Mood Icons Definitions -->
-    <string name="happy_icon">&#x1F60A;</string>
+    <string name="happy_icon">&#x1F600;</string>
     <string name="sad_icon">&#x1F614;</string>
-    <string name="angry_icon">&#x1F621;</string>
-    <string name="crying_icon">&#x1F622;</string>
+    <string name="angry_icon">&#x1F620;</string>
+    <string name="crying_icon">&#x1F602;</string>
     <string name="in_love_icon">&#x1F60D;</string>
     <string name="sleepy_icon">&#x1F634;</string>
-    <string name="afraid_icon">&#x1F628;</string>
+    <string name="afraid_icon">&#x1F631;</string>
 
     <!-- Situation definitions -->
     <string-array name="situations_array">
+        <item>None</item>
         <item>Alone</item>
         <item>With one other person</item>
         <item>With two to several people</item>
