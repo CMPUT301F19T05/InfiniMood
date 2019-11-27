@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -14,13 +15,16 @@ import android.widget.ToggleButton;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.FilterCallback;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.MoodHistoryAdapter;
 import com.example.infinimood.fragment.MoodHistoryFragment;
+import com.example.infinimood.fragment.FilterFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +39,15 @@ public class MoodHistoryActivity extends MoodCompatActivity {
     private MoodHistoryAdapter adapter;
     private MoodComparator comparator = new MoodComparator();
     private ToggleButton reverseToggle;
+    private FloatingActionButton filterButton;
 
     private ListView moodListView;
     private TextView moodHistoryTextView;
 
     private User user = null;
+
+    private ArrayList<String> filter = new ArrayList<>();
+    private ArrayList<Mood> filteredList = new ArrayList<>();
 
     BottomNavigationView navigationView;
 
@@ -72,6 +80,30 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                     update(user);
                 }
             });
+
+            filterButton = findViewById(R.id.filter_button);
+            filterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FilterFragment frag = new FilterFragment(filter, new FilterCallback() {
+                        @Override
+                        public void onCallback(ArrayList<String> arrayList) {
+                            filter = arrayList;
+                            filteredList.clear();
+                            for (Mood mood: moods) {
+                                if (!filter.contains(mood.getMood())) {
+                                    filteredList.add(mood);
+                                }
+                            }
+
+//                          adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, filteredList);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    frag.show(getSupportFragmentManager(), "SHOW_FILTER");
+                }
+            });
+
             // update the UI
             update(user);
         }
@@ -108,7 +140,8 @@ public class MoodHistoryActivity extends MoodCompatActivity {
                 public void onCallback(ArrayList<Mood> moodsArrayList) {
                     moods = moodsArrayList;
                     Collections.sort(moods, comparator);
-                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, moods);
+                    filteredList = new ArrayList<>(moods);
+                    adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, filteredList);
                     moodListView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();  // update the ListView
                 }
