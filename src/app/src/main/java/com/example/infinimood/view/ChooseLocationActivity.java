@@ -30,7 +30,6 @@ import com.google.android.gms.tasks.Task;
  * ChooseLocationActivity.java
  * Activity for displaying your current location on google maps
  */
-
 public class ChooseLocationActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
@@ -44,7 +43,11 @@ public class ChooseLocationActivity extends FragmentActivity implements
     private static final int PICK_LOCATION = 2;
     private static final int REQUEST_CODE = 101;
 
-
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +112,11 @@ public class ChooseLocationActivity extends FragmentActivity implements
         });
     }
 
+    /**
+     * onConfirmClick
+     * Finish the activity and send back the location
+     * @param view View
+     */
     public void onConfirmClick(View view) {
         Intent intent = new Intent();
 
@@ -124,6 +132,11 @@ public class ChooseLocationActivity extends FragmentActivity implements
         finish();
     }
 
+    /**
+     * onMapReady
+     * Set map settings
+     * @param googleMap GoogleMap - the map that is ready
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
@@ -168,6 +181,12 @@ public class ChooseLocationActivity extends FragmentActivity implements
         });
     }
 
+    /**
+     * Request permissions for location
+     * @param requestCode int - request code
+     * @param permissions String[] - permissions requested
+     * @param grantResults int[] - results
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -179,6 +198,11 @@ public class ChooseLocationActivity extends FragmentActivity implements
         }
     }
 
+    /**
+     * onMapClick
+     * Add a marker
+     * @param latLng LatLng - the location of the map click
+     */
     @Override
     public void onMapClick(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
@@ -188,6 +212,11 @@ public class ChooseLocationActivity extends FragmentActivity implements
         selectedLocation = latLng;
     }
 
+    /**
+     * onClearClicked
+     * remove the current marker
+     * @param view View
+     */
     public void onClearClicked(View view) {
         currentMarker.remove();
         selectedLocation = null;
