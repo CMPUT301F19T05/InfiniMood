@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.example.infinimood.controller.LoginController;
+import com.example.infinimood.model.LoginModel;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * LoginActivity.java
@@ -15,9 +19,10 @@ import com.example.infinimood.controller.LoginController;
  * Options to login or create account
  */
 
-public class LoginActivity extends MoodCompatActivity {
+public class LoginActivity extends MoodCompatActivity implements Observer {
 
     private LoginController controller;
+    private LoginModel model;
 
     private FrameLayout progressOverlayContainer;
 
@@ -29,7 +34,8 @@ public class LoginActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
-        controller = new LoginController(this);
+        model = new LoginModel();
+        controller = new LoginController(this, model);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
@@ -46,10 +52,24 @@ public class LoginActivity extends MoodCompatActivity {
         }
     }
 
+    @Override
+    public void update(Observable o, Object args) {
+        final String newEmail = model.getEmail();
+        final String newPassword = model.getPassword();
+
+        if (!editTextEmail.getText().toString().equals(newEmail)) {
+            editTextEmail.setText(newEmail);
+        }
+        if (!editTextPassword.getText().toString().equals(newPassword)) {
+            editTextPassword.setText(newPassword);
+        }
+    }
+
     public void onLoginClicked(View view) {
-        final String email = editTextEmail.getText().toString();
-        final String password = editTextPassword.getText().toString();
-        controller.login(email, password);
+        model.setEmail(editTextEmail.getText().toString());
+        model.setPassword(editTextPassword.getText().toString());
+        model.notifyObservers();
+        controller.login();
     }
 
     public void onCreateAccountClicked(View view) {
