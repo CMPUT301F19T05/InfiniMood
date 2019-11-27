@@ -14,12 +14,13 @@ import java.util.Date;
 public class InLoveMood extends Mood {
 
     public InLoveMood(String id,
-                     long date,
-                     String reason,
-                     Location location,
-                     String socialSituation,
+                      String userId,
+                      long date,
+                      String reason,
+                      Location location,
+                      String socialSituation,
                       boolean hasImage) {
-        super(id, date, reason, location, socialSituation, hasImage);
+        super(id, userId, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.INLOVE_STRING);
         super.setIcon(constants.INLOVE_ICON);

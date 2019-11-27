@@ -15,6 +15,7 @@ import java.util.Date;
 public class Mood implements Parcelable {
 
     private String id;
+    private String userId;
     private long dateTimestamp;
     private String reason = "";
     private Location location = null;
@@ -26,12 +27,14 @@ public class Mood implements Parcelable {
     private String color;
 
     public Mood(String id,
+                String userId,
                 long dateTimestamp,
                 String reason,
                 Location location,
                 String socialSituation,
                 boolean hasImage) {
         this.id = id;
+        this.userId = userId;
         this.dateTimestamp = dateTimestamp;
         this.reason = reason;
         this.location = location;
@@ -51,6 +54,7 @@ public class Mood implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(userId);
         dest.writeLong(dateTimestamp);
         dest.writeString(reason);
 
@@ -73,6 +77,7 @@ public class Mood implements Parcelable {
 
     private void readFromParcel(Parcel in) {
         this.id = in.readString();
+        this.userId = in.readString();
         this.dateTimestamp = in.readLong();
         this.reason = in.readString();
 
@@ -113,6 +118,14 @@ public class Mood implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public long getDate() {
@@ -181,6 +194,7 @@ public class Mood implements Parcelable {
 
     public void print() {
         Log.i("", "ID : " + this.id);
+        Log.i("", "UserID : " + this.userId);
         Log.i("", "Mood : " + this.mood);
         Log.i("", "Social Situation : " + this.socialSituation);
         Log.i("", "Reason : " + this.reason);

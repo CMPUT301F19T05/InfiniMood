@@ -14,12 +14,13 @@ import java.util.Date;
 public class SleepyMood extends Mood {
 
     public SleepyMood(String id,
-                     long date,
-                     String reason,
-                     Location location,
-                     String socialSituation,
+                      String userId,
+                      long date,
+                      String reason,
+                      Location location,
+                      String socialSituation,
                       boolean hasImage) {
-        super(id, date, reason, location, socialSituation, hasImage);
+        super(id, userId, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.SLEEPY_STRING);
         super.setIcon(constants.SLEEPY_ICON);

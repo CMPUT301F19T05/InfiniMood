@@ -37,6 +37,8 @@ import java.util.HashSet;
 
 public class MoodHistoryActivity extends MoodCompatActivity {
 
+    private static final String TAG = "MoodHistoryActivity";
+
     private MoodHistoryAdapter adapter;
     private MoodComparator comparator = new MoodComparator();
     private ToggleButton reverseToggle;
