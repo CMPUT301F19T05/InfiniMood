@@ -383,7 +383,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         moodReason = reasonEditText.getText().toString();
 
-        Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+        Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
         if (uploadedImage) {
             firebaseController.addImageToDB(newMood, moodImage, new BooleanCallback() {
@@ -437,7 +437,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     public void onViewImageClicked(View view) {
 
         if (moodHasImage && moodImage == null) {
-            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
             new ViewImageFragment(newMood, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean bool) {
@@ -466,7 +466,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             toast("Choose a location first");
             return;
         } else {
-            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
             Intent intent = new Intent(this, ViewLocationActivity.class);
             intent.putExtra("mood", newMood);
             startActivityForResult(intent, VIEW_LOCATION);

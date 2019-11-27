@@ -49,18 +49,15 @@ public class FirebaseController {
     private FirebaseUser firebaseUser = null;
     private FirebaseStorage firebaseStorage;
 
+    private String userId = null;
+    private String username = null;
+
     private MoodFactory moodFactory = new MoodFactory();
 
     private Set<String> requestedFollowCurrentUser = new HashSet<String>();
     private Set<String> followingCurrentUser = new HashSet<String>();
     private Set<String> currentUserFollowing = new HashSet<String>();
     private Set<String> currentUserRequestedFollow = new HashSet<String>();
-
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd - HH:mm a", Locale.getDefault());
-
-
-    private boolean firebaseOperation1Successful;
-    private boolean firebaseOperation2Successful;
 
     /**
      * FirebaseController
@@ -80,6 +77,23 @@ public class FirebaseController {
      */
     public boolean userAuthenticated() {
         firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            return false;
+        }
+
+        if (userId == null) {
+            userId = firebaseUser.getUid();
+        }
+
+        if (username == null) {
+            getUsername(new StringCallback() {
+                @Override
+                public void onCallback(String string) {
+                    username = string;
+                }
+            });
+        }
+
         return (firebaseUser != null);
     }
 
@@ -91,6 +105,8 @@ public class FirebaseController {
         assert (userAuthenticated());
         firebaseAuth.signOut();
         firebaseUser = firebaseAuth.getCurrentUser();
+        userId = null;
+        username = null;
     }
 
     /**
@@ -98,7 +114,13 @@ public class FirebaseController {
      * @return String - containing the current user's UID
      */
     public String getCurrentUID() {
-        return firebaseAuth.getUid();
+        assert (userAuthenticated());
+        return userId;
+    }
+
+    public String getCurrentUsername() {
+        assert (userAuthenticated());
+        return username;
     }
 
     /**
@@ -111,7 +133,7 @@ public class FirebaseController {
         assert (userAuthenticated());
 
         firebaseFirestore.collection("users")
-                .document(firebaseUser.getUid())
+                .document(userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -139,7 +161,7 @@ public class FirebaseController {
     public void addImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
         assert (userAuthenticated());
 
-        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+        String filename = "images" + '/' + mood.getUserId() + '/' + mood.getId();
 
         StorageReference storageRef = firebaseStorage.getReference();
         StorageReference imageRef = storageRef.child(filename);
@@ -178,7 +200,7 @@ public class FirebaseController {
     public void getMoodImageFromDB(Mood mood, BitmapCallback callback) {
         assert (userAuthenticated());
 
-        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+        String filename = "images" + '/' + mood.getUserId() + '/' + mood.getId();
 
         StorageReference storageRef = firebaseStorage.getReference();
         StorageReference imageRef = storageRef.child(filename);
@@ -215,7 +237,7 @@ public class FirebaseController {
     public void deleteMoodImageFromDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
-        String filename = "images" + '/' + firebaseUser.getUid() + '/' + mood.getId();
+        String filename = "images" + '/' + mood.getUserId() + '/' + mood.getId();
 
         StorageReference storageRef = firebaseStorage.getReference();
         StorageReference imageRef = storageRef.child(filename);
@@ -244,11 +266,10 @@ public class FirebaseController {
     public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
-        String uid = firebaseUser.getUid();
-
         Map<String, Object> moodMap = new HashMap<>();
 
         moodMap.put("id", mood.getId());
+        moodMap.put("userId", mood.getUserId());
         moodMap.put("mood", mood.getMood());
         moodMap.put("socialSituation", mood.getSocialSituation());
         moodMap.put("reason", mood.getReason());
@@ -260,7 +281,7 @@ public class FirebaseController {
 
         firebaseFirestore
                 .collection("users")
-                .document(uid)
+                .document(mood.getUserId())
                 .collection("moods")
                 .document(mood.getId())
                 .set(moodMap)
@@ -289,11 +310,9 @@ public class FirebaseController {
     public void deleteMoodEventFromDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
-        final String uid = firebaseUser.getUid();
-
         firebaseFirestore
                 .collection("users")
-                .document(uid)
+                .document(mood.getUserId())
                 .collection("moods")
                 .document(mood.getId())
                 .delete()
@@ -329,7 +348,7 @@ public class FirebaseController {
 
         firebaseFirestore
                 .collection("users")
-                .document(firebaseUser.getUid())
+                .document(mood.getUserId())
                 .collection("moods")
                 .document(mood.getId())
                 .get()
@@ -341,6 +360,7 @@ public class FirebaseController {
 
                             String moodEmotion = (String) document.get("mood");
                             String id = (String) document.get("id");
+                            String userId = (String) document.get("userId");
 
                             long dateTimestamp = (long) document.get("date");
 
@@ -357,7 +377,7 @@ public class FirebaseController {
                                 l.setLongitude(Double.parseDouble(location[1]));
                             }
 
-                            Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
+                            Mood mood = moodFactory.createMood(id, userId, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                             callback.onCallback(mood);
                         } else {
@@ -378,7 +398,7 @@ public class FirebaseController {
 
         firebaseFirestore
                 .collection("users")
-                .document(firebaseUser.getUid())
+                .document(userId)
                 .collection("moods")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -389,6 +409,7 @@ public class FirebaseController {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String moodEmotion = (String) document.get("mood");
                                 String id = (String) document.get("id");
+                                String userId = (String) document.get("userId");
 
                                 long dateTimestamp = (long) document.get("date");
 
@@ -405,7 +426,7 @@ public class FirebaseController {
                                     l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
-                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
+                                Mood mood = moodFactory.createMood(id, userId, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                                 moods.add(mood);
                             }
@@ -439,6 +460,7 @@ public class FirebaseController {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String moodEmotion = (String) document.get("mood");
                                 String id = (String) document.get("id");
+                                String userId = (String) document.get("userId");
 
                                 long dateTimestamp = (long) document.get("date");
 
@@ -455,7 +477,7 @@ public class FirebaseController {
                                     l.setLongitude(Double.parseDouble(location[1]));
                                 }
 
-                                Mood mood = moodFactory.createMood(id, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
+                                Mood mood = moodFactory.createMood(id, userId, moodEmotion, dateTimestamp, reason, l, socialSituation, hasImage);
 
                                 otherUserMoods.add(mood);
                             }
@@ -477,7 +499,6 @@ public class FirebaseController {
         assert (userAuthenticated());
 
         ArrayList<User> users = new ArrayList<User>();
-        String currentUserId = firebaseUser.getUid();
 
         getFollowing(new BooleanCallback() {
             @Override
@@ -503,10 +524,7 @@ public class FirebaseController {
                                                         boolean followsCurrentUser = followingCurrentUser.contains(userId);
                                                         boolean requestedToFollowCurrentUser = requestedFollowCurrentUser.contains(userId);
                                                         User user = new User(userId, username, currentUserFollows, currentUserRequestedToFollow, followsCurrentUser, requestedToFollowCurrentUser);
-                                                        if (!userId.equals(currentUserId)) {
-                                                            users.add(user);
-                                                        }
-
+                                                        users.add(user);
                                                     }
                                                     callback.onCallback(users);
                                                 } else {
@@ -536,7 +554,7 @@ public class FirebaseController {
         assert (!user.isCurrentUserFollows());
         assert (!user.isCurrentUserRequestedFollow());
 
-        String followerId = firebaseAuth.getUid();
+        String followerId = userId;
         String followeeId = user.getUserID();
 
         // make sure we're not trying to follow ourself
@@ -601,7 +619,7 @@ public class FirebaseController {
         assert (!user.isFollowsCurrentUser());
 
         String followerId = user.getUserID();
-        String followeeId = firebaseAuth.getUid();
+        String followeeId = userId;
 
         assert (!followerId.equals(followeeId));
 
@@ -659,7 +677,7 @@ public class FirebaseController {
         assert (!user.isFollowsCurrentUser());
 
         String followerId = user.getUserID();
-        String followeeId = firebaseAuth.getUid();
+        String followeeId = userId;
 
         assert (!followerId.equals(followeeId));
 
@@ -720,7 +738,7 @@ public class FirebaseController {
         assert (user.isCurrentUserFollows());
         assert (!user.isCurrentUserRequestedFollow());
 
-        String followerId = firebaseAuth.getUid();
+        String followerId = userId;
         String followeeId = user.getUserID();
 
         assert (!followerId.equals(followeeId));
@@ -768,12 +786,10 @@ public class FirebaseController {
         currentUserFollowing.clear();
         currentUserRequestedFollow.clear();
 
-        String currentUserId = firebaseUser.getUid();
-
         // get users that the current user has requested to follow or follows
         firebaseFirestore
                 .collection("users")
-                .document(currentUserId)
+                .document(userId)
                 .collection("following")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -804,12 +820,10 @@ public class FirebaseController {
         followingCurrentUser.clear();
         requestedFollowCurrentUser.clear();
 
-        String currentUserId = firebaseUser.getUid();
-
         // get users who follow the current user or have requested to follow the current user
         firebaseFirestore
                 .collection("users")
-                .document(currentUserId)
+                .document(userId)
                 .collection("followers")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

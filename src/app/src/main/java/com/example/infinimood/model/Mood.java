@@ -15,6 +15,7 @@ import java.util.Date;
 public class Mood implements Parcelable {
 
     private String id;
+    private String userId;
     private long dateTimestamp;
     private String reason = "";
     private Location location = null;
@@ -28,6 +29,7 @@ public class Mood implements Parcelable {
     /**
      * Simple constructor for Mood
      * @param id String - unique ID for the mood
+     * @param userId String - unique userId for creator of the mood
      * @param dateTimestamp long - serialized date and time
      * @param reason String - reason for the mood
      * @param location Location - location of the mood
@@ -35,12 +37,14 @@ public class Mood implements Parcelable {
      * @param hasImage boolean - indicating whether image exists for this mood
      */
     public Mood(String id,
+                String userId,
                 long dateTimestamp,
                 String reason,
                 Location location,
                 String socialSituation,
                 boolean hasImage) {
         this.id = id;
+        this.userId = userId;
         this.dateTimestamp = dateTimestamp;
         this.reason = reason;
         this.location = location;
@@ -76,6 +80,7 @@ public class Mood implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(userId);
         dest.writeLong(dateTimestamp);
         dest.writeString(reason);
 
@@ -103,6 +108,7 @@ public class Mood implements Parcelable {
      */
     private void readFromParcel(Parcel in) {
         this.id = in.readString();
+        this.userId = in.readString();
         this.dateTimestamp = in.readLong();
         this.reason = in.readString();
 
@@ -154,6 +160,22 @@ public class Mood implements Parcelable {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * getUserId
+     * @return String - userId
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * setUserId
+     * @param userId String - userId to set 
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     /**
@@ -290,6 +312,7 @@ public class Mood implements Parcelable {
      */
     public void print() {
         Log.i("", "ID : " + this.id);
+        Log.i("", "UserID : " + this.userId);
         Log.i("", "Mood : " + this.mood);
         Log.i("", "Social Situation : " + this.socialSituation);
         Log.i("", "Reason : " + this.reason);

@@ -33,6 +33,8 @@ public class UsersActivity extends MoodCompatActivity  {
     private UserAdapter searchAdapter;
     private Spinner modeSpinner;
 
+    private String userId;
+
     private ArrayList<User> users;
     private ArrayList<User> currentlyShownUsers;
     BottomNavigationView navigationView;
@@ -54,6 +56,8 @@ public class UsersActivity extends MoodCompatActivity  {
             startActivityNoHistory(LoginActivity.class);
         }
 
+        userId = firebaseController.getCurrentUID();
+
         firebaseController.getUsers(new GetUsersCallback() {
             @Override
             public void onCallback(ArrayList<User> usersArrayList) {
@@ -61,7 +65,9 @@ public class UsersActivity extends MoodCompatActivity  {
                 currentlyShownUsers = new ArrayList<User>();
                 for (int i = 0; i < users.size(); ++i) {
                     User user = users.get(i);
-                    currentlyShownUsers.add(user);
+                    if (!user.getUserID().equals(userId)) {
+                        currentlyShownUsers.add(user);
+                    }
                 }
 
                 modeSpinner = findViewById(R.id.searchSpinner);
@@ -74,23 +80,26 @@ public class UsersActivity extends MoodCompatActivity  {
                         if (mode.equals("All")) {
                             for (int i = 0; i < users.size(); ++i) {
                                 User user = users.get(i);
-                                currentlyShownUsers.add(user);
-                            }
+                                if (!user.getUserID().equals(userId)) {
+                                    currentlyShownUsers.add(user);
+                                }                      }
                         }
                         else if (mode.equals("Followers")) {
                             for (int i = 0; i < users.size(); ++i) {
                                 User user = users.get(i);
                                 if (user.isFollowsCurrentUser() || user.isRequestedFollowCurrentUser()) {
-                                    currentlyShownUsers.add(user);
-                                }
+                                    if (!user.getUserID().equals(userId)) {
+                                        currentlyShownUsers.add(user);
+                                    }                            }
                             }
                         }
                         else if (mode.equals("Following")) {
                             for (int i = 0; i < users.size(); ++i) {
                                 User user = users.get(i);
                                 if (user.isCurrentUserFollows() || user.isCurrentUserRequestedFollow()) {
-                                    currentlyShownUsers.add(user);
-                                }
+                                    if (!user.getUserID().equals(userId)) {
+                                        currentlyShownUsers.add(user);
+                                    }                              }
                             }
                         }
 

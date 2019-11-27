@@ -12,12 +12,13 @@ import java.util.Date;
  */
 public class AfraidMood extends Mood {
     public AfraidMood(String id,
+                      String userId,
                       long date,
                       String reason,
                       Location location,
                       String socialSituation,
                       boolean hasImage) {
-        super(id, date, reason, location, socialSituation, hasImage);
+        super(id, userId, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.AFRAID_STRING);
         super.setIcon(constants.AFRAID_ICON);
