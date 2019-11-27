@@ -49,7 +49,6 @@ import java.util.UUID;
  * AddEditMoodActivity.java
  * Activity for adding new mood events and editing existing mood events
  */
-
 public class AddEditMoodActivity extends MoodCompatActivity {
     private static final String TAG = "AddEditMoodActivity";
 
@@ -90,7 +89,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,7 +181,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         });
     }
 
-    // set the EditTexts, Spinners, Pickers, etc. to match a given mood event
+    /**
+     * fillWithMoodEvents
+     * Sets the View with a given mood event
+     * @param mood Mood - mood to fill View with
+     */
     public void fillWithMoodEvent(Mood mood) {
         moodId = mood.getId();
         moodDate = mood.getDate();
@@ -220,6 +227,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         reasonEditText.setText(moodReason);
     }
 
+    /**
+     * onUploadPhotoClicked
+     * Starts activity to get image
+     * @param view View
+     */
     // start android image selection
     public void onUploadPhotoClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -227,12 +239,20 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         startActivityForResult(intent, PICK_IMAGE);
     }
 
+    /**
+     * onTakePhotoClicked
+     * Starts activity to take photo
+     * @param view View
+     */
     public void onTakePhotoClicked(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, TAKE_IMAGE);
     }
 
-    // handle the result of selecting images and locations
+    /**
+     * onActivityResult
+     * handle the result of selecting images and locations
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -268,7 +288,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         }
     }
 
-    // start ChooseLocationActivity
+    /**
+     * onChooseLocaitonPicked
+     * start ChooseLocationActivity
+     * @param view
+     */
     public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
         if (moodLocation != null) {

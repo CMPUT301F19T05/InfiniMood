@@ -10,7 +10,6 @@ import java.util.Date;
  *  SadMood.java
  *  Subclass for Sad mood events
  */
-
 public class SadMood extends Mood {
 
     public SadMood(String id,

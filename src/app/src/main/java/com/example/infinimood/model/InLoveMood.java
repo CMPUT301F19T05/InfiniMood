@@ -10,7 +10,6 @@ import java.util.Date;
  *  InLoveMood.java
  *  Subclass for InLove mood events
  */
-
 public class InLoveMood extends Mood {
 
     public InLoveMood(String id,

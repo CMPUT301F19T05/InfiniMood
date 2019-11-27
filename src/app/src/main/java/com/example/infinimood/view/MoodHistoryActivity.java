@@ -34,7 +34,6 @@ import java.util.HashSet;
  * MoodHistoryActivity.java
  * Activity for viewing your mood events in a ListView
  */
-
 public class MoodHistoryActivity extends MoodCompatActivity {
 
     private static final String TAG = "MoodHistoryActivity";
@@ -55,7 +54,11 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     BottomNavigationView navigationView;
 
-    // runs when the activity is created
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,12 +133,21 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         });
     }
 
+    /**
+     * onStart
+     * Overrides onStart. Is run on start. updates the user's information
+     */
     @Override
     protected void onStart() {
         super.onStart();
         update(user);
     }
 
+    /**
+     * update
+     * Update user's information from firebase
+     * @param user User - user to update
+     */
     public void update(User user) {
         if (user == null) {
             firebaseController.refreshUserMoods(new GetMoodsCallback() {
@@ -164,19 +176,32 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         }
     }
 
-
+    /**
+     * moodMapClick
+     * Starts MoodMapActivity
+     * @param view View
+     */
     public void moodMapClick(View view) {
         final Intent intent = new Intent(this, MoodMapActivity.class);
         startActivity(intent);
     }
 
-    // We should have a NavBar class for these methods
+    /**
+     * onSearchUsersClicked
+     * Starts UsersActivity
+     * @param item MenuItem
+     */
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onAddMoodClicked
+     * Starts AddEditMoodActivity
+     * @param item MenuItem
+     */
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddEditMoodActivity.class);
         intent.putExtra("requestCode", ADD_MOOD);
@@ -184,12 +209,22 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * onMoodHistoryClicked
+     * Starts MoodHistoryActivity
+     * @param item MenuItem
+     */
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onUserProfileClicked
+     * Starts UserProfileActivity
+     * @param item MenuItem
+     */
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
         item.setChecked(true);

@@ -38,6 +38,10 @@ import java.util.HashSet;
 import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
 import static com.example.infinimood.view.MoodCompatActivity.moods;
 
+/**
+ * MoodMaoActivity.java
+ * Activity for viewing your mood events on a Map
+ */
 public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "MoodMapActivity";
@@ -53,6 +57,11 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +99,12 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * getMarkerOptions
+     * Gets a set of marker options from a mood
+     * @param mood Mood - mood to help choose marker options
+     * @return MarkerOptions - the desired MarkerOptions
+     */
     public MarkerOptions getMarkerOptions(Mood mood) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(mood.getLocation().getLatitude(),
@@ -105,23 +120,45 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         return markerOptions;
     }
 
+    /**
+     * toast
+     * Displays a message
+     * @param str String - the message to display
+     */
     public void toast(String str) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 str, Toast.LENGTH_SHORT);
         toast.show();
     }
 
+    /**
+     * getMoodStringInfo
+     * Get information from a mood
+     * @param mood Mood - mood whose information we want
+     * @return String - the desired information
+     */
     public String getMoodStringInfo(Mood mood) {
         return "You were ".concat(mood.getMood())
                 .concat(" on ").concat(String.valueOf(mood.getDate()));
     }
 
+    /**
+     * toastMood
+     * Display a mood's information
+     * @param mood Mood - the mood whose information we want to display
+     */
     public void toastMood(Mood mood) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 getMoodStringInfo(mood), Toast.LENGTH_SHORT);
         toast.show();
     }
 
+    /**
+     * onMarkerClick
+     * Opens a fragment with that mood's information and the options to edit or delete
+     * @param marker Marker - The marker that was clicked
+     * @return boolean - whether the fragment was successfully opened
+     */
     @Override
     public boolean onMarkerClick(final Marker marker) {
         Mood mood = (Mood) marker.getTag();
@@ -145,6 +182,13 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
         return true;
     }
 
+    /**
+     * onActivityResult
+     * Receives and handles completed activities
+     * @param requestCode int
+     * @param resultCode int
+     * @param data Intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -189,8 +233,10 @@ public class MoodMapActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     /**
+     * onMapReady
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
+     * @param googleMap GoogleMap - the map that is ready
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {

@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * Superclass for all other activities
  * Contains common functionality for all activities
  */
-
 public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
@@ -32,31 +31,59 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     protected static FirebaseController firebaseController = new FirebaseController();
     protected static MoodFactory moodFactory = new MoodFactory();
 
+    /**
+     * onStart
+     * Overrides onStart. Is run on start.
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * toast
+     * Displays a message
+     * @param msg String - message to be displayed
+     */
     public void toast(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
         toast.show();
     }
 
+    /**
+     * toast
+     * Dissplay a number
+     * @param id int - number to display
+     */
     public void toast(int id) {
         toast(getString(id));
     }
 
+    /**
+     * startActivityWithHistory
+     * Starts an activity
+     * @param activity Activity to start
+     */
     public void startActivityWithHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         startActivity(intent);
     }
 
+    /**
+     * startActivityWithNoHistory
+     * Starts an activity with no prior knowledge
+     * @param activity Activity to start
+     */
     public void startActivityNoHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
+    /**
+     * refreshAuth
+     * Ensure user is authorized
+     */
     public void refreshAuth() {
         // TODO: Temporary
         firebaseController.userAuthenticated();

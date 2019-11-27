@@ -10,7 +10,6 @@ import java.util.Date;
  *  CryingMood.java
  *  Subclass for Crying mood events
  */
-
 public class CryingMood extends Mood {
 
     public CryingMood(String id,

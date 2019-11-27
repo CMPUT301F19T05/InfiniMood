@@ -4,7 +4,6 @@ package com.example.infinimood.model;
  *  MoodConstants.java
  *  Various string constants (colors, descriptions, icons) used by different types of Mood event.
  */
-
 public class MoodConstants {
     // colors
     public final String AFRAID_COLOR = "#b68fff";

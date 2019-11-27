@@ -59,6 +59,10 @@ public class FirebaseController {
     private Set<String> currentUserFollowing = new HashSet<String>();
     private Set<String> currentUserRequestedFollow = new HashSet<String>();
 
+    /**
+     * FirebaseController
+     * Base constructor for firebase controller
+     */
     public FirebaseController() {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -66,6 +70,11 @@ public class FirebaseController {
         firebaseStorage = FirebaseStorage.getInstance();
     }
 
+    /**
+     * userAuthenticated
+     * Check validity of current user
+     * @return boolean - if current user was successfully found in firebase
+     */
     public boolean userAuthenticated() {
         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
@@ -88,6 +97,10 @@ public class FirebaseController {
         return (firebaseUser != null);
     }
 
+    /**
+     * signOut
+     * signs out of current user
+     */
     public void signOut() {
         assert (userAuthenticated());
         firebaseAuth.signOut();
@@ -96,6 +109,10 @@ public class FirebaseController {
         username = null;
     }
 
+    /**
+     * getCurrentUID
+     * @return String - containing the current user's UID
+     */
     public String getCurrentUID() {
         assert (userAuthenticated());
         return userId;
@@ -106,6 +123,12 @@ public class FirebaseController {
         return username;
     }
 
+    /**
+     * getUsername
+     * gets the current user's username
+     * @param callback StringCallback - the string callback to be called when username successfully
+     *                 grabbed from firebase
+     */
     public void getUsername(StringCallback callback) {
         assert (userAuthenticated());
 
@@ -127,6 +150,14 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * addImageToDB
+     * Method that serializes a bitmap and uploads it to firebase
+     * @param mood Mood - The mood related to the image, for filename setting
+     * @param bitmap Bitmap - Bitmap of the image in question
+     * @param callback BooleanCallback - A boolean callback to indicate success or failure of the
+     *                 add to DB
+     */
     public void addImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -160,6 +191,12 @@ public class FirebaseController {
         });
     }
 
+    /**
+     * getMoodImageFromDB
+     * Gets a mood's image from Firebase
+     * @param mood Mood - The mood whose image is requested
+     * @param callback BitmapCallback - The Bitmap callback with the loaded image
+     */
     public void getMoodImageFromDB(Mood mood, BitmapCallback callback) {
         assert (userAuthenticated());
 
@@ -191,6 +228,12 @@ public class FirebaseController {
         });
     }
 
+    /**
+     * deleteMoodImageFromDB
+     * Method that deletes a mood's image from firebase
+     * @param mood Mood - the mood whose image we wnt to delete
+     * @param callback BooleanCallback - a boolean callback indicating success or failure
+     */
     public void deleteMoodImageFromDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -214,6 +257,12 @@ public class FirebaseController {
         });
     }
 
+    /**
+     * addMoodEvenToDB
+     * Method to add mood to Firebase
+     * @param mood Mood - the mood to add to firebase
+     * @param callback BooleanCallback - a boolean callback indicating success or failure
+     */
     public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -252,6 +301,12 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * deleteMoodEventFromDB
+     * Method to delete a mood from firebase
+     * @param mood Mood - The mood to delete
+     * @param callback BooleanCallback - a boolean callback indicating success or failure
+     */
     public void deleteMoodEventFromDB(Mood mood, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -282,6 +337,12 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * refreshMood
+     * Get a mood's most information from firebase
+     * @param mood Mood - the mood whose information we're querying
+     * @param callback GetMoodCallback - a mood callback to be called with the mood we're requesting
+     */
     public void refreshMood(Mood mood, GetMoodCallback callback) {
         assert (userAuthenticated());
 
@@ -326,6 +387,12 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * refreshUserMoods
+     * Method that gets all the current user's moods from firebase
+     * @param callback GetMoodsCallback - Moods callback that will be called with an ArrayList of
+     *                 all the user's moods
+     */
     public void refreshUserMoods(GetMoodsCallback callback) {
         assert (userAuthenticated());
 
@@ -371,6 +438,13 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * refreshOtherUserMoods
+     * Method that gets a specific user's moods
+     * @param user User - The user whose mood's we want
+     * @param callback GetMoodsCallback - A moods callback that will be called with the specified
+     *                 user's moods
+     */
     public void refreshOtherUserMoods(User user, GetMoodsCallback callback) {
 
         firebaseFirestore
@@ -415,6 +489,12 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * getUsers
+     * Get a list of all users not including the currently logged in user from firebase
+     * @param callback GetUsersCallback - A user callback that will be called with an ArrayList of
+     *                 all users except the currently logged in user
+     */
     public void getUsers(GetUsersCallback callback) {
         assert (userAuthenticated());
 
@@ -460,6 +540,12 @@ public class FirebaseController {
         });
     }
 
+    /**
+     * requestToFollow
+     * Method that sends a follow request to another user through firebase
+     * @param user User - The user to send the follow request to
+     * @param callback BooleanCallback - a boolean callback that indicates success or failure
+     */
     public void requestToFollow(User user, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -517,6 +603,13 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * declineFollowRequest
+     * Method for updating firebase with the information that a certain incoming follow request
+     * was denied, removing the currently logged in user from the requesting user's following list
+     * @param user User - The user's whose follow request is being denied
+     * @param callback BooleanCallback - a boolean callback indicating success or failure
+     */
     public void declineFollowRequest(User user, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -567,6 +660,14 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * acceptFollowRequest
+     * Method for updating firebase with the information that the logged in user has accepted a
+     * follow request from a certain user, updating the following collection of the requesting
+     * user, and the followers collection of the currently logged in user accordingly
+     * @param user User - The user whose follow request is being accepted
+     * @param callback BooleanCallback - a boolean callback indicating success or failure
+     */
     public void acceptFollowRequest(User user, BooleanCallback callback) {
         assert (userAuthenticated());
 
@@ -623,6 +724,13 @@ public class FirebaseController {
                 });
     }
 
+    /**
+     * unfollowUser
+     * A method for updating firebase with the information that the currently logged in user has
+     * unfollowed a certain user.
+     * @param user User - The user who is being unfollowed
+     * @param callback BooleanCallback - A boolean callback indicating success or failure
+     */
     public void unfollowUser(User user, BooleanCallback callback) {
         assert (userAuthenticated());
 

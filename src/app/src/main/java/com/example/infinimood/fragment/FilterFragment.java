@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * FilterFragment.java
+ * Fragment for filtering out certain moods from a display. Used in MoodHistoryActivity and
+ * in MoodMapActivity
+ */
 public class FilterFragment extends DialogFragment {
 
     private HashSet<String> filter;
@@ -39,12 +44,27 @@ public class FilterFragment extends DialogFragment {
     private Button allButton;
     private Button noneButton;
 
+    /**
+     * FilterFragment
+     * Simple constructor for FilterFragment
+     * @param filter HashSet<String> - A set of strings representing the possible filters
+     * @param callback FilterCallback - A filter callback to let other activities know which
+     *                 filters were selected
+     */
     public FilterFragment(HashSet<String> filter, boolean filtered, FilterCallback callback) {
         this.filter = filter;
         this.filterCallback = callback;
         this.filtered = filtered;
     }
 
+    /**
+     * onCreateDialog
+     * Overrides onCreateDialog. Is called when the fragment is created. Begins by setting the
+     * filters according to the private filter string ArrayList, then sets an onCheckedChange
+     * listener for each one to implement the logic of custom filtering.
+     * @param savedInstanceState Bundle
+     * @return Dialog
+     */
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
