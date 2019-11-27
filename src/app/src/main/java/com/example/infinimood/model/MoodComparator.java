@@ -7,7 +7,6 @@ import java.util.Comparator;
  * Comparator used for sorting lists of Mood objects.
  * Sorts in chronological order (based on mood.date)
  */
-
 public class MoodComparator implements Comparator<Mood> {
 
     // -1 is reversed, 1 is normal

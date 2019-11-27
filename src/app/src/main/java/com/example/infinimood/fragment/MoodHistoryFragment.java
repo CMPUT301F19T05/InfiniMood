@@ -30,6 +30,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * MoodHistoryFragment.java
+ * Fragment for displaying Mood information. Also allows deleting or editing the mood. Used in
+ * MoodHistoryActivity and MoodMapActivity.
+ */
 public class MoodHistoryFragment extends DialogFragment {
 
     private static final String TAG = "MoodHistoryFragment";
@@ -44,11 +49,24 @@ public class MoodHistoryFragment extends DialogFragment {
     private Mood mood;
     private BooleanCallback onDeleteCallback;
 
+    /**
+     * MoodHistoryFragment
+     * Simple constructor for MoodHistoryFragment
+     * @param mood Mood - The mood to be displayed
+     * @param onDeleteCallback BooleanCallback - Boolean callback for indicating success or failure
+     */
     public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
     }
 
+    /**
+     * onCreateDialog
+     * Overrides onCreateDialog. Fills the fields of the fragment with the corresponding data from
+     * the mood.
+     * @param savedInstanceState Bundle
+     * @return Dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

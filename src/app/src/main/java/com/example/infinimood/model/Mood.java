@@ -25,6 +25,15 @@ public class Mood implements Parcelable {
     private String icon = "";
     private String color;
 
+    /**
+     * Simple constructor for Mood
+     * @param id String - unique ID for the mood
+     * @param dateTimestamp long - serialized date and time
+     * @param reason String - reason for the mood
+     * @param location Location - location of the mood
+     * @param socialSituation String - social situation when the mood took place
+     * @param hasImage boolean - indicating whether image exists for this mood
+     */
     public Mood(String id,
                 long dateTimestamp,
                 String reason,
@@ -39,15 +48,31 @@ public class Mood implements Parcelable {
         this.hasImage = hasImage;
     }
 
+    /**
+     * Mood
+     * Simple constructor for Mood
+     * @param in Parcel - The serialized Parcel representing the mood
+     */
     public Mood(Parcel in) {
         readFromParcel(in);
     }
 
+    /**
+     * describeContents
+     * Overrides describeContents
+     * @return 0
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * writeToParcel
+     * Overrides writeToParcel. Writes the mood event to a given parcel destination
+     * @param dest Parcel - The desired destination for the parcel to be written to
+     * @param flags int - Required input param, not used
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
@@ -71,6 +96,11 @@ public class Mood implements Parcelable {
         dest.writeString(color);
     }
 
+    /**
+     * readFromParcel
+     * Sets mood data from an input Parcel
+     * @param in Parcel - the input Parcel
+     */
     private void readFromParcel(Parcel in) {
         this.id = in.readString();
         this.dateTimestamp = in.readLong();
@@ -95,6 +125,9 @@ public class Mood implements Parcelable {
         this.color = in.readString();
     }
 
+    /**
+     * Mood creator object that produces Moods from Parcels
+     */
     public static final Parcelable.Creator CREATOR =
             new Parcelable.Creator() {
                 public Mood createFromParcel(Parcel in) {
@@ -107,78 +140,154 @@ public class Mood implements Parcelable {
             };
 
 
+    /**
+     * getId
+     * @return String - id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * setId
+     * @param id String - id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * getDate
+     * @return long - date
+     */
     public long getDate() {
         return dateTimestamp;
     }
 
+    /**
+     * setDate
+     * @param dateTimestamp long - date and time to set
+     */
     public void setDate(long dateTimestamp) {
         this.dateTimestamp = dateTimestamp;
     }
 
+    /**
+     * getReason
+     * @return String - reason for the mood
+     */
     public String getReason() {
         return reason;
     }
 
+    /**
+     * setReason
+     * @param reason String - reason to set
+     */
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    /**
+     * getLocation
+     * @return Location - location of mood
+     */
     public Location getLocation() {
         return location;
     }
 
+    /**
+     * setLocation
+     * @param location Location - location to set
+     */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * getSocialSituation
+     * @return String - social situation of the mood
+     */
     public String getSocialSituation() {
         return socialSituation;
     }
 
+    /**
+     * setSocialSituation
+     * @param socialSituation String - social situation to set
+     */
     public void setSocialSituation(String socialSituation) {
         this.socialSituation = socialSituation;
     }
 
+    /**
+     * hasImage
+     * @return boolean - indicating whether the mood has an image
+     */
     public boolean hasImage() {
         return hasImage;
     }
 
+    /**
+     * setHasImage
+     * @param hasImage boolean - what to set hasImage to
+     */
     public void setHasImage(boolean hasImage) {
         this.hasImage = hasImage;
     }
 
+    /**
+     * getMood
+     * @return String - representing the mood
+     */
     public String getMood() {
         return mood;
     }
 
+    /**
+     * setMood
+     * @param mood String - what to set mood to
+     */
     public void setMood(String mood) {
         this.mood = mood;
     }
 
+    /**
+     * getIcon
+     * @return String - mood's icon in String form
+     */
     public String getIcon() {
         return icon;
     }
 
+    /**
+     * setIcon
+     * @param icon String - icon to set in String notation
+     */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
+    /**
+     * getColor
+     * @return color - mood's color
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * setColor
+     * @param color color - to set
+     */
     public void setColor(String color) {
         this.color = color;
     }
 
+    /**
+     * print
+     * Simply prints relevant information about the mood
+     */
     public void print() {
         Log.i("", "ID : " + this.id);
         Log.i("", "Mood : " + this.mood);

@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * Superclass for all other controllers
  * Contains common functionality for all controllers
  */
-
 public abstract class BaseController {
 
     protected FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();

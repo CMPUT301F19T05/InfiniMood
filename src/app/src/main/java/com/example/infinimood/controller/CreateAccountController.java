@@ -31,11 +31,25 @@ public class CreateAccountController extends BaseController {
     private CreateAccountActivity view;
     private CreateAccountModel model;
 
+    /**
+     * CreatAccountController
+     * Basic constructor for CreateAccountController
+     * @param view CreateAccountActivity - to be controlled
+     * @param model CreateAccountModel - backing the activity
+     */
     public CreateAccountController(CreateAccountActivity view, CreateAccountModel model) {
         this.view = view;
         this.model = model;
     }
 
+    /**
+     * verifyAndCreateUser
+     * Method for verifying user validity and creating user for firebase
+     * @param newUsername String - requested username
+     * @param email String - requested email
+     * @param password String - requested password
+     * @param callback BooleanCallback - function
+     */
     private void verifyAndCreateUser(String newUsername, String email, String password, BooleanCallback callback) {
         firebaseFirestore
                 .collection("users")
@@ -59,6 +73,13 @@ public class CreateAccountController extends BaseController {
                 });
     }
 
+    /**
+     * createUser
+     * Checks to see if all fields have been entered, if so, create user in firebase
+     * @param email String - User's email
+     * @param password String - User's password
+     * @param callback BooleanCallback - Callback function
+     */
     private void createUser(String email, String password, BooleanCallback callback) {
         firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
@@ -87,6 +108,12 @@ public class CreateAccountController extends BaseController {
                 });
     }
 
+    /**
+     * setupUserData
+     * Sets user username in firebase
+     * @param username String - String username to set
+     * @param callback BooleanCallback - Callback method
+     */
     private void setupUserData(String username, BooleanCallback callback) {
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
@@ -100,6 +127,10 @@ public class CreateAccountController extends BaseController {
                 });
     }
 
+    /**
+     * createAccount
+     * Checks input fields for valid input, then creates account
+     */
     public void createAccount() {
         final String username = model.getUsername();
         final String email = model.getEmail();

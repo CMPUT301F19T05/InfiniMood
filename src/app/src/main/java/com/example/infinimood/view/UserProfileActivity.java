@@ -16,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * Homepage when authenticated
  * Access point for most functionality
  */
-
 public class UserProfileActivity extends MoodCompatActivity {
 
     private static final String TAG = "UserProfileActivity";
@@ -24,6 +23,11 @@ public class UserProfileActivity extends MoodCompatActivity {
     TextView textViewUsername;
     BottomNavigationView navigationView;
 
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,10 @@ public class UserProfileActivity extends MoodCompatActivity {
         navigationView.getMenu().getItem(3).setChecked(true);
     }
 
+    /**
+     * onStart
+     * Overrides onStart. Is run on start.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -50,6 +58,11 @@ public class UserProfileActivity extends MoodCompatActivity {
         });
     }
 
+    /**
+     * onAddMoodClicked
+     * starts AddEditMoodActivity
+     * @param item MenuItem
+     */
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddEditMoodActivity.class);
         intent.putExtra("requestCode", ADD_MOOD);
@@ -57,30 +70,54 @@ public class UserProfileActivity extends MoodCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * onMoodHistoryClicked
+     * starts MoodHistoryActivity
+     * @param item MenuItem
+     */
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onSearchUsersClicked
+     * starts UsersActivity
+     * @param item MenuItem
+     */
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onUsersProfileClicked
+     * starts UserProfileActivity
+     * @param item MenuItem
+     */
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onLogoutClicked
+     * signs out of firebase and starts LoginActivity
+     * @param view View
+     */
     public void onLogoutClicked(View view) {
         firebaseController.signOut();
         startActivityNoHistory(LoginActivity.class);
     }
 
-    // print all of the current user's mood events to console
+    /**
+     * onPrintMoodsClicked
+     * print all of the current user's mood events to console
+     * @param view View
+     */
     public void onPrintMoodsClicked(View view) {
         Log.i("", "===========================================");
         for (int i = 0; i < moods.size(); i++) {
@@ -88,10 +125,4 @@ public class UserProfileActivity extends MoodCompatActivity {
             Log.i("", "===========================================");
         }
     }
-
-    public void onLocationClicked(View view) {
-        final Intent intent = new Intent(this, ChooseLocationActivity.class);
-        startActivity(intent);
-    }
-
 }
