@@ -52,6 +52,16 @@
     <string name="add_mood_title">Add Mood Event</string>
     <string name="edit_mood_title">Edit Mood Event</string>
 
+    <string name="happy">Happy</string>
+    <string name="inLove">In Love</string>
+    <string name="crying">Crying</string>
+    <string name="sleepy">Sleepy</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="afraid">Afraid</string>
+
+    <string name="filter">FILTER</string>
+
     <string-array name="moods_array">
         <item>Happy</item>
         <item>Sad</item>
