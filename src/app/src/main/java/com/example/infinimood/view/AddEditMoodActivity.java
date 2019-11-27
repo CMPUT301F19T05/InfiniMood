@@ -51,7 +51,6 @@ import java.util.UUID;
  */
 
 public class AddEditMoodActivity extends MoodCompatActivity {
-
     private static final String TAG = "AddEditMoodActivity";
 
     private static final int PICK_IMAGE = 1;
@@ -71,7 +70,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private TextView selectedDateTextView;
     private BottomNavigationView navigationView;
 
-    //buttons
+    // buttons
     private Button cameraButton;
     private Button galleryButton;
     private Button photoViewButton;
@@ -129,8 +128,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
             moodId = UUID.randomUUID().toString();
 
-//            updateCurrentLocation();
-
             // set date and time pickers to the mood's date and time
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
@@ -152,7 +149,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 finish();
             }
         }
-
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -193,10 +189,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         moodHasImage = mood.hasImage();
         moodIcon = mood.getIcon();
         moodColor = mood.getColor();
-
-//        if (moodLocation == null) {
-//            updateCurrentLocation();
-//        }
 
         // set date and time pickers to the mood's date and time
         Date date = new Date(moodDate);
@@ -300,10 +292,10 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             public void onSuccess(Location location) {
                 if (location != null) {
                     moodLocation = location;
-                    toast("Current Location Added");
+                    toast("Current location added");
                 } else {
                     // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
-                    toast("See updateCurrentLocation() in AddMoodActivity.java");
+                    toast("Could not get location");
                 }
             }
         });
@@ -345,7 +337,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy", Locale.getDefault());
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         String timeString = timeFormat.format(date);
         String dateString = dateFormat.format(date);
