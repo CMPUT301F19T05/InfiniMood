@@ -46,6 +46,7 @@ public class CreateAccountController extends BaseController {
                             String username = (String) document.get("username");
                             if (newUsername.equals(username)) {
                                 view.toast(R.string.error_username_taken);
+                                view.focusUsernameField();
                                 callback.onCallback(false);
                                 return;
                             }
@@ -70,10 +71,13 @@ public class CreateAccountController extends BaseController {
                             throw task.getException();
                         } catch (FirebaseAuthWeakPasswordException weakPassword) {
                             view.toast(R.string.error_password_too_short);
+                            view.focusPasswordField();
                         } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                             view.toast(R.string.error_email_invalid);
+                            view.focusEmailField();
                         } catch (FirebaseAuthUserCollisionException existEmail) {
                             view.toast(R.string.error_email_taken);
+                            view.focusEmailField();
                         } catch (Exception e) {
                             Log.w(TAG, e);
                             view.toast(R.string.account_create_failed);
