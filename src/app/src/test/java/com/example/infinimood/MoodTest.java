@@ -84,6 +84,12 @@ public class MoodTest {
         assertEquals(newDate, mood.getDate());
     }
 
+    private void testSetReason(Mood mood) {
+        final String newReason = "test 321";
+        mood.setReason(newReason);
+        assertEquals(newReason, mood.getReason());
+    }
+
     private void testAll(Class<? extends Mood> moodClass) {
         final Mood mood = testConstructor(moodClass);
         if (mood == null) {
@@ -91,6 +97,7 @@ public class MoodTest {
         } else {
             testSetId(mood);
             testSetDate(mood);
+            testSetReason(mood);
         }
     }
 
