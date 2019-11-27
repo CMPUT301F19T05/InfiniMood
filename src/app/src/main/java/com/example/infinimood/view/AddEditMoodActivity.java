@@ -198,11 +198,12 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         updateDate();
 
         // set mood spinner to mood's emotion
+        ArrayAdapter<CharSequence> oldAdapter = ArrayAdapter.createFromResource(this, R.array.moods_array, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.moods_icons_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         moodSpinner.setAdapter(adapter);
         if (moodEmotion != null) {
-            int spinnerPosition = adapter.getPosition(moodEmotion);
+            int spinnerPosition = oldAdapter.getPosition(moodEmotion);
             moodSpinner.setSelection(spinnerPosition);
         }
 

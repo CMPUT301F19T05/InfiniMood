@@ -28,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * MoodHistoryActivity.java
@@ -46,7 +47,8 @@ public class MoodHistoryActivity extends MoodCompatActivity {
 
     private User user = null;
 
-    private ArrayList<String> filter = new ArrayList<>();
+    private boolean filtered = false;
+    private HashSet<String> filter = new HashSet<>();
     private ArrayList<Mood> filteredList = new ArrayList<>();
 
     BottomNavigationView navigationView;
@@ -85,18 +87,17 @@ public class MoodHistoryActivity extends MoodCompatActivity {
             filterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FilterFragment frag = new FilterFragment(filter, new FilterCallback() {
+                    FilterFragment frag = new FilterFragment(filter, filtered, new FilterCallback() {
                         @Override
-                        public void onCallback(ArrayList<String> arrayList) {
-                            filter = arrayList;
+                        public void onCallback(HashSet<String> newFilter) {
+                            filter = newFilter;
                             filteredList.clear();
                             for (Mood mood: moods) {
-                                if (!filter.contains(mood.getMood())) {
+                                if (filter.contains(mood.getMood())) {
                                     filteredList.add(mood);
                                 }
                             }
-
-//                          adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, filteredList);
+                            filtered = true;
                             adapter.notifyDataSetChanged();
                         }
                     });

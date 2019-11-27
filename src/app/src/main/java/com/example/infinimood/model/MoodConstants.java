@@ -29,7 +29,7 @@ public class MoodConstants {
     public final String ANGRY_ICON = new String(Character.toChars(0x1F620));
     public final String CRYING_ICON = new String(Character.toChars(0x1F602));
     public final String HAPPY_ICON = new String(Character.toChars(0x1F600));
-    public final String SAD_ICON = new String(Character.toChars(0x2639));
+    public final String SAD_ICON = new String(Character.toChars(0x1F614));
     public final String SLEEPY_ICON = new String(Character.toChars(0x1F634));
     public final String INLOVE_ICON = new String(Character.toChars(0x1F60D));
 }
