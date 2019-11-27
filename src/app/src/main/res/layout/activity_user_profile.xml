@@ -59,30 +59,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation" />
-    <!--
-    <Button
-        android:id="@+id/profilePrintMoodsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:onClick="onPrintMoodsClicked"
-        android:text="Print Moods"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="554dp" />
-
-    <Button
-        android:id="@+id/profileLocationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:onClick="onLocationClicked"
-        android:text="Location"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="554dp" />
-     -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
