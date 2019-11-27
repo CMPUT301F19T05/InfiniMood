@@ -78,7 +78,7 @@
         android:layout_height="41dp"
         android:alpha="0.7"
         android:clickable="true"
-        app:backgroundTint="@color/colorGrey"
+        app:backgroundTint="@color/colorWhite"
         app:fabCustomSize="42dp"
         app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
         app:layout_constraintStart_toStartOf="@+id/moodHistoryTitle"

@@ -1,7 +1,7 @@
 package com.example.infinimood.controller;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public interface FilterCallback {
-    void onCallback(ArrayList<String> arrayList);
+    void onCallback(HashSet<String> filter);
 }
