@@ -44,6 +44,16 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
         this.moods = moods;
     }
 
+    /**
+     * getView
+     * Overrides the getView method. This method is called for each entry of the MoodHistoryAdapter.
+     * For each entry, we grab the corresponding mood, and fit the desired mood characteristics
+     * into the view
+     * @param position The index that we are currently looking at
+     * @param convertView The convertView to be used
+     * @param parent The parent view
+     * @return Returns the view with the mood mapped onto it
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

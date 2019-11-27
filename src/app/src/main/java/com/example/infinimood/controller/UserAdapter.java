@@ -13,11 +13,21 @@ import com.example.infinimood.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * UserAdapter.java
+ * Adapter for the ListView in UsersActivity
+ */
 public class UserAdapter extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
+    /**
+     * UserAdapter
+     * Simple constructor for the UserAdapter class
+     * @param context The current context
+     * @param users The list of users to be fit to the ListView
+     */
     public UserAdapter(Context context, ArrayList<User> users) {
         super(context, 0, users);
 
@@ -25,6 +35,15 @@ public class UserAdapter extends ArrayAdapter<User> {
         this.users = users;
     }
 
+    /**
+     * getView
+     * Overrides the getView Method. Will be called for each User that needs to be fit to an
+     * element of the ListView.
+     * @param position The index of the ListView/User
+     * @param convertView The View to convert
+     * @param parent The parent view
+     * @return Returns the view with the user mapped to it
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
