@@ -19,6 +19,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+/**
+ * UsersActivity.java
+ * Activity for searching users, and viewing users you follow and that follow you, as well as
+ * dealing with follow requests
+ */
 public class UsersActivity extends MoodCompatActivity  {
 
     private static final String TAG = "UsersActivity";
@@ -34,6 +39,11 @@ public class UsersActivity extends MoodCompatActivity  {
     private ArrayList<User> currentlyShownUsers;
     BottomNavigationView navigationView;
 
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +142,11 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    /**
+     * findUsersBySubstring
+     * finds users and updates ListView
+     * @param substring String - string to search for
+     */
     public void findUsersBySubstring(String substring) {
         currentlyShownUsers.clear();
         for (final User user : users) {
@@ -142,6 +157,11 @@ public class UsersActivity extends MoodCompatActivity  {
         update();
     }
 
+    /**
+     * onFollowClicked
+     * Sends a follow request through firebase
+     * @param view View
+     */
     public void onFollowClicked(View view) {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
@@ -164,6 +184,11 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    /**
+     * onAcceptClicked
+     * Accept the follow request through firebase
+     * @param view View
+     */
     public void onAcceptClicked(View view) {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
@@ -187,6 +212,11 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    /**
+     * onDeclineClicked
+     * Decline the follow request through firebase
+     * @param view View
+     */
     public void onDeclineClicked(View view) {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
@@ -209,6 +239,11 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    /**
+     * onUnfollowClicked
+     * Unfollow user through firebase
+     * @param view View
+     */
     public void onUnfollowClicked(View view) {
         View item = (View) view.getParent();
         int pos = searchListView.getPositionForView(item);
@@ -231,12 +266,21 @@ public class UsersActivity extends MoodCompatActivity  {
         });
     }
 
+    /**
+     * update
+     * update the ListView
+     */
     public void update() {
         searchAdapter = new UserAdapter(UsersActivity.this, currentlyShownUsers);
         searchListView.setAdapter(searchAdapter);
         searchAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * onSearchUsersClicked
+     * Starts UsersActivity
+     * @param item MenuItem
+     */
     // We should have a NavBar class for these methods
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
@@ -244,6 +288,11 @@ public class UsersActivity extends MoodCompatActivity  {
         startActivity(intent);
     }
 
+    /**
+     * onAddMoodClicked
+     * Starts AddEditMoodActivity
+     * @param item MenuItem
+     */
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddEditMoodActivity.class);
         intent.putExtra("requestCode", ADD_MOOD);
@@ -251,12 +300,22 @@ public class UsersActivity extends MoodCompatActivity  {
         startActivity(intent);
     }
 
+    /**
+     * onMoodHistoryClicked
+     * Starts MoodHistoryActivity
+     * @param item MenuItem
+     */
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onUserProfileClicked
+     * Starts UserProfileActivity
+     * @param item MenuItem
+     */
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
         item.setChecked(true);

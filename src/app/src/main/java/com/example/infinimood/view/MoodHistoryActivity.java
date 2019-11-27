@@ -85,7 +85,11 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     // true -> show own mood events, false -> show friends mood events
     private boolean selfMode = true;
 
-    // runs when the activity is created
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -265,6 +269,10 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         });
     }
 
+    /**
+     * onStart
+     * Overrides onStart. Is run on start. updates the user's information
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -294,7 +302,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                                     mood.print();
                                 }
 
-                                for (Mood mood: selfMoods) {
+                                for (Mood mood : selfMoods) {
                                     if (filter.contains(mood.getMood())) {
                                         filteredSelfMoods.add(mood);
                                     }
@@ -330,7 +338,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
 
                                     mostRecent.print();
 
-                                    for (Mood mood: friendsMoods) {
+                                    for (Mood mood : friendsMoods) {
                                         if (filter.contains(mood.getMood())) {
                                             filteredFriendsMoods.add(mood);
                                         }
@@ -422,12 +430,22 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         NAVBAR FUNCTIONS
      */
 
+    /**
+     * onSearchUsersClicked
+     * Starts UsersActivity
+     * @param item MenuItem
+     */
     public void onSearchUsersClicked(MenuItem item) {
         final Intent intent = new Intent(this, UsersActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onAddMoodClicked
+     * Starts AddEditMoodActivity
+     * @param item MenuItem
+     */
     public void onAddMoodClicked(MenuItem item) {
         final Intent intent = new Intent(this, AddEditMoodActivity.class);
         intent.putExtra("requestCode", ADD_MOOD);
@@ -435,12 +453,22 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         startActivity(intent);
     }
 
+    /**
+     * onMoodHistoryClicked
+     * Starts MoodHistoryActivity
+     * @param item MenuItem
+     */
     public void onMoodHistoryClicked(MenuItem item) {
         final Intent intent = new Intent(this, MoodHistoryActivity.class);
         item.setChecked(true);
         startActivity(intent);
     }
 
+    /**
+     * onUserProfileClicked
+     * Starts UserProfileActivity
+     * @param item MenuItem
+     */
     public void onUserProfileClicked(MenuItem item) {
         final Intent intent = new Intent(this, UserProfileActivity.class);
         item.setChecked(true);

@@ -18,6 +18,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * ViewLocationActivity.java
+ * Activity for viewing a location
+ */
 public class ViewLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "ViewLocationActivity";
@@ -26,6 +30,11 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
 
     private Mood mood;
 
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +50,12 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
         mood = intent.getParcelableExtra("mood");
     }
 
+    /**
+     * getMarkerOptions
+     * Gets a set of marker options from a mood
+     * @param mood Mood - mood to help choose marker options
+     * @return MarkerOptions - the desired MarkerOptions
+     */
     public MarkerOptions getMarkerOptions(Mood mood) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(mood.getLocation().getLatitude(),
@@ -59,8 +74,10 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
     }
 
     /**
+     * onMapReady
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
+     * @param googleMap GoogleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
