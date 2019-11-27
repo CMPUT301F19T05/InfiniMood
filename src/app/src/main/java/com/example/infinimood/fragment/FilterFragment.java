@@ -39,10 +39,9 @@ public class FilterFragment extends DialogFragment {
     private Button allButton;
     private Button noneButton;
 
-    public FilterFragment(HashSet<String> filter, boolean filtered, FilterCallback callback) {
+    public FilterFragment(HashSet<String> filter, FilterCallback callback) {
         this.filter = filter;
         this.filterCallback = callback;
-        this.filtered = filtered;
     }
 
     @Nullable
@@ -182,10 +181,6 @@ public class FilterFragment extends DialogFragment {
                 cryingCheckbox.setChecked(false);
             }
         });
-
-        if (!filtered) {
-            allButton.callOnClick();
-        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
