@@ -35,6 +35,7 @@ public class LoginActivity extends MoodCompatActivity implements Observer {
         setContentView(R.layout.user_login);
 
         model = new LoginModel();
+        model.addObserver(this);
         controller = new LoginController(this, model);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
