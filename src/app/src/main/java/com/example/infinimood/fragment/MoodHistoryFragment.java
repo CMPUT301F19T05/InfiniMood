@@ -84,7 +84,12 @@ public class MoodHistoryFragment extends DialogFragment {
             view.findViewById(R.id.moodFragmentReasonTextView).setVisibility(View.GONE);
         }
 
-        socialSituationTextView.setText(mood.getSocialSituation());
+        if (mood.getSocialSituation().equals("None")) {
+            socialSituationTextView.setVisibility(View.GONE);
+            view.findViewById(R.id.moodFragmentSocialSituationTextView).setVisibility(View.GONE);
+        } else {
+            socialSituationTextView.setText(mood.getSocialSituation());
+        }
 
         if (mood.getLocation() == null) {
             viewLocationButton.setVisibility(View.GONE);

@@ -48,18 +48,18 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
 
         Mood mood = moods.get(position);
 
-        TextView mood_icon, mood_social_situation, mood_date, mood_reason;
-        mood_icon = view.findViewById(R.id.moodEventIconTextView);
-        mood_social_situation = view.findViewById(R.id.moodEventSocialSituationTextView);
-        mood_date = view.findViewById(R.id.moodEventDateTextView);
-        mood_reason = view.findViewById(R.id.moodEventReasonTextView);
+        TextView moodIcon, moodEmotion, moodDate, moodReason;
+        moodIcon = view.findViewById(R.id.moodEventIconTextView);
+        moodEmotion = view.findViewById(R.id.moodEventEmotionTextView);
+        moodDate = view.findViewById(R.id.moodEventDateTextView);
+        moodReason = view.findViewById(R.id.moodEventReasonTextView);
 
-        ConstraintLayout layout = (ConstraintLayout) mood_icon.getParent();
+        ConstraintLayout layout = (ConstraintLayout) moodIcon.getParent();
 
-        mood_icon.setText(mood.getIcon());
-        mood_social_situation.setText(mood.getSocialSituation());
-        mood_date.setText(dateFormat.format(mood.getDate()));
-        mood_reason.setText(mood.getReason());
+        moodIcon.setText(mood.getIcon());
+        moodEmotion.setText(mood.getMood());
+        moodDate.setText(dateFormat.format(mood.getDate()));
+        moodReason.setText(mood.getReason());
 
         Drawable shape = context.getDrawable(R.drawable.listshape);
         shape.setTint(Color.parseColor(mood.getColor()));
@@ -67,9 +67,9 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
         layout.setBackground(shape);
 
         if (mood.getReason().equals("")) {
-            mood_reason.setVisibility(View.GONE);
+            moodReason.setVisibility(View.GONE);
         } else {
-            mood_reason.setVisibility(View.VISIBLE);
+            moodReason.setVisibility(View.VISIBLE);
         }
 
         return view;
