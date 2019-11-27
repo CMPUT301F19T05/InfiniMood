@@ -33,13 +33,13 @@ public class MoodFactoryTest {
 
     private void testFactoryByType(String type, Class<? extends Mood> expected) {
         Mood mood = moodFactory.createMood(TEST_ID, type, TEST_DATE, TEST_REASON, TEST_LOCATION, TEST_SOCIAL_SITUATION, TEST_HAS_IMAGE);
-        assertEquals(mood.getClass(), expected);
-        assertEquals(mood.getId(), TEST_ID);
-        assertEquals(mood.getDate(), TEST_DATE);
-        assertEquals(mood.getReason(), TEST_REASON);
-        assertEquals(mood.getLocation(), TEST_LOCATION);
-        assertEquals(mood.getSocialSituation(), TEST_SOCIAL_SITUATION);
-        assertEquals(mood.hasImage(), TEST_HAS_IMAGE);
+        assertEquals(expected, mood.getClass());
+        assertEquals(TEST_ID, mood.getId());
+        assertEquals(TEST_DATE, mood.getDate());
+        assertEquals(TEST_REASON, mood.getReason());
+        assertEquals(TEST_LOCATION, mood.getLocation());
+        assertEquals(TEST_SOCIAL_SITUATION, mood.getSocialSituation());
+        assertEquals(TEST_HAS_IMAGE, mood.hasImage());
     }
 
     @Test

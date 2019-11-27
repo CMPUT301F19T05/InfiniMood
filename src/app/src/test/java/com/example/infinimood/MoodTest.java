@@ -62,12 +62,12 @@ public class MoodTest {
             return null;
         }
 
-        assertEquals(mood.getId(), TEST_ID);
-        assertEquals(mood.getDate(), TEST_DATE);
-        assertEquals(mood.getReason(), TEST_REASON);
-        assertEquals(mood.getLocation(), TEST_LOCATION);
-        assertEquals(mood.getSocialSituation(), TEST_SOCIAL_SITUATION);
-        assertEquals(mood.hasImage(), TEST_HAS_IMAGE);
+        assertEquals(TEST_ID, mood.getId());
+        assertEquals(TEST_DATE, mood.getDate());
+        assertEquals(TEST_REASON, mood.getReason());
+        assertEquals(TEST_LOCATION, mood.getLocation());
+        assertEquals(TEST_SOCIAL_SITUATION, mood.getSocialSituation());
+        assertEquals(TEST_HAS_IMAGE, mood.hasImage());
 
         return mood;
     }
@@ -75,13 +75,13 @@ public class MoodTest {
     private void testSetId(Mood mood) {
         final String newId = "2";
         mood.setId(newId);
-        assertEquals(mood.getId(), newId);
+        assertEquals(newId, mood.getId());
     }
 
     private void testSetDate(Mood mood) {
         final long newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime().getTime();
         mood.setDate(newDate);
-        assertEquals(mood.getDate(), newDate);
+        assertEquals(newDate, mood.getDate());
     }
 
     private void testAll(Class<? extends Mood> moodClass) {
