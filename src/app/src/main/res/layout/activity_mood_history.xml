@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:orientation="vertical" android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".view.MoodHistoryActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.MoodHistoryActivity">
 
     <TextView
         android:id="@+id/moodHistoryTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:text="My Recent Moods"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -50,11 +50,11 @@ tools:context=".view.MoodHistoryActivity">
         android:id="@+id/moodHistorySortOrderButton"
         android:layout_width="34dp"
         android:layout_height="28dp"
+        android:alpha="0.7"
         android:background="@drawable/toggle_selector"
         android:checked="true"
         android:textOff=""
         android:textOn=""
-        android:alpha="0.7"
         app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
         app:layout_constraintEnd_toEndOf="@+id/moodHistoryTitle"
         app:layout_constraintTop_toTopOf="@+id/moodHistoryTitle" />
@@ -71,5 +71,19 @@ tools:context=".view.MoodHistoryActivity">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filter_button"
+        android:layout_width="43dp"
+        android:layout_height="41dp"
+        android:alpha="0.7"
+        android:clickable="true"
+        app:backgroundTint="@color/colorGrey"
+        app:fabCustomSize="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
+        app:layout_constraintStart_toStartOf="@+id/moodHistoryTitle"
+        app:layout_constraintTop_toTopOf="@+id/moodHistoryTitle"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/filter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
