@@ -61,6 +61,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     private Spinner modeSpinner;
     private ListView moodListView;
     private View mapView;
+    private ToggleButton reverseToggle;
 
     private MoodHistoryAdapter adapter;
 
@@ -132,6 +133,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                     moodListView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
+                    reverseToggle.setVisibility(View.VISIBLE);
                     moodListView.setVisibility(View.VISIBLE);
                     mapView.setVisibility(View.INVISIBLE);
                 }
@@ -141,6 +143,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                     moodListView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
+                    reverseToggle.setVisibility(View.VISIBLE);
                     moodListView.setVisibility(View.VISIBLE);
                     mapView.setVisibility(View.INVISIBLE);
                 }
@@ -163,6 +166,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                         markerHashMap.put(mood.getId(), marker);
                     }
 
+                    reverseToggle.setVisibility(View.INVISIBLE);
                     moodListView.setVisibility(View.INVISIBLE);
                     mapView.setVisibility(View.VISIBLE);
                 }
@@ -185,6 +189,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                         markerHashMap.put(mood.getId(), marker);
                     }
 
+                    reverseToggle.setVisibility(View.INVISIBLE);
                     moodListView.setVisibility(View.INVISIBLE);
                     mapView.setVisibility(View.VISIBLE);
                 }
@@ -197,7 +202,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         });
 
         // setup reverse toggle
-        ToggleButton reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
+        reverseToggle = findViewById(R.id.moodHistorySortOrderButton);
         reverseToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
