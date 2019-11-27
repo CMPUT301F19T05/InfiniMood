@@ -4,38 +4,46 @@ import com.example.infinimood.model.LoginModel;
 
 import org.junit.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class LoginModelTest {
 
-    @Test
-    public void testSetEmail() {
+    private void testByName(String name, Object data) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         final LoginModel model = new LoginModel();
-        final String email = "test@example.com";
+        final Method getterMethod = LoginModel.class.getMethod("get" + name);
+        final Method setterMethod = LoginModel.class.getMethod("set" + name, data.getClass());
 
-        model.setEmail(email);
-        assertEquals(email, model.getEmail());
+        setterMethod.invoke(model, data);
+        assertEquals(data, getterMethod.invoke(model));
         assertTrue(model.hasChanged());
 
         model.notifyObservers();
-        model.setEmail(email);
+        setterMethod.invoke(model, data);
         assertFalse(model.hasChanged());
+    }
+
+    private void testByNameNoThrow(String name, Object data) {
+        try {
+            testByName(name, data);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testSetEmail() {
+        testByNameNoThrow("Email", "test@example.com");
     }
 
     @Test
     public void testSetPassword() {
-        final LoginModel model = new LoginModel();
-        final String password = "123456";
-
-        model.setPassword(password);
-        assertEquals(password, model.getPassword());
-        assertTrue(model.hasChanged());
-
-        model.notifyObservers();
-        model.setPassword(password);
-        assertFalse(model.hasChanged());
+        testByNameNoThrow("Password", "123456");
     }
 
 }
