@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.CreateAccountController;
+import com.example.infinimood.model.CreateAccountModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +27,7 @@ import java.util.regex.Pattern;
 
 public class CreateAccountActivity extends MoodCompatActivity {
 
+    private CreateAccountModel model;
     private CreateAccountController controller;
 
     private FrameLayout progressOverlayContainer;
@@ -40,7 +42,8 @@ public class CreateAccountActivity extends MoodCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
-        controller = new CreateAccountController(this);
+        model = new CreateAccountModel();
+        controller = new CreateAccountController(this, model);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
@@ -51,11 +54,11 @@ public class CreateAccountActivity extends MoodCompatActivity {
     }
 
     public void onSubmitClicked(View view) {
-        final String username = editTextUsername.getText().toString();
-        final String email = editTextEmail.getText().toString();
-        final String password = editTextPassword.getText().toString();
-        final String passwordRepeat = editTextPasswordRepeat.getText().toString();
-        controller.createAccount(username, email, password, passwordRepeat);
+        model.setUsername(editTextUsername.getText().toString());
+        model.setEmail(editTextEmail.getText().toString());
+        model.setPassword(editTextPassword.getText().toString());
+        model.setPasswordRepeat(editTextPasswordRepeat.getText().toString());
+        controller.createAccount();
     }
 
     public void focusUsernameField() {

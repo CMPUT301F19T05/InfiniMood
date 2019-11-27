@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
+import com.example.infinimood.model.CreateAccountModel;
 import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.UserProfileActivity;
 import com.google.android.gms.tasks.Task;
@@ -27,10 +28,12 @@ public class CreateAccountController extends BaseController {
 
     private static final String TAG = "CreateAccountController";
 
-    private CreateAccountActivity activity;
+    private CreateAccountActivity view;
+    private CreateAccountModel model;
 
-    public CreateAccountController(CreateAccountActivity activity) {
-        this.activity = activity;
+    public CreateAccountController(CreateAccountActivity view, CreateAccountModel model) {
+        this.view = view;
+        this.model = model;
     }
 
     private void verifyAndCreateUser(String newUsername, String email, String password, BooleanCallback callback) {
@@ -42,14 +45,14 @@ public class CreateAccountController extends BaseController {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String username = (String) document.get("username");
                             if (newUsername.equals(username)) {
-                                activity.toast(R.string.error_username_taken);
+                                view.toast(R.string.error_username_taken);
                                 callback.onCallback(false);
                                 return;
                             }
                         }
                         createUser(email, password, callback);
                     } else {
-                        activity.toast(R.string.account_create_failed);
+                        view.toast(R.string.account_create_failed);
                         callback.onCallback(false);
                     }
                 });
@@ -59,21 +62,21 @@ public class CreateAccountController extends BaseController {
         firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
-                    activity.refreshAuth();
+                    view.refreshAuth();
                     if (task.isSuccessful()) {
                         callback.onCallback(true);
                     } else {
                         try {
                             throw task.getException();
                         } catch (FirebaseAuthWeakPasswordException weakPassword) {
-                            activity.toast(R.string.error_password_too_short);
+                            view.toast(R.string.error_password_too_short);
                         } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
-                            activity.toast(R.string.error_email_invalid);
+                            view.toast(R.string.error_email_invalid);
                         } catch (FirebaseAuthUserCollisionException existEmail) {
-                            activity.toast(R.string.error_email_taken);
+                            view.toast(R.string.error_email_taken);
                         } catch (Exception e) {
                             Log.w(TAG, e);
-                            activity.toast(R.string.account_create_failed);
+                            view.toast(R.string.account_create_failed);
                         }
                         callback.onCallback(false);
                     }
@@ -93,37 +96,42 @@ public class CreateAccountController extends BaseController {
                 });
     }
 
-    public void createAccount(String username, String email, String password, String passwordRepeat) {
+    public void createAccount() {
+        final String username = model.getUsername();
+        final String email = model.getEmail();
+        final String password = model.getPassword();
+        final String passwordRepeat = model.getPasswordRepeat();
+
         if (username.isEmpty()) {
-            activity.toast(R.string.error_username_required);
-            activity.focusUsernameField();
+            view.toast(R.string.error_username_required);
+            view.focusUsernameField();
         } else if (email.isEmpty()) {
-            activity.toast(R.string.error_email_required);
-            activity.focusEmailField();
+            view.toast(R.string.error_email_required);
+            view.focusEmailField();
         } else if (password.isEmpty()) {
-            activity.toast(R.string.error_password_required);
-            activity.focusPasswordField();
+            view.toast(R.string.error_password_required);
+            view.focusPasswordField();
         } else if (password.length() < 6) {
-            activity.toast(R.string.error_password_too_short);
-            activity.focusPasswordRepeatField();
+            view.toast(R.string.error_password_too_short);
+            view.focusPasswordRepeatField();
         } else if (!password.equals(passwordRepeat)) {
-            activity.toast(R.string.error_password_mismatch);
-            activity.focusPasswordField();
+            view.toast(R.string.error_password_mismatch);
+            view.focusPasswordField();
         } else {
-            activity.showOverlay();
+            view.showOverlay();
             verifyAndCreateUser(username, email, password, (boolean userCreated) -> {
                 if (userCreated) {
-                    activity.toast(R.string.account_create_successful);
+                    view.toast(R.string.account_create_successful);
                     setupUserData(username, (boolean userDataSaved) -> {
-                            if (userDataSaved) {
-                                activity.startActivityNoHistory(UserProfileActivity.class);
-                            } else {
-                                activity.toast(R.string.could_not_save_username);
-                            }
-                            activity.hideOverlay();
+                        if (userDataSaved) {
+                            view.startActivityNoHistory(UserProfileActivity.class);
+                        } else {
+                            view.toast(R.string.could_not_save_username);
+                        }
+                        view.hideOverlay();
                     });
                 } else {
-                    activity.hideOverlay();
+                    view.hideOverlay();
                 }
             });
         }

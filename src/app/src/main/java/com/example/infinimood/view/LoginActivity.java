@@ -21,8 +21,8 @@ import java.util.Observer;
 
 public class LoginActivity extends MoodCompatActivity implements Observer {
 
-    private LoginController controller;
     private LoginModel model;
+    private LoginController controller;
 
     private FrameLayout progressOverlayContainer;
 
