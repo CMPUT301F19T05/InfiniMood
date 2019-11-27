@@ -68,7 +68,6 @@ public class ChooseLocationActivity extends FragmentActivity implements
                         if (location != null) {
                             currentLocation = location;
                             selectedLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//                            Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                             myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 16.5f));
 
                             if (currentMarker != null) {
@@ -102,7 +101,6 @@ public class ChooseLocationActivity extends FragmentActivity implements
                 if (location != null) {
                     currentLocation = location;
                     selectedLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                     SupportMapFragment supportMapFragment = (SupportMapFragment)
                             getSupportFragmentManager().findFragmentById(R.id.locationMap);
                     supportMapFragment.getMapAsync(ChooseLocationActivity.this);

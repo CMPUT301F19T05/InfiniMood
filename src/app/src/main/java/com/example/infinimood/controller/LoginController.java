@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.infinimood.R;
+import com.example.infinimood.model.LoginModel;
 import com.example.infinimood.view.CreateAccountActivity;
 import com.example.infinimood.view.LoginActivity;
 import com.example.infinimood.view.UserProfileActivity;
@@ -22,50 +23,55 @@ public class LoginController extends BaseController {
 
     private static final String TAG = "LoginController";
 
-    private LoginActivity activity;
+    private LoginActivity view;
+    private LoginModel model;
 
-    public LoginController(LoginActivity activity) {
-        this.activity = activity;
+    public LoginController(LoginActivity view, LoginModel model) {
+        this.view = view;
+        this.model = model;
     }
 
     public void userLoggedIn() {
-        activity.startActivityNoHistory(UserProfileActivity.class);
+        view.startActivityNoHistory(UserProfileActivity.class);
     }
 
-    public void login(String email, String password) {
+    public void login() {
+        final String email = model.getEmail();
+        final String password = model.getPassword();
+
         if (email.isEmpty()) {
-            activity.toast("Please enter your email");
-            activity.focusEmailField();
+            view.toast("Please enter your email");
+            view.focusEmailField();
         } else if (password.isEmpty()) {
-            activity.toast("Please enter your password");
-            activity.focusPasswordField();
+            view.toast("Please enter your password");
+            view.focusPasswordField();
         } else {
-            activity.showOverlay();
+            view.showOverlay();
             firebaseAuth
                     .signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
-                        activity.refreshAuth();
+                        view.refreshAuth();
                         if (task.isSuccessful()) {
-                            activity.startActivityNoHistory(UserProfileActivity.class);
+                            view.startActivityNoHistory(UserProfileActivity.class);
                         } else {
                             try {
                                 throw task.getException();
                             } catch (FirebaseAuthInvalidUserException invalidEmail) {
-                                activity.toast(R.string.error_email_invalid);
+                                view.toast(R.string.error_email_invalid);
                             } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                                activity.toast(R.string.login_wrong_password);
+                                view.toast(R.string.login_wrong_password);
                             } catch (Exception e) {
                                 Log.w(TAG, e);
-                                activity.toast(R.string.login_failed);
+                                view.toast(R.string.login_failed);
                             }
                         }
-                        activity.hideOverlay();
+                        view.hideOverlay();
                     });
         }
     }
 
     public void signUp() {
-        activity.startActivityWithHistory(CreateAccountActivity.class);
+        view.startActivityWithHistory(CreateAccountActivity.class);
     }
 
 }

@@ -64,10 +64,8 @@ public class MoodHistoryActivity extends MoodCompatActivity {
         user =  (User)i.getSerializableExtra("user");
 
         if (!firebaseController.userAuthenticated()) {
-
             startActivityNoHistory(LoginActivity.class);
-        }
-        else{
+        } else {
             moodHistoryTextView = findViewById(R.id.moodHistoryTitle);
             if (user != null){
                 moodHistoryTextView.setText(user.getUsername() + "'s Recent Moods");
