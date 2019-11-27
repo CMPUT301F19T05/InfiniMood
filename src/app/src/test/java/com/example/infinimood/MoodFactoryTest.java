@@ -6,8 +6,11 @@ import com.example.infinimood.model.AfraidMood;
 import com.example.infinimood.model.AngryMood;
 import com.example.infinimood.model.CryingMood;
 import com.example.infinimood.model.HappyMood;
+import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodFactory;
+import com.example.infinimood.model.SadMood;
+import com.example.infinimood.model.SleepyMood;
 import com.example.infinimood.model.SocialSituation;
 
 import org.junit.Test;
@@ -49,5 +52,28 @@ public class MoodFactoryTest {
     }
 
     @Test
+    public void testFactoryHappyMood() {
+        testFactoryByType("Happy", HappyMood.class);
+    }
+
+    @Test
+    public void testFactoryInLoveMood() {
+        testFactoryByType("In Love", InLoveMood.class);
+    }
+
+    @Test
+    public void testFactorySadMood() {
+        testFactoryByType("Sad", SadMood.class);
+    }
+
+    @Test
+    public void testFactorySleepyMood() {
+        testFactoryByType("Sleepy", SleepyMood.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFactoryInvalidMood() {
+        testFactoryByType("Invalid", null);
+    }
 
 }
