@@ -1,19 +1,13 @@
 package com.example.infinimood.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.infinimood.R;
-import com.example.infinimood.controller.BooleanCallback;
-import com.example.infinimood.controller.GetMoodCallback;
-import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,11 +17,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.HashMap;
-
-import static com.example.infinimood.view.MoodCompatActivity.firebaseController;
-import static com.example.infinimood.view.MoodCompatActivity.moods;
 
 public class ViewLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
