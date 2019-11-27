@@ -10,7 +10,6 @@ import java.util.Date;
  * AfraidMood.java
  * Subclass for Afraid mood events
  */
-
 public class AfraidMood extends Mood {
     public AfraidMood(String id,
                       long date,

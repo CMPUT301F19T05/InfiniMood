@@ -20,6 +20,10 @@ import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.view.AddEditMoodActivity;
 
+/**
+ * ViewImageFragment.java
+ * Fragment for displaying an image. Used by MoodHistoryFragment
+ */
 public class ViewImageFragment extends DialogFragment {
 
     private static final String TAG = "ViewImageFragment";
@@ -31,24 +35,50 @@ public class ViewImageFragment extends DialogFragment {
 
     private BooleanCallback deleteCallback = null;
 
+    /**
+     * ViewImageFragment
+     * Simple constructor for ViewImageFragment
+     * @param mood Mood - whose image we want to view
+     */
     public ViewImageFragment(Mood mood) {
         this.mood = mood;
     }
 
+    /**
+     * ViewImageFragment
+     * Simple constructor for ViewImageFragment
+     * @param bitmap bitmap - of the image we wish to view
+     */
     public ViewImageFragment(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
+    /**
+     * ViewImageFragment
+     * Constructor for ViewImageFragment
+     * @param mood Mood - whose image we want to view
+     * @param deleteCallback boolean - callback for indicating success or failure
+     */
     public ViewImageFragment(Mood mood, BooleanCallback deleteCallback) {
         this.mood = mood;
         this.deleteCallback = deleteCallback;
     }
 
+    /**
+     * ViewImageFragment
+     * Constructor for ViewImageFragment
+     * @param bitmap Bitmap - Bitmap of the image we wish to view
+     * @param deleteCallback boolean - callback for indicating success or failure
+     */
     public ViewImageFragment(Bitmap bitmap, BooleanCallback deleteCallback) {
         this.bitmap = bitmap;
         this.deleteCallback = deleteCallback;
     }
 
+    /**
+     * onCreateDialog
+     * Overrides onCreateDialog method. Displays the image.
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

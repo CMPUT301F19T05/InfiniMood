@@ -15,9 +15,25 @@ public class MoodFactory {
 
     private static final String TAG = "MoodFactory";
 
+    /**
+     * MoodFactory
+     * Simple constructor for MoodFactory
+     */
     public MoodFactory() {
     }
 
+    /**
+     * createMood
+     * Creates a mood with given mood information
+     * @param id String - mood's unique ID
+     * @param mood String - mood's string
+     * @param moodDate long - mood's date
+     * @param moodReason String - mood's reason
+     * @param moodLocation Location - mood's location
+     * @param moodSocialSituation String - mood's social situation
+     * @param hasImage boolean - whether the mood has an image
+     * @return Mood - The resulting mood
+     */
     public Mood createMood(String id, String mood, long moodDate, String moodReason, Location moodLocation, String moodSocialSituation, boolean hasImage) {
         Mood newMood;
 

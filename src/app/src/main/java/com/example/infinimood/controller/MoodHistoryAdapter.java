@@ -35,8 +35,8 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
     /**
      * MoodHistoryAdapter
      * Simple constructor for MoodHistoryAdapter
-     * @param context The current context
-     * @param moods A list of the current user's moods
+     * @param context Context - The current context
+     * @param moods ArrayList<Mood> - A list of the current user's moods
      */
     public MoodHistoryAdapter(Context context, ArrayList<Mood> moods) {
         super(context, 0, moods);
@@ -49,10 +49,10 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
      * Overrides the getView method. This method is called for each entry of the MoodHistoryAdapter.
      * For each entry, we grab the corresponding mood, and fit the desired mood characteristics
      * into the view
-     * @param position The index that we are currently looking at
-     * @param convertView The convertView to be used
-     * @param parent The parent view
-     * @return Returns the view with the mood mapped onto it
+     * @param position int - The index that we are currently looking at
+     * @param convertView View - The convertView to be used
+     * @param parent ViewGroup
+     * @return View - Returns the view with the mood mapped onto it
      */
     @NonNull
     @Override

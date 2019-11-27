@@ -28,8 +28,8 @@ public class LoginController extends BaseController {
     /**
      * LoginController
      * Basic constructor for the LoginController class
-     * @param view The LoginActivity to be controlled
-     * @param model The LoginModel backing the activity
+     * @param view LoginActivity - The LoginActivity to be controlled
+     * @param model LoginModel - The LoginModel backing the activity
      */
     public LoginController(LoginActivity view, LoginModel model) {
         this.view = view;

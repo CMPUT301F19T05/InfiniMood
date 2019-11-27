@@ -25,8 +25,8 @@ public class UserAdapter extends ArrayAdapter<User> {
     /**
      * UserAdapter
      * Simple constructor for the UserAdapter class
-     * @param context The current context
-     * @param users The list of users to be fit to the ListView
+     * @param context Context - The current context
+     * @param users ArrayList<User> - The list of users to be fit to the ListView
      */
     public UserAdapter(Context context, ArrayList<User> users) {
         super(context, 0, users);
@@ -39,10 +39,10 @@ public class UserAdapter extends ArrayAdapter<User> {
      * getView
      * Overrides the getView Method. Will be called for each User that needs to be fit to an
      * element of the ListView.
-     * @param position The index of the ListView/User
-     * @param convertView The View to convert
-     * @param parent The parent view
-     * @return Returns the view with the user mapped to it
+     * @param position int - The index of the ListView/User
+     * @param convertView View - The View to convert
+     * @param parent ViewGroup
+     * @return View - Returns the view with the user mapped to it
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
