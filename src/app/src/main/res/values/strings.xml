@@ -99,6 +99,7 @@
 
     <!-- Situation definitions -->
     <string-array name="situations_array">
+        <item>None</item>
         <item>Alone</item>
         <item>With one other person</item>
         <item>With two to several people</item>
