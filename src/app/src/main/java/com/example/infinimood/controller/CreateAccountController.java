@@ -117,10 +117,10 @@ public class CreateAccountController extends BaseController {
             view.focusPasswordField();
         } else if (password.length() < 6) {
             view.toast(R.string.error_password_too_short);
-            view.focusPasswordRepeatField();
+            view.focusPasswordField();
         } else if (!password.equals(passwordRepeat)) {
             view.toast(R.string.error_password_mismatch);
-            view.focusPasswordField();
+            view.focusPasswordRepeatField();
         } else {
             view.showOverlay();
             verifyAndCreateUser(username, email, password, (boolean userCreated) -> {
