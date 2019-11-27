@@ -32,6 +32,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<Mood> {
     private Context context;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy h:mm a", Locale.getDefault());
 
+    /**
+     * MoodHistoryAdapter
+     * Simple constructor for MoodHistoryAdapter
+     * @param context The current context
+     * @param moods A list of the current user's moods
+     */
     public MoodHistoryAdapter(Context context, ArrayList<Mood> moods) {
         super(context, 0, moods);
         this.context = context;

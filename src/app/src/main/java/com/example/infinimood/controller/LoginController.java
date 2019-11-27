@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
  * LoginController.java
  * Controller for the login activity
  */
-
 public class LoginController extends BaseController {
 
     private static final String TAG = "LoginController";
@@ -26,15 +25,30 @@ public class LoginController extends BaseController {
     private LoginActivity view;
     private LoginModel model;
 
+    /**
+     * LoginController
+     * Basic constructor for the LoginController class
+     * @param view The LoginActivity to be controlled
+     * @param model The LoginModel backing the activity
+     */
     public LoginController(LoginActivity view, LoginModel model) {
         this.view = view;
         this.model = model;
     }
 
+    /**
+     * userLoggedIn
+     * Method to be called when user logs in, simply starts UserProfileActivity
+     */
     public void userLoggedIn() {
         view.startActivityNoHistory(UserProfileActivity.class);
     }
 
+    /**
+     * login
+     * Method to be called when user attempts to log in - ensures email and password are
+     * entered properly, then tries to log into firebase, catching any error that may arise
+     */
     public void login() {
         final String email = model.getEmail();
         final String password = model.getPassword();
@@ -70,6 +84,10 @@ public class LoginController extends BaseController {
         }
     }
 
+    /**
+     * signUp
+     * Method called when user tries to sign up, simply starts a CreateAccountActivity.
+     */
     public void signUp() {
         view.startActivityWithHistory(CreateAccountActivity.class);
     }
