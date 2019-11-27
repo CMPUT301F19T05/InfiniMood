@@ -5,8 +5,7 @@
     android:id="@+id/moodMapConstraintLayout"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.MoodMapActivity" >
+    android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/moodMapMap"
@@ -14,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
-        tools:context=".view.MoodMapActivity" />
+        map:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/moodMapFilterButton"

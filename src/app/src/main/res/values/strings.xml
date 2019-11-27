@@ -62,6 +62,13 @@
 
     <string name="filter">FILTER</string>
 
+    <string-array name="history_modes">
+        <item>My Mood Events</item>
+        <item>Friends\' Mood Events</item>
+        <item>My Mood Map</item>
+        <item>Friends\' Mood Map</item>
+    </string-array>
+
     <string-array name="moods_array">
         <item>Happy</item>
         <item>Sad</item>

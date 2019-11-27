@@ -51,10 +51,9 @@ public class FilterFragment extends DialogFragment {
      * @param callback FilterCallback - A filter callback to let other activities know which
      *                 filters were selected
      */
-    public FilterFragment(HashSet<String> filter, boolean filtered, FilterCallback callback) {
+    public FilterFragment(HashSet<String> filter, FilterCallback callback) {
         this.filter = filter;
         this.filterCallback = callback;
-        this.filtered = filtered;
     }
 
     /**
@@ -202,10 +201,6 @@ public class FilterFragment extends DialogFragment {
                 cryingCheckbox.setChecked(false);
             }
         });
-
-        if (!filtered) {
-            allButton.callOnClick();
-        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 

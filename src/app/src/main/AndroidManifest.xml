@@ -26,9 +26,6 @@
         <activity
             android:name=".view.MoodHistoryActivity"
             android:parentActivityName=".view.LoginActivity" />
-        <activity
-            android:name=".view.MoodMapActivity"
-            android:parentActivityName=".view.MoodHistoryActivity" />
         <activity android:name=".view.UserProfileActivity" />
         <activity
             android:name=".view.CreateAccountActivity"
