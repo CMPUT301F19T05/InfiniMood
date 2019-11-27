@@ -112,8 +112,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         cameraButton = findViewById(R.id.takePhotoButton);
         photoViewButton = findViewById(R.id.addEditViewImageButton);
 
-        updatePhotoButtons();
-
         navigationView.getMenu().getItem(1).setChecked(true);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -149,6 +147,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 finish();
             }
         }
+
+        updatePhotoButtons();
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -449,8 +449,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         }
     }
 
-    public void updatePhotoButtons(){
-        if(moodImage != null){
+    public void updatePhotoButtons() {
+        if (moodHasImage) {
             galleryButton.setVisibility(View.INVISIBLE);
             cameraButton.setVisibility(View.INVISIBLE);
             photoViewButton.setVisibility(View.VISIBLE);
