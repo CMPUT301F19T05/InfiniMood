@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:onClick="onSubmitClicked"
-        android:text="Submit"
+        android:text="@string/submit"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
