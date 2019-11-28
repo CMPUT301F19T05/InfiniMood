@@ -17,6 +17,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.InvocationTargetException;
+
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -25,6 +27,11 @@ public class CreateAccountActivityTest {
     private final static String TEST_USERNAME = "test";
     private final static String TEST_EMAIL = "test@example.com";
     private final static String TEST_PASSWORD = "123456";
+
+    public CreateAccountActivityTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        final FirebaseControllerMock mockController = FirebaseControllerMock.install();
+        mockController.userAuthenticatedResult = false;
+    }
 
     @Rule
     public ActivityTestRule<CreateAccountActivity> rule = new ActivityTestRule<>(

@@ -3,49 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <ListView
-        android:id="@+id/filterListView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/filterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/filter"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/happyCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/happy_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterListView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
         android:id="@+id/inLoveCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/in_love_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/happyCheck" />
 
@@ -53,10 +28,8 @@
         android:id="@+id/cryingCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/crying_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inLoveCheck" />
 
@@ -64,10 +37,8 @@
         android:id="@+id/sleepyCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/sleepy_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cryingCheck" />
 
@@ -75,10 +46,8 @@
         android:id="@+id/sadCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/sad_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sleepyCheck" />
 
@@ -86,10 +55,8 @@
         android:id="@+id/angryCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/angry_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sadCheck" />
 
@@ -97,98 +64,117 @@
         android:id="@+id/afraidCheck"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="@string/afraid_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/angryCheck"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/angryCheck" />
 
     <TextView
         android:id="@+id/happyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:text="@string/happy"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/inLoveCheck"
         app:layout_constraintStart_toEndOf="@+id/happyCheck"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/happyCheck" />
 
     <TextView
         android:id="@+id/inLoveText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:text="@string/inLove"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/cryingCheck"
         app:layout_constraintStart_toEndOf="@+id/inLoveCheck"
-        app:layout_constraintTop_toBottomOf="@+id/happyText" />
+        app:layout_constraintTop_toTopOf="@+id/inLoveCheck" />
 
     <TextView
         android:id="@+id/cryingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:text="@string/crying"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/sleepyCheck"
         app:layout_constraintStart_toEndOf="@+id/cryingCheck"
-        app:layout_constraintTop_toBottomOf="@+id/inLoveText" />
+        app:layout_constraintTop_toTopOf="@+id/cryingCheck" />
 
     <TextView
         android:id="@+id/sleepyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:text="@string/sleepy"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/sadCheck"
         app:layout_constraintStart_toEndOf="@+id/sleepyCheck"
-        app:layout_constraintTop_toBottomOf="@+id/cryingText" />
+        app:layout_constraintTop_toTopOf="@+id/sleepyCheck" />
 
     <TextView
         android:id="@+id/sadText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:text="@string/sad"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/angryCheck"
         app:layout_constraintStart_toEndOf="@+id/sadCheck"
-        app:layout_constraintTop_toBottomOf="@+id/sleepyText" />
+        app:layout_constraintTop_toTopOf="@+id/sadCheck" />
 
     <TextView
         android:id="@+id/angryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:text="@string/angry"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/afraidCheck"
         app:layout_constraintStart_toEndOf="@+id/angryCheck"
-        app:layout_constraintTop_toBottomOf="@+id/sadText" />
+        app:layout_constraintTop_toTopOf="@+id/angryCheck" />
 
     <TextView
         android:id="@+id/afraidText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="8dp"
         android:text="@string/afraid"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="@+id/afraidCheck"
         app:layout_constraintStart_toEndOf="@+id/afraidCheck"
-        app:layout_constraintTop_toBottomOf="@+id/angryText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/afraidCheck" />
+
+    <Button
+        android:id="@+id/filterFragmentAllButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="All"
+        app:layout_constraintEnd_toStartOf="@+id/filterFragmentNoneButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/afraidCheck" />
+
+    <Button
+        android:id="@+id/filterFragmentNoneButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="None"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/filterFragmentAllButton"
+        app:layout_constraintTop_toBottomOf="@+id/afraidCheck" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Filter by Mood"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

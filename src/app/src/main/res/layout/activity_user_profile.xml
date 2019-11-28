@@ -9,43 +9,94 @@
     <Button
         android:id="@+id/profileLogoutButton"
         style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_weight="1"
+        android:background="@drawable/rounded_buttons"
         android:onClick="onLogoutClicked"
         android:text="@string/logout"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/profileUploadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="74dp"
+        android:background="@drawable/rounded_buttons"
+        android:onClick="onUploadImageClicked"
+        android:text="Upload Image"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintTop_toBottomOf="@+id/profileUsernameTextView" />
+
+    <Button
+        android:id="@+id/profileDeleteImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:background="@drawable/rounded_buttons_hollow"
+        android:onClick="onDeleteImageClicked"
+        android:text="Delete Image"
+        android:textColor="@color/colorButtons"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
+        app:layout_constraintTop_toTopOf="@+id/profileUploadImageButton" />
 
     <ImageView
         android:id="@+id/profileAvatarImageView"
-        android:layout_width="347dp"
-        android:layout_height="100sp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profileLogoutButton"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="0dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="80dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/default_profile_picture" />
+
     <TextView
         android:id="@+id/profileUsernameTextView"
-        android:layout_width="379dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileAvatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/profileImageView"
         tools:text="@string/username" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.67" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

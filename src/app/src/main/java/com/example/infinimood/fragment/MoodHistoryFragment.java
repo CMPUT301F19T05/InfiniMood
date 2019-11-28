@@ -30,6 +30,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * MoodHistoryFragment.java
+ * Fragment for displaying Mood information. Also allows deleting or editing the mood. Used in
+ * MoodHistoryActivity and MoodMapActivity.
+ */
 public class MoodHistoryFragment extends DialogFragment {
 
     private static final String TAG = "MoodHistoryFragment";
@@ -43,12 +48,26 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private Mood mood;
     private BooleanCallback onDeleteCallback;
+    private boolean selfMode = false;
 
-    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
+    /**
+     * MoodHistoryFragment
+     * Simple constructor for MoodHistoryFragment
+     * @param mood Mood - The mood to be displayed
+     * @param onDeleteCallback BooleanCallback - Boolean callback for indicating success or failure
+     */
+    public MoodHistoryFragment(Mood mood, boolean selfMode, BooleanCallback onDeleteCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
     }
 
+    /**
+     * onCreateDialog
+     * Overrides onCreateDialog. Fills the fields of the fragment with the corresponding data from
+     * the mood.
+     * @param savedInstanceState Bundle
+     * @return Dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -84,7 +103,12 @@ public class MoodHistoryFragment extends DialogFragment {
             view.findViewById(R.id.moodFragmentReasonTextView).setVisibility(View.GONE);
         }
 
-        socialSituationTextView.setText(mood.getSocialSituation());
+        if (mood.getSocialSituation().equals("None")) {
+            socialSituationTextView.setVisibility(View.GONE);
+            view.findViewById(R.id.moodFragmentSocialSituationTextView).setVisibility(View.GONE);
+        } else {
+            socialSituationTextView.setText(mood.getSocialSituation());
+        }
 
         if (mood.getLocation() == null) {
             viewLocationButton.setVisibility(View.GONE);
@@ -111,26 +135,29 @@ public class MoodHistoryFragment extends DialogFragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
-                    }
-                })
-                .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getActivity(), AddEditMoodActivity.class);
+        builder.setView(view);
+        builder.setPositiveButton("OK", null);
 
-                        intent.putExtra("requestCode", EDIT_MOOD);
-                        intent.putExtra("mood", mood);
+        if (selfMode) {
+            builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
+                }
+            });
+            builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getActivity(), AddEditMoodActivity.class);
 
-                        getActivity().startActivityForResult(intent, EDIT_MOOD);
-                    }
-                })
-                .setPositiveButton("OK", null)
-                .create();
+                    intent.putExtra("requestCode", EDIT_MOOD);
+                    intent.putExtra("mood", mood);
+
+                    getActivity().startActivityForResult(intent, EDIT_MOOD);
+                }
+            });
+        }
+
+        return builder.create();
     }
 }

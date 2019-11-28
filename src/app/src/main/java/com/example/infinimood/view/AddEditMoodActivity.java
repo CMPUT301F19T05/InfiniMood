@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,7 +50,6 @@ import java.util.UUID;
  * AddEditMoodActivity.java
  * Activity for adding new mood events and editing existing mood events
  */
-
 public class AddEditMoodActivity extends MoodCompatActivity {
     private static final String TAG = "AddEditMoodActivity";
 
@@ -57,7 +57,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private static final int PICK_LOCATION = 2;
     private static final int TAKE_IMAGE = 4;
     protected static final int VIEW_LOCATION = 5;
-
 
     private int requestCode;
 
@@ -90,7 +89,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-
+    /**
+     * onCreate
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,8 +114,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         galleryButton = findViewById(R.id.uploadPhotoButton);
         cameraButton = findViewById(R.id.takePhotoButton);
         photoViewButton = findViewById(R.id.addEditViewImageButton);
-
-        updatePhotoButtons();
 
         navigationView.getMenu().getItem(1).setChecked(true);
 
@@ -150,6 +151,8 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             }
         }
 
+        updatePhotoButtons();
+
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -178,7 +181,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         });
     }
 
-    // set the EditTexts, Spinners, Pickers, etc. to match a given mood event
+    /**
+     * fillWithMoodEvents
+     * Sets the View with a given mood event
+     * @param mood Mood - mood to fill View with
+     */
     public void fillWithMoodEvent(Mood mood) {
         moodId = mood.getId();
         moodDate = mood.getDate();
@@ -198,11 +205,12 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         updateDate();
 
         // set mood spinner to mood's emotion
+        ArrayAdapter<CharSequence> oldAdapter = ArrayAdapter.createFromResource(this, R.array.moods_array, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.moods_icons_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         moodSpinner.setAdapter(adapter);
         if (moodEmotion != null) {
-            int spinnerPosition = adapter.getPosition(moodEmotion);
+            int spinnerPosition = oldAdapter.getPosition(moodEmotion);
             moodSpinner.setSelection(spinnerPosition);
         }
 
@@ -219,6 +227,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         reasonEditText.setText(moodReason);
     }
 
+    /**
+     * onUploadPhotoClicked
+     * Starts activity to get image
+     * @param view View
+     */
     // start android image selection
     public void onUploadPhotoClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -226,12 +239,20 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         startActivityForResult(intent, PICK_IMAGE);
     }
 
+    /**
+     * onTakePhotoClicked
+     * Starts activity to take photo
+     * @param view View
+     */
     public void onTakePhotoClicked(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, TAKE_IMAGE);
     }
 
-    // handle the result of selecting images and locations
+    /**
+     * onActivityResult
+     * handle the result of selecting images and locations
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -247,7 +268,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             }
         } else if(requestCode == TAKE_IMAGE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
-            moodImage = (Bitmap) extras.get("data");
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90);
+            Bitmap raw = (Bitmap) extras.get("data");
+            Bitmap rawPhoto = Bitmap.createScaledBitmap(raw,700,700,false);
+            moodImage = Bitmap.createBitmap(rawPhoto, 0, 0, rawPhoto.getWidth(), rawPhoto.getHeight(), matrix, true);
             moodHasImage = true;
             uploadedImage = true;
             updatePhotoButtons();
@@ -267,7 +292,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         }
     }
 
-    // start ChooseLocationActivity
+    /**
+     * onChooseLocaitonPicked
+     * start ChooseLocationActivity
+     * @param view
+     */
     public void onChooseLocationPicked(View view) {
         final Intent intent = new Intent(this, ChooseLocationActivity.class);
         if (moodLocation != null) {
@@ -358,10 +387,10 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
         moodReason = reasonEditText.getText().toString();
 
-        Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+        Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
         if (uploadedImage) {
-            firebaseController.addImageToDB(newMood, moodImage, new BooleanCallback() {
+            firebaseController.uploadMoodImageToDB(newMood, moodImage, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean bool) {
                     if (bool) {
@@ -386,7 +415,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             public void onCallback(boolean success) {
                 if (success) {
                     if (requestCode == ADD_MOOD) {
-                        toast("Successfully added Mood event");
+                        toast(R.string.add_mood_successfully_saved);
                     } else if (requestCode == EDIT_MOOD) {
                         toast("Successfully edited Mood event");
                     }
@@ -412,7 +441,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     public void onViewImageClicked(View view) {
 
         if (moodHasImage && moodImage == null) {
-            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
             new ViewImageFragment(newMood, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean bool) {
@@ -441,15 +470,15 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             toast("Choose a location first");
             return;
         } else {
-            Mood newMood = moodFactory.createMood(moodId, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
             Intent intent = new Intent(this, ViewLocationActivity.class);
             intent.putExtra("mood", newMood);
             startActivityForResult(intent, VIEW_LOCATION);
         }
     }
 
-    public void updatePhotoButtons(){
-        if(moodImage != null){
+    public void updatePhotoButtons() {
+        if (moodHasImage) {
             galleryButton.setVisibility(View.INVISIBLE);
             cameraButton.setVisibility(View.INVISIBLE);
             photoViewButton.setVisibility(View.VISIBLE);

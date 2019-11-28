@@ -10,15 +10,15 @@ import java.util.Date;
  * AngryMood.java
  * Subclass for Angry mood events
  */
-
 public class AngryMood extends Mood {
     public AngryMood(String id,
+                     String userId,
                      long date,
                      String reason,
                      Location location,
                      String socialSituation,
                      boolean hasImage) {
-        super(id, date, reason, location, socialSituation, hasImage);
+        super(id, userId, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.ANGRY_STRING);
         super.setIcon(constants.ANGRY_ICON);

@@ -17,14 +17,16 @@ import java.util.ArrayList;
  * Superclass for all other activities
  * Contains common functionality for all activities
  */
-
 public abstract class MoodCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "MoodCompatActivity";
 
     // Request codes
+    protected static final int PICK_IMAGE = 1;
+    protected static final int PICK_LOCATION = 2;
     protected static final int ADD_MOOD = 3;
     protected static final int EDIT_MOOD = 4;
+    protected static final int VIEW_LOCATION = 5;
 
     protected static ArrayList<Mood> moods = new ArrayList<>();
     protected static ArrayList<Mood> otherUserMoods = new ArrayList<>();
@@ -32,34 +34,74 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
     protected static FirebaseController firebaseController = new FirebaseController();
     protected static MoodFactory moodFactory = new MoodFactory();
 
+    /**
+     * onStart
+     * Overrides onStart. Is run on start.
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * toast
+     * Displays a message
+     * @param msg String - message to be displayed
+     */
     public void toast(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
         toast.show();
     }
 
+    /**
+     * toast
+     * Dissplay a number
+     * @param id int - number to display
+     */
     public void toast(int id) {
         toast(getString(id));
     }
 
+    /**
+     * startActivityWithHistory
+     * Starts an activity
+     * @param activity Activity to start
+     */
     public void startActivityWithHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         startActivity(intent);
     }
 
+    /**
+     * startActivityWithNoHistory
+     * Starts an activity with no prior knowledge
+     * @param activity Activity to start
+     */
     public void startActivityNoHistory(Class<? extends Activity> activity) {
         final Intent intent = new Intent(this, activity);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
+    /**
+     * refreshAuth
+     * Ensure user is authorized
+     */
     public void refreshAuth() {
         // TODO: Temporary
         firebaseController.userAuthenticated();
+    }
+
+    /**
+     * setFirebaseController
+     * Change firebase controller, used in tests, set to private to prevent accidental misuse
+     * Tests will force call this private method with reflection
+     * @param controller Mock controller
+     */
+    private static void setFirebaseController(FirebaseController controller) {
+        // This method IS being used
+        // >>> DO NOT REMOVE <<<
+        MoodCompatActivity.firebaseController = controller;
     }
 
 }
