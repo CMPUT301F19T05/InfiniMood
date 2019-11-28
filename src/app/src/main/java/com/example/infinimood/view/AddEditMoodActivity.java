@@ -91,7 +91,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
 
     /**
      * onCreate
-     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
      * @param savedInstanceState Bundle
      */
     @Override

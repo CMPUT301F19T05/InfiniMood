@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class MoodFactoryTest {
 
     private final static String TEST_ID = "1";
+    private final static String TEST_USER_ID = "user1";
     private final static long TEST_DATE = new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime();
     private final static String TEST_REASON = "test123";
     private final static Location TEST_LOCATION = null;
@@ -32,7 +33,7 @@ public class MoodFactoryTest {
     private MoodFactory moodFactory = new MoodFactory();
 
     private void testFactoryByType(String type, Class<? extends Mood> expected) {
-        Mood mood = moodFactory.createMood(TEST_ID, type, TEST_DATE, TEST_REASON, TEST_LOCATION, TEST_SOCIAL_SITUATION, TEST_HAS_IMAGE);
+        Mood mood = moodFactory.createMood(TEST_ID, TEST_USER_ID, type, TEST_DATE, TEST_REASON, TEST_LOCATION, TEST_SOCIAL_SITUATION, TEST_HAS_IMAGE);
         assertEquals(expected, mood.getClass());
         assertEquals(TEST_ID, mood.getId());
         assertEquals(TEST_DATE, mood.getDate());

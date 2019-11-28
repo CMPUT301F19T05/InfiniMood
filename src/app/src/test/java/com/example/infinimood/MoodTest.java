@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 public class MoodTest {
 
     private final static String TEST_ID = "1";
+    private final static String TEST_USER_ID = "user1";
     private final static long TEST_DATE = new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime();
     private final static String TEST_REASON = "test123";
     private final static Location TEST_LOCATION = null;
@@ -36,6 +37,7 @@ public class MoodTest {
 
         try {
             constructor = moodClass.getConstructor(
+                    String.class,
                     String.class,
                     long.class,
                     String.class,
@@ -51,6 +53,7 @@ public class MoodTest {
         try {
             mood = constructor.newInstance(
                     TEST_ID,
+                    TEST_USER_ID,
                     TEST_DATE,
                     TEST_REASON,
                     TEST_LOCATION,
