@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     private ListView moodListView;
     private View mapView;
     private ToggleButton reverseToggle;
+    private FrameLayout progressOverlayContainer;
 
     private MoodHistoryAdapter adapter;
 
@@ -116,6 +118,8 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         moodListView = findViewById(R.id.moodHistoryListView);
 
         mapView = findViewById(R.id.moodHistoryMap);
+
+        progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -288,8 +292,23 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * showOverlay
+     */
+    public void showOverlay() {
+        progressOverlayContainer.setVisibility(View.VISIBLE);
+        progressOverlayContainer.bringToFront();
+    }
+
+    /**
+     * hideOverlay
+     */
+    public void hideOverlay() {
+        progressOverlayContainer.setVisibility(View.GONE);
+    }
 
     public void update() {
+        showOverlay();
         firebaseController.getUsers(new GetUsersCallback() {
             @Override
             public void onCallback(ArrayList<User> usersArrayList) {
@@ -325,6 +344,8 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                                     moodListView.setAdapter(adapter);
                                     adapter.notifyDataSetChanged();
                                 }
+
+                                hideOverlay();
                             }
                         });
                     }
