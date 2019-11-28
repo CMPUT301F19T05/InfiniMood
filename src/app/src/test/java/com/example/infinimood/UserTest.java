@@ -13,6 +13,10 @@ public class UserTest {
     private static final String TEST_ID = "user1";
     private static final String TEST_USERNAME = "joe";
 
+    private User createUserClass() {
+        return new User(TEST_ID, TEST_USERNAME, false, false, false, false);
+    }
+
     @Test
     public void testUserSimpleConstructor() {
         final User user = new User(TEST_ID, TEST_USERNAME);
@@ -37,7 +41,30 @@ public class UserTest {
 
     @Test
     public void testSetCurrentUserFollows() {
+        final User user = createUserClass();
+        user.setCurrentUserFollows(true);
+        assertTrue(user.isCurrentUserFollows());
+    }
 
+    @Test
+    public void testSetCurrentUserRequestedFollow() {
+        final User user = createUserClass();
+        user.setCurrentUserRequestedFollow(true);
+        assertTrue(user.isCurrentUserRequestedFollow());
+    }
+
+    @Test
+    public void testSetFollowsCurrentUser() {
+        final User user = createUserClass();
+        user.setFollowsCurrentUser(true);
+        assertTrue(user.isFollowsCurrentUser());
+    }
+
+    @Test
+    public void testSetRequestedFollowCurrentUser() {
+        final User user = createUserClass();
+        user.setRequestedFollowCurrentUser(true);
+        assertTrue(user.isRequestedFollowCurrentUser());
     }
 
 }

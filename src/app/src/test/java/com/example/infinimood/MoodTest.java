@@ -2,23 +2,15 @@ package com.example.infinimood;
 
 import android.location.Location;
 
-import com.example.infinimood.model.AfraidMood;
-import com.example.infinimood.model.AngryMood;
-import com.example.infinimood.model.CryingMood;
-import com.example.infinimood.model.HappyMood;
-import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.SadMood;
-import com.example.infinimood.model.SleepyMood;
 import com.example.infinimood.model.SocialSituation;
-
-import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class MoodTest {
@@ -81,6 +73,12 @@ public class MoodTest {
         assertEquals(newId, mood.getId());
     }
 
+    private void testSetUserId(Mood mood) {
+        final String newUserId = "user2";
+        mood.setUserId(newUserId);
+        assertEquals(newUserId, mood.getUserId());
+    }
+
     private void testSetDate(Mood mood) {
         final long newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime().getTime();
         mood.setDate(newDate);
@@ -93,50 +91,36 @@ public class MoodTest {
         assertEquals(newReason, mood.getReason());
     }
 
-    private void testAll(Class<? extends Mood> moodClass) {
+    private void testSetLocation(Mood mood) {
+        final Location newLocation = new Location("");
+        mood.setLocation(newLocation);
+        assertEquals(newLocation, mood.getLocation());
+    }
+
+    private void testSetSocialSituation(Mood mood) {
+        final String newSituation = SocialSituation.WITH_CROWD.getDescription();
+        mood.setSocialSituation(newSituation);
+        assertEquals(newSituation, mood.getSocialSituation());
+    }
+
+    private void testSetHasImage(Mood mood) {
+        mood.setHasImage(true);
+        assertTrue(mood.hasImage());
+    }
+
+    protected void testAll(Class<? extends Mood> moodClass) {
         final Mood mood = testConstructor(moodClass);
         if (mood == null) {
             fail();
         } else {
             testSetId(mood);
+            testSetUserId(mood);
             testSetDate(mood);
             testSetReason(mood);
+            testSetLocation(mood);
+            testSetSocialSituation(mood);
+            testSetHasImage(mood);
         }
-    }
-
-    @Test
-    public void testAfraidMood() {
-        testAll(AfraidMood.class);
-    }
-
-    @Test
-    public void testAngryMood() {
-        testAll(AngryMood.class);
-    }
-
-    @Test
-    public void testCryingMood() {
-        testAll(CryingMood.class);
-    }
-
-    @Test
-    public void testHappyMood() {
-        testAll(HappyMood.class);
-    }
-
-    @Test
-    public void testInLoveMood() {
-        testAll(InLoveMood.class);
-    }
-
-    @Test
-    public void testSadMood() {
-        testAll(SadMood.class);
-    }
-
-    @Test
-    public void testSleepyMood() {
-        testAll(SleepyMood.class);
     }
 
 }
