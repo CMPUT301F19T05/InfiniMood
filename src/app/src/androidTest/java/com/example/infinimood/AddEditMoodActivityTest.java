@@ -1,8 +1,6 @@
 package com.example.infinimood;
 
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -72,22 +70,25 @@ public class AddEditMoodActivityTest {
     public void testAddComplexMood() {
         solo.assertCurrentActivity("Expected add edit mode screen to show", AddEditMoodActivity.class);
 
+        final String moodType = "Angry";
         solo.clickOnView(solo.getView(R.id.addEditMoodSpinner));
-        solo.clickOnText("Angry");
+        solo.clickOnText(moodType);
 
+        final String socialSituation = "With a crowd";
         solo.clickOnView(solo.getView(R.id.addEditSocialSituationSpinner));
-        solo.clickOnText("With a crowd");
+        solo.clickOnText(socialSituation);
 
-        solo.enterText((EditText) solo.getView(R.id.addEditReasonEditText), "REEEE");
+        final String reason = "Just angry";
+        solo.enterText((EditText) solo.getView(R.id.addEditReasonEditText), reason);
 
         solo.clickOnButton(solo.getString(R.string.submit));
         solo.waitForText(solo.getString(R.string.add_mood_successfully_saved));
         final Mood mood = mockController.addMoodEventToDbCallArgsMood.get(0);
         assertEquals(0, mockController.addImageToDbCallCount, 0);
         assertEquals(1, mockController.addMoodEventToDBCallCount, 0);
-        assertEquals("Angry", mood.getMood());
-        assertEquals("With a crowd", mood.getSocialSituation());
-        assertEquals("REEEE", mood.getReason());
+        assertEquals(moodType, mood.getMood());
+        assertEquals(socialSituation, mood.getSocialSituation());
+        assertEquals(reason, mood.getReason());
         assertNull(mood.getLocation());
         assertFalse(mood.hasImage());
     }
