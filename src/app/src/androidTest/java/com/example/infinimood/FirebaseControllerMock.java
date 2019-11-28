@@ -4,7 +4,10 @@ import android.graphics.Bitmap;
 
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
+import com.example.infinimood.controller.GetMoodCallback;
+import com.example.infinimood.controller.GetUsersCallback;
 import com.example.infinimood.model.Mood;
+import com.example.infinimood.model.User;
 import com.example.infinimood.view.MoodCompatActivity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -60,5 +63,20 @@ class FirebaseControllerMock extends FirebaseController {
         addMoodEventToDBCallCount++;
         addMoodEventToDbCallArgsMood.add(mood);
         callback.onCallback(addMoodEventToDBResult);
+    }
+
+    public ArrayList<User> getUsersResult = new ArrayList<User>();
+    public int getUsersResultCallCount = 0;
+
+    @Override
+    public void getUsers(GetUsersCallback callback) {
+        callback.onCallback(getUsersResult);
+    }
+
+    public ArrayList<User> refreshOtherUserMoods
+
+    @Override
+    public void refreshOtherUserMoods(User user, GetMoodCallback callback) {
+
     }
 }

@@ -1,6 +1,5 @@
 package com.example.infinimood.controller;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -8,22 +7,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.infinimood.R;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodFactory;
 import com.example.infinimood.model.User;
-import com.example.infinimood.view.CreateAccountActivity;
-import com.example.infinimood.view.MoodCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -79,6 +70,7 @@ public class FirebaseController {
     /**
      * userAuthenticated
      * Check validity of current user
+     *
      * @return boolean - if current user was successfully found in firebase
      */
     public boolean userAuthenticated() {
@@ -117,6 +109,7 @@ public class FirebaseController {
 
     /**
      * getCurrentUID
+     *
      * @return String - containing the current user's UID
      */
     public String getCurrentUID() {
@@ -132,6 +125,7 @@ public class FirebaseController {
     /**
      * getUsername
      * gets the current user's username
+     *
      * @param callback StringCallback - the string callback to be called when username successfully
      *                 grabbed from firebase
      */
@@ -156,114 +150,12 @@ public class FirebaseController {
                 });
     }
 
-    public void createUser(Context context, String newUsername, String email, String password, BooleanCallback callback) {
-        firebaseFirestore
-                .collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String username = (String) document.get("username");
-                                if (newUsername.equals(username)) {
-                                    callback.onCallback(false);
-                                    ((CreateAccountActivity) context).toast(R.string.error_username_taken);
-                                }
-                            }
-                            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            firebaseUser = firebaseAuth.getCurrentUser();
-                                            if (task.isSuccessful()) {
-                                                callback.onCallback(true);
-                                            } else {
-                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                callback.onCallback(false);
-
-                                                try {
-                                                    throw task.getException();
-                                                }
-                                                // if user enters wrong email.
-                                                catch (FirebaseAuthWeakPasswordException weakPassword) {
-                                                    Log.d(TAG, "onComplete: weak_password");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_password_too_short);
-                                                }
-                                                // if user enters wrong password.
-                                                catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
-                                                    Log.d(TAG, "onComplete: malformed_email");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_email_invalid);
-                                                } catch (FirebaseAuthUserCollisionException existEmail) {
-                                                    Log.d(TAG, "onComplete: exist_email");
-                                                    ((CreateAccountActivity) context).toast(R.string.error_email_taken);
-                                                } catch (Exception e) {
-                                                    Log.d(TAG, "onComplete: " + e.getMessage());
-                                                }
-                                            }
-                                        }
-                                    });
-                        } else {
-                            ((CreateAccountActivity) context).toast("Failed creating account");
-                            callback.onCallback(false);
-                        }
-                    }
-                });
-    }
-
-    public void setCurrentUserData(String username, BooleanCallback callback) {
-        assert (userAuthenticated());
-
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("username", username);
-
-        firebaseFirestore.collection("users")
-                .document(firebaseAuth.getCurrentUser().getUid())
-                .set(userData)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        callback.onCallback(task.isSuccessful());
-                    }
-                });
-    }
-
-    public void signIn(Context context, String email, String password, BooleanCallback callback) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        if (task.isSuccessful()) {
-                            callback.onCallback(true);
-                        } else {
-                            callback.onCallback(false);
-                            try {
-                                throw task.getException();
-                            }
-                            // if user enters wrong email.
-                            catch (FirebaseAuthInvalidUserException invalidEmail) {
-                                Log.d(TAG, "onComplete: invalid_email");
-                                ((MoodCompatActivity) context).toast("Invalid email");
-                            }
-                            // if user enters wrong password.
-                            catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                                Log.d(TAG, "onComplete: wrong_password");
-                                ((MoodCompatActivity) context).toast("Incorrect password");
-                            } catch (Exception e) {
-                                Log.d(TAG, "onComplete: " + e.getMessage());
-                                ((MoodCompatActivity) context).toast(R.string.login_failed);
-                            }
-                        }
-                    }
-                });
-    }
-
     /**
      * uploadMoodImageToDB
      * Method that serializes a bitmap and uploads it to firebase
-     * @param mood Mood - The mood related to the image, for filename setting
-     * @param bitmap Bitmap - Bitmap of the image in question
+     *
+     * @param mood     Mood - The mood related to the image, for filename setting
+     * @param bitmap   Bitmap - Bitmap of the image in question
      * @param callback BooleanCallback - A boolean callback to indicate success or failure of the
      *                 add to DB
      */
@@ -302,7 +194,8 @@ public class FirebaseController {
     /**
      * getMoodImageFromDB
      * Gets a mood's image from Firebase
-     * @param mood Mood - The mood whose image is requested
+     *
+     * @param mood     Mood - The mood whose image is requested
      * @param callback BitmapCallback - The Bitmap callback with the loaded image
      */
     public void getMoodImageFromDB(Mood mood, BitmapCallback callback) {
@@ -339,7 +232,8 @@ public class FirebaseController {
     /**
      * deleteMoodImageFromDB
      * Method that deletes a mood's image from firebase
-     * @param mood Mood - the mood whose image we wnt to delete
+     *
+     * @param mood     Mood - the mood whose image we wnt to delete
      * @param callback BooleanCallback - a boolean callback indicating success or failure
      */
     public void deleteMoodImageFromDB(Mood mood, BooleanCallback callback) {
@@ -454,7 +348,8 @@ public class FirebaseController {
     /**
      * addMoodEvenToDB
      * Method to add mood to Firebase
-     * @param mood Mood - the mood to add to firebase
+     *
+     * @param mood     Mood - the mood to add to firebase
      * @param callback BooleanCallback - a boolean callback indicating success or failure
      */
     public void addMoodEventToDB(Mood mood, BooleanCallback callback) {
@@ -498,7 +393,8 @@ public class FirebaseController {
     /**
      * deleteMoodEventFromDB
      * Method to delete a mood from firebase
-     * @param mood Mood - The mood to delete
+     *
+     * @param mood     Mood - The mood to delete
      * @param callback BooleanCallback - a boolean callback indicating success or failure
      */
     public void deleteMoodEventFromDB(Mood mood, BooleanCallback callback) {
@@ -534,7 +430,8 @@ public class FirebaseController {
     /**
      * refreshMood
      * Get a mood's most information from firebase
-     * @param mood Mood - the mood whose information we're querying
+     *
+     * @param mood     Mood - the mood whose information we're querying
      * @param callback GetMoodCallback - a mood callback to be called with the mood we're requesting
      */
     public void refreshMood(Mood mood, GetMoodCallback callback) {
@@ -584,6 +481,7 @@ public class FirebaseController {
     /**
      * refreshUserMoods
      * Method that gets all the current user's moods from firebase
+     *
      * @param callback GetMoodsCallback - Moods callback that will be called with an ArrayList of
      *                 all the user's moods
      */
@@ -635,7 +533,8 @@ public class FirebaseController {
     /**
      * refreshOtherUserMoods
      * Method that gets a specific user's moods
-     * @param user User - The user whose mood's we want
+     *
+     * @param user     User - The user whose mood's we want
      * @param callback GetMoodsCallback - A moods callback that will be called with the specified
      *                 user's moods
      */
@@ -686,6 +585,7 @@ public class FirebaseController {
     /**
      * getUsers
      * Get a list of all users not including the currently logged in user from firebase
+     *
      * @param callback GetUsersCallback - A user callback that will be called with an ArrayList of
      *                 all users except the currently logged in user
      */
@@ -737,7 +637,8 @@ public class FirebaseController {
     /**
      * requestToFollow
      * Method that sends a follow request to another user through firebase
-     * @param user User - The user to send the follow request to
+     *
+     * @param user     User - The user to send the follow request to
      * @param callback BooleanCallback - a boolean callback that indicates success or failure
      */
     public void requestToFollow(User user, BooleanCallback callback) {
@@ -801,7 +702,8 @@ public class FirebaseController {
      * declineFollowRequest
      * Method for updating firebase with the information that a certain incoming follow request
      * was denied, removing the currently logged in user from the requesting user's following list
-     * @param user User - The user's whose follow request is being denied
+     *
+     * @param user     User - The user's whose follow request is being denied
      * @param callback BooleanCallback - a boolean callback indicating success or failure
      */
     public void declineFollowRequest(User user, BooleanCallback callback) {
@@ -859,7 +761,8 @@ public class FirebaseController {
      * Method for updating firebase with the information that the logged in user has accepted a
      * follow request from a certain user, updating the following collection of the requesting
      * user, and the followers collection of the currently logged in user accordingly
-     * @param user User - The user whose follow request is being accepted
+     *
+     * @param user     User - The user whose follow request is being accepted
      * @param callback BooleanCallback - a boolean callback indicating success or failure
      */
     public void acceptFollowRequest(User user, BooleanCallback callback) {
@@ -922,7 +825,8 @@ public class FirebaseController {
      * unfollowUser
      * A method for updating firebase with the information that the currently logged in user has
      * unfollowed a certain user.
-     * @param user User - The user who is being unfollowed
+     *
+     * @param user     User - The user who is being unfollowed
      * @param callback BooleanCallback - A boolean callback indicating success or failure
      */
     public void unfollowUser(User user, BooleanCallback callback) {
@@ -1045,4 +949,5 @@ public class FirebaseController {
     private String locationToString(Location location) {
         return String.valueOf(location.getLatitude()).concat(",").concat(String.valueOf(location.getLongitude()));
     }
+
 }
