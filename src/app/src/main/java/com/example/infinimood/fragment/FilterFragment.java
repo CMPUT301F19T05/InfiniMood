@@ -206,7 +206,7 @@ public class FilterFragment extends DialogFragment {
 
         return builder
                 .setView(view)
-                .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         filterCallback.onCallback(filter);
