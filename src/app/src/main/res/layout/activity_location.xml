@@ -16,6 +16,8 @@
 
     <Button
         android:id="@+id/locationConfirmButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -28,6 +30,8 @@
 
     <Button
         android:id="@+id/locationBackButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -39,6 +43,8 @@
 
     <Button
         android:id="@+id/locationClearButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -52,6 +58,8 @@
 
     <Button
         android:id="@+id/locationCurrentButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
