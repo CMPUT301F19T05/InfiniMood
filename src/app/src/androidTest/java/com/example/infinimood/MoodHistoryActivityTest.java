@@ -55,43 +55,7 @@ public class MoodHistoryActivityTest {
     @Test
     public void testAddSimpleMoodEvent() {
         solo.assertCurrentActivity("Expected add edit mode screen to show", MoodHistoryActivity.class);
-        solo.clickOnButton(solo.getString(R.string.submit));
-        solo.waitForText(solo.getString(R.string.add_mood_successfully_saved));
-        final Mood mood = mockController.addMoodEventToDbCallArgsMood.get(0);
-        assertEquals(0, mockController.addImageToDbCallCount, 0);
-        assertEquals(1, mockController.addMoodEventToDBCallCount, 0);
-        assertEquals("Happy", mood.getMood());
-        assertEquals("None", mood.getSocialSituation());
-        assertEquals("", mood.getReason());
-        assertNull(mood.getLocation());
-        assertFalse(mood.hasImage());
-    }
-
-    @Test
-    public void testAddComplexMood() {
-        solo.assertCurrentActivity("Expected add edit mode screen to show", AddEditMoodActivity.class);
-
-        final String moodType = "Angry";
-        solo.clickOnView(solo.getView(R.id.addEditMoodSpinner));
-        solo.clickOnText(moodType);
-
-        final String socialSituation = "With a crowd";
-        solo.clickOnView(solo.getView(R.id.addEditSocialSituationSpinner));
-        solo.clickOnText(socialSituation);
-
-        final String reason = "Just angry";
-        solo.enterText((EditText) solo.getView(R.id.addEditReasonEditText), reason);
-
-        solo.clickOnButton(solo.getString(R.string.submit));
-        solo.waitForText(solo.getString(R.string.add_mood_successfully_saved));
-        final Mood mood = mockController.addMoodEventToDbCallArgsMood.get(0);
-        assertEquals(0, mockController.addImageToDbCallCount, 0);
-        assertEquals(1, mockController.addMoodEventToDBCallCount, 0);
-        assertEquals(moodType, mood.getMood());
-        assertEquals(socialSituation, mood.getSocialSituation());
-        assertEquals(reason, mood.getReason());
-        assertNull(mood.getLocation());
-        assertFalse(mood.hasImage());
+        solo.sleep(9001);
     }
 
 }

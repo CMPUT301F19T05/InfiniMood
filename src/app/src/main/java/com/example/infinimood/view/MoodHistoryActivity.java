@@ -21,8 +21,8 @@ import com.example.infinimood.controller.GetMoodCallback;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.GetUsersCallback;
 import com.example.infinimood.controller.MoodHistoryAdapter;
-import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.fragment.FilterFragment;
+import com.example.infinimood.fragment.MoodHistoryFragment;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.MoodComparator;
 import com.example.infinimood.model.MoodConstants;
@@ -87,6 +87,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     /**
      * onCreate
      * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -141,8 +142,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                     reverseToggle.setVisibility(View.VISIBLE);
                     moodListView.setVisibility(View.VISIBLE);
                     mapView.setVisibility(View.INVISIBLE);
-                }
-                else if (mode.equals("Friends\' Mood Events")) {
+                } else if (mode.equals("Friends\' Mood Events")) {
                     selfMode = false;
                     adapter = new MoodHistoryAdapter(MoodHistoryActivity.this, filteredFriendsMoods);
                     moodListView.setAdapter(adapter);
@@ -151,8 +151,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                     reverseToggle.setVisibility(View.VISIBLE);
                     moodListView.setVisibility(View.VISIBLE);
                     mapView.setVisibility(View.INVISIBLE);
-                }
-                else if (mode.equals("My Mood Map")) {
+                } else if (mode.equals("My Mood Map")) {
                     selfMode = true;
 
                     updateMap();
@@ -160,8 +159,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                     reverseToggle.setVisibility(View.INVISIBLE);
                     moodListView.setVisibility(View.INVISIBLE);
                     mapView.setVisibility(View.VISIBLE);
-                }
-                else if (mode.equals("Friends\' Mood Map")) {
+                } else if (mode.equals("Friends\' Mood Map")) {
                     selfMode = false;
 
                     updateMap();
@@ -201,7 +199,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                         filter = newFilter;
 
                         filteredSelfMoods.clear();
-                        for (Mood mood: selfMoods) {
+                        for (Mood mood : selfMoods) {
                             if (filter.contains(mood.getMood())) {
                                 filteredSelfMoods.add(mood);
                             }
@@ -209,7 +207,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                         Collections.sort(filteredSelfMoods, comparator);
 
                         filteredFriendsMoods.clear();
-                        for (Mood mood: friendsMoods) {
+                        for (Mood mood : friendsMoods) {
                             if (filter.contains(mood.getMood())) {
                                 filteredFriendsMoods.add(mood);
                             }
@@ -461,6 +459,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     /**
      * onSearchUsersClicked
      * Starts UsersActivity
+     *
      * @param item MenuItem
      */
     public void onSearchUsersClicked(MenuItem item) {
@@ -472,6 +471,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     /**
      * onAddMoodClicked
      * Starts AddEditMoodActivity
+     *
      * @param item MenuItem
      */
     public void onAddMoodClicked(MenuItem item) {
@@ -484,6 +484,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     /**
      * onMoodHistoryClicked
      * Starts MoodHistoryActivity
+     *
      * @param item MenuItem
      */
     public void onMoodHistoryClicked(MenuItem item) {
@@ -495,6 +496,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
     /**
      * onUserProfileClicked
      * Starts UserProfileActivity
+     *
      * @param item MenuItem
      */
     public void onUserProfileClicked(MenuItem item) {
