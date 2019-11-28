@@ -2,17 +2,8 @@ package com.example.infinimood;
 
 import android.location.Location;
 
-import com.example.infinimood.model.AfraidMood;
-import com.example.infinimood.model.AngryMood;
-import com.example.infinimood.model.CryingMood;
-import com.example.infinimood.model.HappyMood;
-import com.example.infinimood.model.InLoveMood;
 import com.example.infinimood.model.Mood;
-import com.example.infinimood.model.SadMood;
-import com.example.infinimood.model.SleepyMood;
 import com.example.infinimood.model.SocialSituation;
-
-import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -93,7 +84,7 @@ public class MoodTest {
         assertEquals(newReason, mood.getReason());
     }
 
-    private void testAll(Class<? extends Mood> moodClass) {
+    protected void testAll(Class<? extends Mood> moodClass) {
         final Mood mood = testConstructor(moodClass);
         if (mood == null) {
             fail();
@@ -102,41 +93,6 @@ public class MoodTest {
             testSetDate(mood);
             testSetReason(mood);
         }
-    }
-
-    @Test
-    public void testAfraidMood() {
-        testAll(AfraidMood.class);
-    }
-
-    @Test
-    public void testAngryMood() {
-        testAll(AngryMood.class);
-    }
-
-    @Test
-    public void testCryingMood() {
-        testAll(CryingMood.class);
-    }
-
-    @Test
-    public void testHappyMood() {
-        testAll(HappyMood.class);
-    }
-
-    @Test
-    public void testInLoveMood() {
-        testAll(InLoveMood.class);
-    }
-
-    @Test
-    public void testSadMood() {
-        testAll(SadMood.class);
-    }
-
-    @Test
-    public void testSleepyMood() {
-        testAll(SleepyMood.class);
     }
 
 }
