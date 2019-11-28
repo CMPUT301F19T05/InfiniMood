@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -32,11 +33,12 @@ public class UsersActivity extends MoodCompatActivity  {
     private SearchView searchView;
     private UserAdapter searchAdapter;
     private Spinner modeSpinner;
+    private FrameLayout progressOverlayContainer;
 
     private String userId;
 
-    private ArrayList<User> users;
-    private ArrayList<User> currentlyShownUsers;
+    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> currentlyShownUsers = new ArrayList<>();
     BottomNavigationView navigationView;
 
     /**
@@ -52,12 +54,82 @@ public class UsersActivity extends MoodCompatActivity  {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
+
         if (!firebaseController.userAuthenticated()) {
             startActivityNoHistory(LoginActivity.class);
         }
 
         userId = firebaseController.getCurrentUID();
 
+        modeSpinner = findViewById(R.id.searchSpinner);
+        modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int j, long l) {
+                currentlyShownUsers.clear();
+
+                String mode = (String) modeSpinner.getItemAtPosition(j);
+                if (mode.equals("All")) {
+                    for (int i = 0; i < users.size(); ++i) {
+                        User user = users.get(i);
+                        if (!user.getUserID().equals(userId)) {
+                            currentlyShownUsers.add(user);
+                        }                      }
+                }
+                else if (mode.equals("Followers")) {
+                    for (int i = 0; i < users.size(); ++i) {
+                        User user = users.get(i);
+                        if (user.isFollowsCurrentUser() || user.isRequestedFollowCurrentUser()) {
+                            if (!user.getUserID().equals(userId)) {
+                                currentlyShownUsers.add(user);
+                            }                            }
+                    }
+                }
+                else if (mode.equals("Following")) {
+                    for (int i = 0; i < users.size(); ++i) {
+                        User user = users.get(i);
+                        if (user.isCurrentUserFollows() || user.isCurrentUserRequestedFollow()) {
+                            if (!user.getUserID().equals(userId)) {
+                                currentlyShownUsers.add(user);
+                            }                              }
+                    }
+                }
+
+                update();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.e(TAG, "This shouldn't happen (empty mode spinner)");
+            }
+        });
+
+        searchView = findViewById(R.id.searchSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String substring) {
+                findUsersBySubstring(substring);
+                update();
+                return false;
+            }
+        });
+        searchListView = findViewById(R.id.searchListView);
+        searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User user = (User) searchListView.getItemAtPosition(position);
+                if (user.isCurrentUserFollows()) {
+                    Intent i = new Intent(UsersActivity.this, MoodHistoryActivity.class);
+                    i.putExtra("user", user);
+                    startActivity(i);
+                }
+            }
+        });
+
+        showOverlay();
         firebaseController.getUsers(new GetUsersCallback() {
             @Override
             public void onCallback(ArrayList<User> usersArrayList) {
@@ -69,74 +141,7 @@ public class UsersActivity extends MoodCompatActivity  {
                         currentlyShownUsers.add(user);
                     }
                 }
-
-                modeSpinner = findViewById(R.id.searchSpinner);
-                modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int j, long l) {
-                        currentlyShownUsers.clear();
-
-                        String mode = (String) modeSpinner.getItemAtPosition(j);
-                        if (mode.equals("All")) {
-                            for (int i = 0; i < users.size(); ++i) {
-                                User user = users.get(i);
-                                if (!user.getUserID().equals(userId)) {
-                                    currentlyShownUsers.add(user);
-                                }                      }
-                        }
-                        else if (mode.equals("Followers")) {
-                            for (int i = 0; i < users.size(); ++i) {
-                                User user = users.get(i);
-                                if (user.isFollowsCurrentUser() || user.isRequestedFollowCurrentUser()) {
-                                    if (!user.getUserID().equals(userId)) {
-                                        currentlyShownUsers.add(user);
-                                    }                            }
-                            }
-                        }
-                        else if (mode.equals("Following")) {
-                            for (int i = 0; i < users.size(); ++i) {
-                                User user = users.get(i);
-                                if (user.isCurrentUserFollows() || user.isCurrentUserRequestedFollow()) {
-                                    if (!user.getUserID().equals(userId)) {
-                                        currentlyShownUsers.add(user);
-                                    }                              }
-                            }
-                        }
-
-                        update();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        Log.e(TAG, "This shouldn't happen (empty mode spinner)");
-                    }
-                });
-
-                searchView = findViewById(R.id.searchSearchView);
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) { return false; }
-
-                    @Override
-                    public boolean onQueryTextChange(String substring) {
-                        findUsersBySubstring(substring);
-                        update();
-                        return false;
-                    }
-                });
-                searchListView = findViewById(R.id.searchListView);
-                searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        User user = (User) searchListView.getItemAtPosition(position);
-                        if (user.isCurrentUserFollows()) {
-                            Intent i = new Intent(UsersActivity.this, MoodHistoryActivity.class);
-                            i.putExtra("user", user);
-                            startActivity(i);
-                        }
-                    }
-                });
-
+                hideOverlay();
                 update();
             }
         });
@@ -264,6 +269,21 @@ public class UsersActivity extends MoodCompatActivity  {
                 update();
             }
         });
+    }
+
+    /**
+     * showOverlay
+     */
+    public void showOverlay() {
+        progressOverlayContainer.setVisibility(View.VISIBLE);
+        progressOverlayContainer.bringToFront();
+    }
+
+    /**
+     * hideOverlay
+     */
+    public void hideOverlay() {
+        progressOverlayContainer.setVisibility(View.GONE);
     }
 
     /**
