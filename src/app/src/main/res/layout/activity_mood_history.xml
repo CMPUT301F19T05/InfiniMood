@@ -7,6 +7,28 @@
     android:orientation="vertical"
     tools:context=".view.MoodHistoryActivity">
 
+    <FrameLayout
+        android:id="@+id/progressOverlayContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/loginProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
     <fragment
         android:id="@+id/moodHistoryMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
