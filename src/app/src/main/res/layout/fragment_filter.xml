@@ -11,10 +11,9 @@
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="@string/happy_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
         android:id="@+id/inLoveCheck"
@@ -143,6 +142,8 @@
 
     <Button
         android:id="@+id/filterFragmentAllButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -154,6 +155,8 @@
 
     <Button
         android:id="@+id/filterFragmentNoneButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -162,4 +165,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/filterFragmentAllButton"
         app:layout_constraintTop_toBottomOf="@+id/afraidCheck" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Filter by Mood"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,6 +66,8 @@
 
         <Button
             android:id="@+id/userEntryAcceptButton"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +90,8 @@
 
         <Button
             android:id="@+id/userEntryUnfollowButton"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -100,6 +104,8 @@
 
         <Button
             android:id="@+id/userEntryDeclineButton"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

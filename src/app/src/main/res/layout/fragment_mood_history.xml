@@ -127,6 +127,8 @@
 
     <Button
         android:id="@+id/moodFragmentLocationButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Location"
@@ -137,6 +139,8 @@
 
     <Button
         android:id="@+id/moodFragmentImageButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Image"
