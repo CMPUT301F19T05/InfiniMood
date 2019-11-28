@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class MoodTest {
@@ -72,6 +73,12 @@ public class MoodTest {
         assertEquals(newId, mood.getId());
     }
 
+    private void testSetUserId(Mood mood) {
+        final String newUserId = "user2";
+        mood.setUserId(newUserId);
+        assertEquals(newUserId, mood.getUserId());
+    }
+
     private void testSetDate(Mood mood) {
         final long newDate = new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime().getTime();
         mood.setDate(newDate);
@@ -84,14 +91,35 @@ public class MoodTest {
         assertEquals(newReason, mood.getReason());
     }
 
+    private void testSetLocation(Mood mood) {
+        final Location newLocation = new Location("");
+        mood.setLocation(newLocation);
+        assertEquals(newLocation, mood.getLocation());
+    }
+
+    private void testSetSocialSituation(Mood mood) {
+        final String newSituation = SocialSituation.WITH_CROWD.getDescription();
+        mood.setSocialSituation(newSituation);
+        assertEquals(newSituation, mood.getSocialSituation());
+    }
+
+    private void testSetHasImage(Mood mood) {
+        mood.setHasImage(true);
+        assertTrue(mood.hasImage());
+    }
+
     protected void testAll(Class<? extends Mood> moodClass) {
         final Mood mood = testConstructor(moodClass);
         if (mood == null) {
             fail();
         } else {
             testSetId(mood);
+            testSetUserId(mood);
             testSetDate(mood);
             testSetReason(mood);
+            testSetLocation(mood);
+            testSetSocialSituation(mood);
+            testSetHasImage(mood);
         }
     }
 
