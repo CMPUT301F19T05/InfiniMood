@@ -34,13 +34,14 @@ public class AddEditMoodActivityTest {
     private Solo solo;
 
     @Before
-    public void setUp() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
     @After
     public void tearDown() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         solo.finishOpenedActivities();
+        mockController = FirebaseControllerMock.install();
     }
 
     @Test

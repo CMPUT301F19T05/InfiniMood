@@ -36,7 +36,7 @@ class FirebaseControllerMock extends FirebaseController {
     public boolean addImageToDBResult = true;
 
     @Override
-    public void addImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
+    public void uploadMoodImageToDB(Mood mood, Bitmap bitmap, BooleanCallback callback) {
         callback.onCallback(addImageToDBResult);
     }
 
