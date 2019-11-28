@@ -92,6 +92,8 @@
 
         <Button
             android:id="@+id/createAccountSubmitButton"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -107,6 +109,8 @@
 
         <Button
             android:id="@+id/createAccountBackButton"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

@@ -23,6 +23,8 @@
 
     <Button
         android:id="@+id/addEditSubmitButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
@@ -36,6 +38,8 @@
 
     <Button
         android:id="@+id/chooseLocationButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +52,8 @@
 
     <Button
         android:id="@+id/takePhotoButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -59,6 +65,8 @@
 
     <Button
         android:id="@+id/uploadPhotoButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,6 +129,8 @@
 
     <Button
         android:id="@+id/addEditDatePickerButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -133,6 +143,8 @@
 
     <Button
         android:id="@+id/addEditTimePickerButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -251,6 +263,8 @@
 
     <Button
         android:id="@+id/addEditViewLocationButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -263,6 +277,8 @@
 
     <Button
         android:id="@+id/addEditViewImageButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

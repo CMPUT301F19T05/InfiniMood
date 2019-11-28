@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,7 +57,6 @@ public class AddEditMoodActivity extends MoodCompatActivity {
     private static final int PICK_LOCATION = 2;
     private static final int TAKE_IMAGE = 4;
     protected static final int VIEW_LOCATION = 5;
-
 
     private int requestCode;
 
@@ -268,7 +268,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             }
         } else if(requestCode == TAKE_IMAGE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
-            moodImage = (Bitmap) extras.get("data");
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90);
+            Bitmap raw = (Bitmap) extras.get("data");
+            Bitmap rawPhoto = Bitmap.createScaledBitmap(raw,700,700,false);
+            moodImage = Bitmap.createBitmap(rawPhoto, 0, 0, rawPhoto.getWidth(), rawPhoto.getHeight(), matrix, true);
             moodHasImage = true;
             uploadedImage = true;
             updatePhotoButtons();
@@ -386,7 +390,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
         if (uploadedImage) {
-            firebaseController.addImageToDB(newMood, moodImage, new BooleanCallback() {
+            firebaseController.uploadMoodImageToDB(newMood, moodImage, new BooleanCallback() {
                 @Override
                 public void onCallback(boolean bool) {
                     if (bool) {
