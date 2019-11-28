@@ -27,29 +27,25 @@
         android:id="@+id/profileUploadImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="74dp"
         android:background="@drawable/rounded_buttons"
         android:onClick="onUploadImageClicked"
         android:text="Upload Image"
         android:textColor="@color/colorWhite"
-        app:layout_constraintEnd_toStartOf="@+id/profileDeleteImageButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
         app:layout_constraintTop_toBottomOf="@+id/profileUsernameTextView" />
 
     <Button
         android:id="@+id/profileDeleteImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginStart="74dp"
         android:background="@drawable/rounded_buttons_hollow"
         android:onClick="onDeleteImageClicked"
         android:text="Delete Image"
         android:textColor="@color/colorButtons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profileUploadImageButton"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
         app:layout_constraintTop_toTopOf="@+id/profileUploadImageButton" />
 
     <ImageView
@@ -65,7 +61,7 @@
 
     <ImageView
         android:id="@+id/profileImageView"
-        android:layout_width="161dp"
+        android:layout_width="0dp"
         android:layout_height="137dp"
         android:layout_marginTop="80dp"
         android:scaleType="fitCenter"
