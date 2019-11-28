@@ -154,21 +154,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                 else if (mode.equals("My Mood Map")) {
                     selfMode = true;
 
-                    googleMap.clear();
-                    markerHashMap.clear();
-
-                    for (Mood mood : filteredSelfMoods) {
-                        Location loc = mood.getLocation();
-                        if (loc == null) {
-                            continue;
-                        }
-
-                        MarkerOptions markerOptions = getMarkerOptions(mood);
-                        Marker marker = googleMap.addMarker(markerOptions);
-                        marker.setTag(mood);
-
-                        markerHashMap.put(mood.getId(), marker);
-                    }
+                    updateMap();
 
                     reverseToggle.setVisibility(View.INVISIBLE);
                     moodListView.setVisibility(View.INVISIBLE);
@@ -177,21 +163,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                 else if (mode.equals("Friends\' Mood Map")) {
                     selfMode = false;
 
-                    googleMap.clear();
-                    markerHashMap.clear();
-
-                    for (Mood mood : filteredFriendsMoods) {
-                        Location loc = mood.getLocation();
-                        if (loc == null) {
-                            continue;
-                        }
-
-                        MarkerOptions markerOptions = getMarkerOptions(mood);
-                        Marker marker = googleMap.addMarker(markerOptions);
-                        marker.setTag(mood);
-
-                        markerHashMap.put(mood.getId(), marker);
-                    }
+                    updateMap();
 
                     reverseToggle.setVisibility(View.INVISIBLE);
                     moodListView.setVisibility(View.INVISIBLE);
@@ -244,6 +216,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                         Collections.sort(filteredFriendsMoods, comparator);
 
                         adapter.notifyDataSetChanged();
+                        updateMap();
                     }
                 });
                 filterFragment.show(getSupportFragmentManager(), "SHOW_FILTER");
@@ -254,7 +227,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Mood mood = adapter.getItem(position);
-                new MoodHistoryFragment(mood, new BooleanCallback() {
+                new MoodHistoryFragment(mood, selfMode, new BooleanCallback() {
                     @Override
                     public void onCallback(boolean bool) {
                         if (bool) {
@@ -278,6 +251,43 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         super.onStart();
         update();
     }
+
+    public void updateMap() {
+        if (selfMode) {
+            googleMap.clear();
+            markerHashMap.clear();
+
+            for (Mood mood : filteredSelfMoods) {
+                Location loc = mood.getLocation();
+                if (loc == null) {
+                    continue;
+                }
+
+                MarkerOptions markerOptions = getMarkerOptions(mood);
+                Marker marker = googleMap.addMarker(markerOptions);
+                marker.setTag(mood);
+
+                markerHashMap.put(mood.getId(), marker);
+            }
+        } else {
+            googleMap.clear();
+            markerHashMap.clear();
+
+            for (Mood mood : filteredFriendsMoods) {
+                Location loc = mood.getLocation();
+                if (loc == null) {
+                    continue;
+                }
+
+                MarkerOptions markerOptions = getMarkerOptions(mood);
+                Marker marker = googleMap.addMarker(markerOptions);
+                marker.setTag(mood);
+
+                markerHashMap.put(mood.getId(), marker);
+            }
+        }
+    }
+
 
     public void update() {
         firebaseController.getUsers(new GetUsersCallback() {
@@ -387,7 +397,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
         firebaseController.refreshMood(mood, new GetMoodCallback() {
             @Override
             public void onCallback(Mood mood) {
-                new MoodHistoryFragment(mood, new BooleanCallback() {
+                new MoodHistoryFragment(mood, selfMode, new BooleanCallback() {
                     @Override
                     public void onCallback(boolean success) {
                         if (success) {

@@ -48,6 +48,7 @@ public class MoodHistoryFragment extends DialogFragment {
 
     private Mood mood;
     private BooleanCallback onDeleteCallback;
+    private boolean selfMode = false;
 
     /**
      * MoodHistoryFragment
@@ -55,7 +56,7 @@ public class MoodHistoryFragment extends DialogFragment {
      * @param mood Mood - The mood to be displayed
      * @param onDeleteCallback BooleanCallback - Boolean callback for indicating success or failure
      */
-    public MoodHistoryFragment(Mood mood, BooleanCallback onDeleteCallback) {
+    public MoodHistoryFragment(Mood mood, boolean selfMode, BooleanCallback onDeleteCallback) {
         this.mood = mood;
         this.onDeleteCallback = onDeleteCallback;
     }
@@ -134,26 +135,29 @@ public class MoodHistoryFragment extends DialogFragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
-                    }
-                })
-                .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getActivity(), AddEditMoodActivity.class);
+        builder.setView(view);
+        builder.setPositiveButton("OK", null);
 
-                        intent.putExtra("requestCode", EDIT_MOOD);
-                        intent.putExtra("mood", mood);
+        if (selfMode) {
+            builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    firebaseController.deleteMoodEventFromDB(mood, onDeleteCallback);
+                }
+            });
+            builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getActivity(), AddEditMoodActivity.class);
 
-                        getActivity().startActivityForResult(intent, EDIT_MOOD);
-                    }
-                })
-                .setPositiveButton("OK", null)
-                .create();
+                    intent.putExtra("requestCode", EDIT_MOOD);
+                    intent.putExtra("mood", mood);
+
+                    getActivity().startActivityForResult(intent, EDIT_MOOD);
+                }
+            });
+        }
+
+        return builder.create();
     }
 }
