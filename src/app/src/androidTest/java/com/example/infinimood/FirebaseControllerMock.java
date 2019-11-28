@@ -7,6 +7,7 @@ import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.controller.GetMoodCallback;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.GetUsersCallback;
+import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.SocialSituation;
 import com.example.infinimood.model.User;
@@ -68,7 +69,7 @@ class FirebaseControllerMock extends FirebaseController {
         callback.onCallback(addMoodEventToDBResult);
     }
 
-    public ArrayList<User> getUsersResult = new ArrayList<User>();
+    public ArrayList<User> getUsersResult = new ArrayList<>();
     public int getUsersCallCount = 0;
 
     @Override
@@ -86,11 +87,11 @@ class FirebaseControllerMock extends FirebaseController {
         callback.onCallback(refreshOtherUserMoodsResult);
     }
 
-    public Mood refreshMoodResult = new Mood(
+    public Mood refreshMoodResult = new HappyMood(
             "1",
             "user1",
             new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime(),
-            null,
+            "",
             null,
             SocialSituation.WITH_CROWD.getDescription(),
             false
