@@ -89,4 +89,16 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
         firebaseController.userAuthenticated();
     }
 
+    /**
+     * setFirebaseController
+     * Change firebase controller, used in tests, set to private to prevent accidental misuse
+     * Tests will force call this private method with reflection
+     * @param controller Mock controller
+     */
+    private static void setFirebaseController(FirebaseController controller) {
+        // This method IS being used
+        // >>> DO NOT REMOVE <<<
+        MoodCompatActivity.firebaseController = controller;
+    }
+
 }
