@@ -82,9 +82,8 @@ public class MoodHistoryActivityTest {
     }
 
     @Test
-    public void testAddSimpleMoodEvent() {
+    public void testViewMoodHistory() {
         solo.assertCurrentActivity("Expected add edit mode screen to show", MoodHistoryActivity.class);
-        solo.sleep(9001);
     }
 
 }
