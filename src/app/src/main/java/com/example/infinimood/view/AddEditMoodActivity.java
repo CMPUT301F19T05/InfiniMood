@@ -415,7 +415,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             public void onCallback(boolean success) {
                 if (success) {
                     if (requestCode == ADD_MOOD) {
-                        toast("Successfully added Mood event");
+                        toast(R.string.add_mood_successfully_saved);
                     } else if (requestCode == EDIT_MOOD) {
                         toast("Successfully edited Mood event");
                     }

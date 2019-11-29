@@ -1,12 +1,10 @@
 package com.example.infinimood.model;
 
-import android.util.Log;
-
 import java.io.Serializable;
 
 /**
- *  User.java
- *  User class
+ * User.java
+ * User class
  */
 public class User implements Serializable {
 
@@ -22,7 +20,8 @@ public class User implements Serializable {
     /**
      * User
      * Simple constructor for User
-     * @param Uid String - Unique id for user
+     *
+     * @param Uid      String - Unique id for user
      * @param username String - Unique Username for User
      */
     public User(String Uid, String username) {
@@ -33,22 +32,22 @@ public class User implements Serializable {
     /**
      * User
      * Simple constructor for User
-     * @param userID String - Unique ID for user
-     * @param username String - Unique username for user
-     * @param currentUserFollows boolean - whether the currently logged in user follows this user
+     *
+     * @param userID                     String - Unique ID for user
+     * @param username                   String - Unique username for user
+     * @param currentUserFollows         boolean - whether the currently logged in user follows this user
      * @param currentUserRequestedFollow boolean - whether the currently logged i user has requested
-     *                                  to follow this user
-     * @param followsCurrentUser boolean - whether this user follows the currently logged in user
+     *                                   to follow this user
+     * @param followsCurrentUser         boolean - whether this user follows the currently logged in user
      * @param requestedFollowCurrentUser boolean - whether this user has requested a follow from
-     *                                  the currently logged in user
+     *                                   the currently logged in user
      */
     public User(String userID,
                 String username,
                 boolean currentUserFollows,
                 boolean currentUserRequestedFollow,
                 boolean followsCurrentUser,
-                boolean requestedFollowCurrentUser)
-    {
+                boolean requestedFollowCurrentUser) {
         this.userID = userID;
         this.username = username;
         this.currentUserFollows = currentUserFollows;
@@ -59,6 +58,7 @@ public class User implements Serializable {
 
     /**
      * isCurrentUserFollows
+     *
      * @return boolean - whether current user follows this user
      */
     public boolean isCurrentUserFollows() {
@@ -67,6 +67,7 @@ public class User implements Serializable {
 
     /**
      * setCurrentUserFollows
+     *
      * @param currentUserFollows boolean - whether current user follows this user
      */
     public void setCurrentUserFollows(boolean currentUserFollows) {
@@ -75,6 +76,7 @@ public class User implements Serializable {
 
     /**
      * isCurrentUserRequestedFollow
+     *
      * @return boolean - whether current user is requesting to follow this user
      */
     public boolean isCurrentUserRequestedFollow() {
@@ -83,8 +85,9 @@ public class User implements Serializable {
 
     /**
      * setCurrentUserRequestedFollow
+     *
      * @param currentUserRequestedFollow boolean - whether current user has requested to follow this
-     *                                 user
+     *                                   user
      */
     public void setCurrentUserRequestedFollow(boolean currentUserRequestedFollow) {
         this.currentUserRequestedFollow = currentUserRequestedFollow;
@@ -92,6 +95,7 @@ public class User implements Serializable {
 
     /**
      * isFollowCurrentUser
+     *
      * @return boolean - whether this user follows the current user
      */
     public boolean isFollowsCurrentUser() {
@@ -100,6 +104,7 @@ public class User implements Serializable {
 
     /**
      * setFollowsCurrentUser
+     *
      * @param followsCurrentUser boolean - whether this user follwos the current user
      */
     public void setFollowsCurrentUser(boolean followsCurrentUser) {
@@ -108,6 +113,7 @@ public class User implements Serializable {
 
     /**
      * isRequestedFollowCurrentUser
+     *
      * @return boolean - whether this user has requested to follow current user
      */
     public boolean isRequestedFollowCurrentUser() {
@@ -116,8 +122,9 @@ public class User implements Serializable {
 
     /**
      * setRequestedFollowCurrentUser
+     *
      * @param requestedFollowCurrentUser boolean - whether this user has requested to follow current
-     *                                  user
+     *                                   user
      */
     public void setRequestedFollowCurrentUser(boolean requestedFollowCurrentUser) {
         this.requestedFollowCurrentUser = requestedFollowCurrentUser;
@@ -125,28 +132,20 @@ public class User implements Serializable {
 
     /**
      * getUsername
+     *
      * @return String - user's username
      */
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * getUserID
+     *
      * @return String - user's ID
      */
-    public String getUserID() { return userID; }
-
-    /**
-     * print
-     * prints relevant information regarding this user
-     */
-    public void print() {
-        Log.i("", "===================================================");
-        Log.i("", "ID : " + this.userID);
-        Log.i("", "Username : " + this.username);
-        Log.i("", "Current User Follows : " + this.currentUserFollows);
-        Log.i("", "Current User Requested : " + this.currentUserRequestedFollow);
-        Log.i("", "Follows Current User : " + this.followsCurrentUser);
-        Log.i("", "Requested Current User : " + this.requestedFollowCurrentUser);
-        Log.i("", "===================================================");
+    public String getUserID() {
+        return userID;
     }
+
 }
