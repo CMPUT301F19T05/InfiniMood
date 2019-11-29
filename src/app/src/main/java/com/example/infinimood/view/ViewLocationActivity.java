@@ -32,7 +32,7 @@ public class ViewLocationActivity extends FragmentActivity implements OnMapReady
 
     /**
      * onCreate
-     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
      * @param savedInstanceState Bundle
      */
     @Override
