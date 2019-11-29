@@ -25,7 +25,9 @@ import com.example.infinimood.view.MoodHistoryActivity;
 
 public class UserInfoFragment extends Fragment {
 
-    private static FirebaseController firebaseController = new FirebaseController();
+
+    private FirebaseController firebaseController = new FirebaseController();
+
 
     private User user;
 
