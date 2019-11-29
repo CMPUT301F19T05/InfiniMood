@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:clickable="true"
+    android:id="@+id/fragment_user_profile">
+
+    <ImageView
+        android:id="@+id/otherUserProfileImageView"
+        android:layout_width="0dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="80dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/otherUserProfileImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="148dp"
+        tools:text="@string/username" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/usernameTextView">
+
+        <Button
+            android:id="@+id/fragment_accept_button"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/rounded_buttons"
+            android:layout_centerVertical="true"
+            android:text="Accept"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:id="@+id/fragment_decline_button"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/fragment_accept_button"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
+            android:text="Decline"/>
+
+        <Button
+            android:id="@+id/fragment_follow_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/rounded_buttons"
+            android:text="Follow"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/fragment_user_follow_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="80dp"
+            android:text="follows you" />
+
+        <Button
+            android:id="@+id/fragment_unfollow_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/rounded_buttons_hollow"
+            android:text="Unfollow"
+            android:textColor="@color/colorButtons" />
+
+
+        <TextView
+            android:id="@+id/fragment_follow_request_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="80dp"
+            android:text="request sent" />
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/userProfileButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/fragment_button_layout">
+
+        <Button
+            android:id="@+id/followerProfileMoodHistoryButton"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_buttons"
+            android:text="History"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.67" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
