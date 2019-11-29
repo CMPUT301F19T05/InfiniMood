@@ -345,6 +345,37 @@ public class FirebaseController {
         });
     }
 
+    public void getOtherUserProfileImageFromDB(User user, BitmapCallback callback) {
+        assert (userAuthenticated());
+
+        String filename = "images" + '/' + user.getUserID() + '/' + "profile";
+
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference imageRef = storageRef.child(filename);
+
+        imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if (bitmap != null) {
+                    Log.i(TAG, "Successfully downloaded image");
+                    callback.onCallback(bitmap);
+                } else {
+                    Log.i(TAG, "Failed to download image");
+                    callback.onCallback(null);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.e(TAG, "Failed to download image");
+                callback.onCallback(null);
+            }
+        });
+    }
+
     /**
      * addMoodEvenToDB
      * Method to add mood to Firebase

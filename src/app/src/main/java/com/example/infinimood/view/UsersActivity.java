@@ -15,8 +15,10 @@ import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.GetUsersCallback;
 import com.example.infinimood.controller.UserAdapter;
+import com.example.infinimood.fragment.UserInfoFragment;
 import com.example.infinimood.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,8 @@ public class UsersActivity extends MoodCompatActivity  {
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> currentlyShownUsers = new ArrayList<>();
     BottomNavigationView navigationView;
+
+    private UserInfoFragment userInfoFragment;
 
     /**
      * onCreate
@@ -120,12 +124,16 @@ public class UsersActivity extends MoodCompatActivity  {
         searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 User user = (User) searchListView.getItemAtPosition(position);
-                if (user.isCurrentUserFollows()) {
-                    Intent i = new Intent(UsersActivity.this, MoodHistoryActivity.class);
-                    i.putExtra("user", user);
-                    startActivity(i);
-                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user",user);
+                userInfoFragment = new UserInfoFragment();
+                userInfoFragment.setArguments(bundle);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.search_users_activity,userInfoFragment)
+                        .commit();
             }
         });
 
@@ -270,6 +278,7 @@ public class UsersActivity extends MoodCompatActivity  {
             }
         });
     }
+
 
     /**
      * showOverlay

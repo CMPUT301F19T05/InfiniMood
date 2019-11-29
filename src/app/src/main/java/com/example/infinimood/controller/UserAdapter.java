@@ -71,7 +71,6 @@ public class UserAdapter extends ArrayAdapter<User> {
         if (user.isCurrentUserFollows()) {
             followButton.setVisibility(View.GONE);
             requestedFollowTextView.setVisibility(View.GONE);
-
             unfollowButton.setVisibility(View.VISIBLE);
         } else if (user.isCurrentUserRequestedFollow()) {
             followButton.setVisibility(View.GONE);
