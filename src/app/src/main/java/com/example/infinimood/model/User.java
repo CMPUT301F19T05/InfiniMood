@@ -105,7 +105,7 @@ public class User implements Serializable {
     /**
      * setFollowsCurrentUser
      *
-     * @param followsCurrentUser boolean - whether this user follwos the current user
+     * @param followsCurrentUser boolean - whether this user follows the current user
      */
     public void setFollowsCurrentUser(boolean followsCurrentUser) {
         this.followsCurrentUser = followsCurrentUser;
