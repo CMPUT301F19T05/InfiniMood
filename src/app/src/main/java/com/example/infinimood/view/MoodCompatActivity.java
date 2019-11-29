@@ -88,7 +88,6 @@ public abstract class MoodCompatActivity extends AppCompatActivity {
      * Ensure user is authorized
      */
     public void refreshAuth() {
-        // TODO: Temporary
         firebaseController.userAuthenticated();
     }
 

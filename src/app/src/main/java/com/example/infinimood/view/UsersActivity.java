@@ -18,7 +18,6 @@ import com.example.infinimood.controller.UserAdapter;
 import com.example.infinimood.fragment.UserInfoFragment;
 import com.example.infinimood.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 
@@ -47,7 +46,7 @@ public class UsersActivity extends MoodCompatActivity  {
 
     /**
      * onCreate
-     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
      * @param savedInstanceState Bundle
      */
     @Override
