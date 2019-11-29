@@ -386,6 +386,11 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         }
 
         moodReason = reasonEditText.getText().toString();
+        String[] split = moodReason.split(" ", 0);
+        if (split.length > 3) {
+            toast("Reason is too long");
+            return;
+        }
 
         Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
@@ -415,7 +420,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             public void onCallback(boolean success) {
                 if (success) {
                     if (requestCode == ADD_MOOD) {
-                        toast(R.string.add_mood_successfully_saved);
+                        toast("Successfully added Mood event");
                     } else if (requestCode == EDIT_MOOD) {
                         toast("Successfully edited Mood event");
                     }
