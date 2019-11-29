@@ -58,6 +58,7 @@ public class MoodHistoryFragment extends DialogFragment {
      */
     public MoodHistoryFragment(Mood mood, boolean selfMode, BooleanCallback onDeleteCallback) {
         this.mood = mood;
+        this.selfMode = selfMode;
         this.onDeleteCallback = onDeleteCallback;
     }
 

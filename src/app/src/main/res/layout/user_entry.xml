@@ -39,8 +39,8 @@
 
         <Button
             android:id="@+id/userEntryFollowButton"
-            android:textColor="@color/colorButtons"
-            android:background="@drawable/rounded_buttons_hollow"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -71,8 +71,8 @@
             android:textColor="@color/colorWhite"
             android:background="@drawable/rounded_buttons"
             style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:focusable="false"
             android:onClick="onAcceptClicked"
             android:text="@string/Accept_follow_request"
@@ -92,8 +92,8 @@
 
         <Button
             android:id="@+id/userEntryUnfollowButton"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/rounded_buttons"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -109,8 +109,8 @@
             android:textColor="@color/colorButtons"
             android:background="@drawable/rounded_buttons_hollow"
             style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:focusable="false"
             android:onClick="onDeclineClicked"
             android:text="Decline"
