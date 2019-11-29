@@ -2,11 +2,13 @@ package com.example.infinimood;
 
 import android.graphics.Bitmap;
 
+import com.example.infinimood.controller.BitmapCallback;
 import com.example.infinimood.controller.BooleanCallback;
 import com.example.infinimood.controller.FirebaseController;
 import com.example.infinimood.controller.GetMoodCallback;
 import com.example.infinimood.controller.GetMoodsCallback;
 import com.example.infinimood.controller.GetUsersCallback;
+import com.example.infinimood.controller.StringCallback;
 import com.example.infinimood.model.HappyMood;
 import com.example.infinimood.model.Mood;
 import com.example.infinimood.model.SocialSituation;
@@ -102,6 +104,24 @@ class FirebaseControllerMock extends FirebaseController {
     public void refreshMood(Mood mood, GetMoodCallback callback) {
         refreshMoodCallCount++;
         callback.onCallback(refreshMoodResult);
+    }
+
+    public String getUsernameResult = "Joe Doe";
+    public int getUsernameCallCount = 0;
+
+    @Override
+    public void getUsername(StringCallback callback) {
+        getUsernameCallCount++;
+        callback.onCallback(getUsernameResult);
+    }
+
+    public Bitmap getProfileImageFromDBResult = null;
+    public int getProfileImageFromDBCallCount = 0;
+
+    @Override
+    public void getProfileImageFromDB(BitmapCallback callback) {
+        getProfileImageFromDBCallCount++;
+        callback.onCallback(getProfileImageFromDBResult);
     }
 
 }
