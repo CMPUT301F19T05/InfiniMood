@@ -86,7 +86,7 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
 
     /**
      * onCreate
-     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
      *
      * @param savedInstanceState Bundle
      */
