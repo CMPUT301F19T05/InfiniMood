@@ -19,7 +19,7 @@ public class MoodComparatorTest {
             "1",
             "user1",
             new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime(),
-            null,
+            "",
             null,
             SocialSituation.WITH_CROWD.getDescription(),
             false
@@ -29,7 +29,7 @@ public class MoodComparatorTest {
             "2",
             "user1",
             new GregorianCalendar(2019, GregorianCalendar.APRIL, 1).getTime().getTime(),
-            null,
+            "",
             null,
             SocialSituation.WITH_CROWD.getDescription(),
             false
@@ -39,7 +39,7 @@ public class MoodComparatorTest {
             "3",
             "user1",
             new GregorianCalendar(2019, GregorianCalendar.MAY, 1).getTime().getTime(),
-            null,
+            "",
             null,
             SocialSituation.WITH_CROWD.getDescription(),
             false
