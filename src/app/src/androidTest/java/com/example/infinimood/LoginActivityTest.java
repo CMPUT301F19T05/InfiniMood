@@ -15,8 +15,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.InvocationTargetException;
+
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class LoginActivityTest {
+
+    public LoginActivityTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        final FirebaseControllerMock mockController = FirebaseControllerMock.install();
+        mockController.userAuthenticatedResult = false;
+    }
 
     @Rule
     public ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(

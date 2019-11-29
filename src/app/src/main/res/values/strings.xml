@@ -50,6 +50,7 @@
     <string name="Take_Photo_Button">Camera</string>
 
     <string name="add_mood_title">Add Mood Event</string>
+    <string name="add_mood_successfully_saved">Successfully added mood event</string>
     <string name="edit_mood_title">Edit Mood Event</string>
 
     <string name="happy">Happy</string>
