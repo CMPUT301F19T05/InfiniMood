@@ -364,10 +364,8 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
 
                                     mostRecent.print();
 
-                                    for (Mood mood : friendsMoods) {
-                                        if (filter.contains(mood.getMood())) {
-                                            filteredFriendsMoods.add(mood);
-                                        }
+                                    if (filter.contains(mostRecent.getMood())) {
+                                        filteredFriendsMoods.add(mostRecent);
                                     }
 
                                     Collections.sort(filteredFriendsMoods, comparator);
@@ -377,7 +375,6 @@ public class MoodHistoryActivity extends MoodCompatActivity implements OnMapRead
                                         moodListView.setAdapter(adapter);
                                         adapter.notifyDataSetChanged();
                                     }
-
                                 }
                             }
                         });
