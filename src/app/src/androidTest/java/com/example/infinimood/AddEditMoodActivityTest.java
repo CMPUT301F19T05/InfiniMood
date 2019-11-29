@@ -83,7 +83,7 @@ public class AddEditMoodActivityTest {
         solo.enterText((EditText) solo.getView(R.id.addEditReasonEditText), reason);
 
         solo.clickOnButton(solo.getString(R.string.submit));
-        solo.waitForText(solo.getString(R.string.add_mood_successfully_saved));
+        solo.waitForText("Successfully added Mood event");
 
         final Mood mood = mockController.addMoodEventToDbCallArgsMood.get(0);
         assertEquals(0, mockController.addImageToDbCallCount, 0);
