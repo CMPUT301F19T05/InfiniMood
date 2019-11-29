@@ -43,7 +43,7 @@ import java.util.HashSet;
 
 public class UserMoodHistoryFragment extends Fragment {
 
-    private static FirebaseController firebaseController = new FirebaseController();
+    private FirebaseController firebaseController = new FirebaseController();
 
     private User user;
 
@@ -129,7 +129,7 @@ public class UserMoodHistoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Mood mood = adapter.getItem(position);
-                new MoodHistoryFragment(mood, true, new BooleanCallback() {
+                new MoodHistoryFragment(mood, false, new BooleanCallback() {
                     @Override
                     public void onCallback(boolean bool) {
                         if (bool) {
