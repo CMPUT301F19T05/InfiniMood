@@ -39,9 +39,12 @@
 
         <Button
             android:id="@+id/userEntryFollowButton"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:focusable="false"
             android:onClick="onFollowClicked"
             android:text="@string/Follow_button"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,9 +68,12 @@
 
         <Button
             android:id="@+id/userEntryAcceptButton"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_buttons"
             style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:focusable="false"
             android:onClick="onAcceptClicked"
             android:text="@string/Accept_follow_request"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,9 +92,12 @@
 
         <Button
             android:id="@+id/userEntryUnfollowButton"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:focusable="false"
             android:onClick="onUnfollowClicked"
             android:text="@string/Unfollow_button"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,9 +106,12 @@
 
         <Button
             android:id="@+id/userEntryDeclineButton"
+            android:textColor="@color/colorButtons"
+            android:background="@drawable/rounded_buttons_hollow"
             style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:focusable="false"
             android:onClick="onDeclineClicked"
             android:text="Decline"
             app:layout_constraintBottom_toBottomOf="parent"

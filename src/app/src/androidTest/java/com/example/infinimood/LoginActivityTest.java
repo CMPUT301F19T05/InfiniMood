@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.infinimood.view.CreateAccountActivity;
-import com.example.infinimood.view.MainActivity;
+import com.example.infinimood.view.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.robotium.solo.Solo;
 
@@ -15,12 +15,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.InvocationTargetException;
+
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class LoginActivityTest {
+
+    public LoginActivityTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        final FirebaseControllerMock mockController = FirebaseControllerMock.install();
+        mockController.userAuthenticatedResult = false;
+    }
 
     @Rule
-    public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(
-            MainActivity.class,
+    public ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(
+            LoginActivity.class,
             true,
             true
     );
@@ -44,11 +51,11 @@ public class MainActivityTest {
 
     @Test
     public void testStartCreateAccountActivity() {
-        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
+        solo.assertCurrentActivity("Expected login screen to show", LoginActivity.class);
         solo.clickOnView(solo.getView(R.id.loginSignUpTextView));
         solo.assertCurrentActivity("Expected create account screen to show", CreateAccountActivity.class);
         solo.clickOnButton(solo.getString(R.string.back));
-        solo.assertCurrentActivity("Expected login screen to show", MainActivity.class);
+        solo.assertCurrentActivity("Expected login screen to show", LoginActivity.class);
     }
 
 }

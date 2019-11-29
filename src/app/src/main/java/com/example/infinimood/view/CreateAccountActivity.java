@@ -5,25 +5,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-
 import com.example.infinimood.R;
-import com.example.infinimood.controller.BooleanCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.infinimood.controller.CreateAccountController;
+import com.example.infinimood.model.CreateAccountModel;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * CreateAccountActivity.java
  * Activity for creating user accounts (fields for username, password, etc.)
  */
+public class CreateAccountActivity extends MoodCompatActivity implements Observer {
 
-public class CreateAccountActivity extends MoodCompatActivity {
+    private CreateAccountModel model;
+    private CreateAccountController controller;
 
     private FrameLayout progressOverlayContainer;
 
@@ -32,10 +28,19 @@ public class CreateAccountActivity extends MoodCompatActivity {
     private EditText editTextPassword;
     private EditText editTextPasswordRepeat;
 
+    /**
+     * onCreate
+     * Ovverides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
+
+        model = new CreateAccountModel();
+        model.addObserver(this);
+        controller = new CreateAccountController(this, model);
 
         progressOverlayContainer = findViewById(R.id.progressOverlayContainer);
 
@@ -45,54 +50,99 @@ public class CreateAccountActivity extends MoodCompatActivity {
         editTextPasswordRepeat = findViewById(R.id.createAccountPasswordRepeatEditText);
     }
 
-    public void onSubmitClicked(View view) {
-        final String username = editTextUsername.getText().toString();
-        final String email = editTextEmail.getText().toString();
-        final String password = editTextPassword.getText().toString();
-        final String passwordRepeat = editTextPasswordRepeat.getText().toString();
+    /**
+     * update
+     * Sets all the edit texts with the information form createAccountModel
+     * @param o Observable
+     * @param args Object
+     */
+    @Override
+    public void update(Observable o, Object args) {
+        final String newUsername = model.getUsername();
+        final String newEmail = model.getEmail();
+        final String newPassword = model.getPassword();
+        final String newPasswordRepeat = model.getPasswordRepeat();
 
-        if (username.isEmpty()) {
-            toast(R.string.error_username_required);
-            editTextUsername.requestFocus();
-        } else if (email.isEmpty()) {
-            toast(R.string.error_email_required);
-            editTextEmail.requestFocus();
-        } else if (password.isEmpty()) {
-            toast(R.string.error_password_required);
-            editTextPassword.requestFocus();
-        } else if (password.length() < 6) {
-            toast(R.string.error_password_too_short);
-            editTextPassword.requestFocus();
-        } else if (!password.equals(passwordRepeat)) {
-            toast(R.string.error_password_mismatch);
-            editTextPasswordRepeat.requestFocus();
-        } else {
-            progressOverlayContainer.setVisibility(View.VISIBLE);
-
-            firebaseController.createUser(CreateAccountActivity.this, username, email, password, new BooleanCallback() {
-                @Override
-                public void onCallback(boolean success) {
-                    if (success) {
-                        toast(R.string.account_create_successful);
-                        firebaseController.setCurrentUserData(username, new BooleanCallback() {
-                            @Override
-                            public void onCallback(boolean success) {
-                                if (success) {
-                                    startActivityNoHistory(UserProfileActivity.class);
-                                } else {
-                                    toast("Could not save username, you can set it later");
-                                }
-                                progressOverlayContainer.setVisibility(View.GONE);
-                            }
-                        });
-                    } else {
-                        progressOverlayContainer.setVisibility(View.GONE);
-                    }
-                }
-            });
+        if (!editTextUsername.getText().toString().equals(newUsername)) {
+            editTextUsername.setText(newUsername);
+        }
+        if (!editTextEmail.getText().toString().equals(newEmail)) {
+            editTextEmail.setText(newEmail);
+        }
+        if (!editTextPassword.getText().toString().equals(newPassword)) {
+            editTextPassword.setText(newPassword);
+        }
+        if (!editTextPasswordRepeat.getText().toString().equals(newPasswordRepeat)) {
+            editTextPasswordRepeat.setText(newPasswordRepeat);
         }
     }
 
+    /**
+     * onSubmitClicked
+     * Sets the model information from the editTexts
+     * @param view View
+     */
+    public void onSubmitClicked(View view) {
+        model.setUsername(editTextUsername.getText().toString());
+        model.setEmail(editTextEmail.getText().toString());
+        model.setPassword(editTextPassword.getText().toString());
+        model.setPasswordRepeat(editTextPasswordRepeat.getText().toString());
+        model.notifyObservers();
+        controller.createAccount();
+    }
+
+    /**
+     * focusUsernameField
+     * Requests focus on Username EditText
+     */
+    public void focusUsernameField() {
+        editTextUsername.requestFocus();
+    }
+
+    /**
+     * focusEmailField
+     * Requests focus on Email EditText
+     */
+    public void focusEmailField() {
+        editTextEmail.requestFocus();
+    }
+
+    /**
+     * focusPasswordField
+     * Requests focus on Password EditText
+     */
+    public void focusPasswordField() {
+        editTextPassword.requestFocus();
+    }
+
+    /**
+     * focusPasswordRepeatField
+     * Requests focus on pass repeat EditText
+     */
+    public void focusPasswordRepeatField() {
+        editTextPasswordRepeat.requestFocus();
+    }
+
+    /**
+     * showOverlay
+     */
+    public void showOverlay() {
+        progressOverlayContainer.setVisibility(View.VISIBLE);
+        progressOverlayContainer.bringToFront();
+    }
+
+    /**
+     * hideOverlay
+     */
+    public void hideOverlay() {
+        progressOverlayContainer.setVisibility(View.GONE);
+    }
+
+    /**
+     * onBackClicked
+     * finishes the activity
+     * @param view View
+     */
     public void onBackClicked(View view) {
         finish();
     }

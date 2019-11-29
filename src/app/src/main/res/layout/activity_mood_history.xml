@@ -1,55 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:orientation="vertical" android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".view.MoodHistoryActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.MoodHistoryActivity">
 
-    <TextView
-        android:id="@+id/moodHistoryTitle"
+    <FrameLayout
+        android:id="@+id/progressOverlayContainer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="My Recent Moods"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </TextView>
+        <ProgressBar
+            android:id="@+id/loginProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/moodHistoryMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/moodHistoryListView"
+        app:layout_constraintEnd_toEndOf="@+id/moodHistoryListView"
+        app:layout_constraintStart_toStartOf="@+id/moodHistoryListView"
+        app:layout_constraintTop_toTopOf="@+id/moodHistoryListView"/>
+
+    <Spinner
+        android:id="@+id/moodHistoryModeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/history_modes"
+        app:layout_constraintBottom_toBottomOf="@+id/moodHistoryFilterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/moodHistoryFilterButton" />
 
     <ListView
         android:id="@+id/moodHistoryListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_margin="8dp"
+        android:divider="@null"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moodHistoryTitle">
+        app:layout_constraintTop_toBottomOf="@+id/moodHistoryFilterButton">
 
     </ListView>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="moodMapClick"
-        android:text="Mood Map"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moodHistoryListView" />
-
-    <Switch
+    <ToggleButton
         android:id="@+id/moodHistorySortOrderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="34dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.7"
+        android:background="@drawable/toggle_selector"
         android:checked="true"
-        app:layout_constraintBottom_toTopOf="@+id/moodHistoryListView"
-        app:layout_constraintEnd_toEndOf="@+id/moodHistoryTitle"
-        app:layout_constraintTop_toTopOf="@+id/moodHistoryTitle" />
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="@+id/moodHistoryFilterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/moodHistoryFilterButton" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/moodHistoryFilterButton"
+        android:layout_width="43dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.7"
+        android:clickable="true"
+        app:backgroundTint="@color/colorWhite"
+        app:fabCustomSize="42dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/filter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

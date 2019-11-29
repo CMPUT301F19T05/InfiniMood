@@ -13,8 +13,8 @@
     <string name="submit">Submit</string>
     <string name="create_account_title">Create Account</string>
     <string name="login_page_signup_prompt">Don\'t have an account? Sign up here</string>
-    <string name="login_failed">Login failed, please try again.</string>
-    <string name="account_create_successful">Account created</string>
+    <string name="login_failed">Login failed, please try again</string>
+    <string name="login_wrong_password">Wrong password, please try again</string>
 
     <string name="error_username_required">Please enter an username</string>
     <string name="error_username_taken">An account already exists with that username</string>
@@ -24,6 +24,9 @@
     <string name="error_password_required">Please enter a password</string>
     <string name="error_password_too_short">Please enter a longer password</string>
     <string name="error_password_mismatch">Please enter the same password</string>
+    <string name="account_create_successful">Account created</string>
+    <string name="account_create_failed">Account creation failed, please try again</string>
+    <string name="could_not_save_username">Could not save username</string>
 
     <string name="user_profile_welcome">Welcome back!</string>
     <string name="logout">Logout</string>
@@ -43,9 +46,36 @@
     <string name="users_button">Users</string>
     <string name="Search_users_hint">Search …</string>
 
-    <string name="Upload_Photo_Button">Photo</string>
+    <string name="Upload_Photo_Button">Upload Image</string>
+    <string name="Take_Photo_Button">Camera</string>
 
-    <string-array name="emojis_array">
+    <string name="add_mood_title">Add Mood Event</string>
+    <string name="add_mood_successfully_saved">Successfully added mood event</string>
+    <string name="edit_mood_title">Edit Mood Event</string>
+
+    <string name="happy">Happy</string>
+    <string name="inLove">In Love</string>
+    <string name="crying">Crying</string>
+    <string name="sleepy">Sleepy</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="afraid">Afraid</string>
+
+    <string name="filter">FILTER</string>
+
+    <string-array name="history_modes">
+        <item>My Mood Events</item>
+        <item>Friends\' Mood Events</item>
+        <item>My Mood Map</item>
+        <item>Friends\' Mood Map</item>
+    </string-array>
+
+    <string-array name="follower_history_modes">
+        <item>Mood Events</item>
+        <item>Mood Map</item>
+    </string-array>
+
+    <string-array name="moods_array">
         <item>Happy</item>
         <item>Sad</item>
         <item>Angry</item>
@@ -55,6 +85,16 @@
         <item>Sleepy</item>
     </string-array>
 
+    <string-array name="moods_icons_array">
+        <item>&#x1F600; Happy</item>
+        <item>&#x1F614; Sad</item>
+        <item>&#x1F620; Angry</item>
+        <item>&#x1F631; Afraid</item>
+        <item>&#x1F602; Crying</item>
+        <item>&#x1F60D; In Love</item>
+        <item>&#x1F634; Sleepy</item>
+    </string-array>
+
     <string-array name="search_users_array">
         <item>All</item>
         <item>Followers</item>
@@ -62,20 +102,20 @@
     </string-array>
 
     <!-- Mood Icons Definitions -->
-    <string name="happy_icon">0x1F60A</string>
-    <string name="sad_icon">U+1F614</string>
-    <string name="angry_icon">U+1F621</string>
-    <string name="crying_icon">U+1F622</string>
-    <string name="in_love_icon">U+1F60D</string>
-    <string name="sleepy_icon">U+1F634</string>
-    <string name="afraid_icon">U+1F628</string>
+    <string name="happy_icon">&#x1F600;</string>
+    <string name="sad_icon">&#x1F614;</string>
+    <string name="angry_icon">&#x1F620;</string>
+    <string name="crying_icon">&#x1F602;</string>
+    <string name="in_love_icon">&#x1F60D;</string>
+    <string name="sleepy_icon">&#x1F634;</string>
+    <string name="afraid_icon">&#x1F631;</string>
 
     <!-- Situation definitions -->
     <string-array name="situations_array">
+        <item>None</item>
         <item>Alone</item>
         <item>With one other person</item>
         <item>With two to several people</item>
         <item>With a crowd</item>
     </string-array>
-    <string name="title_activity_main2">MainActivity2</string>
 </resources>

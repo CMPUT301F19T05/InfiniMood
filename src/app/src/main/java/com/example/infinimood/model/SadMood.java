@@ -10,17 +10,16 @@ import java.util.Date;
  *  SadMood.java
  *  Subclass for Sad mood events
  */
-
 public class SadMood extends Mood {
 
     public SadMood(String id,
-                     long date,
-                     String reason,
-                     Location location,
-                     String socialSituation,
-                   Bitmap image)
-    {
-        super(id, date, reason, location, socialSituation, image);
+                   String userId,
+                   long date,
+                   String reason,
+                   Location location,
+                   String socialSituation,
+                   boolean hasImage) {
+        super(id, userId, date, reason, location, socialSituation, hasImage);
         MoodConstants constants = new MoodConstants();
         super.setMood(constants.SAD_STRING);
         super.setIcon(constants.SAD_ICON);

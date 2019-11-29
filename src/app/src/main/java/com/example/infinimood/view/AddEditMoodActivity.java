@@ -1,96 +1,164 @@
 package com.example.infinimood.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
+import android.widget.TextView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.infinimood.R;
 import com.example.infinimood.controller.BooleanCallback;
+import com.example.infinimood.controller.DatePickerCallback;
+import com.example.infinimood.controller.TimePickerCallback;
+import com.example.infinimood.fragment.DatePickerFragment;
+import com.example.infinimood.fragment.TimePickerFragment;
+import com.example.infinimood.fragment.ViewImageFragment;
 import com.example.infinimood.model.Mood;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
-import androidx.core.app.ActivityCompat;
 
 /**
- *  AddEditMoodActivity.java
- *  Activity for creating mood objects and editing existing mood objects
- *  TODO: Edit functionality
+ * AddEditMoodActivity.java
+ * Activity for adding new mood events and editing existing mood events
  */
-
 public class AddEditMoodActivity extends MoodCompatActivity {
-
     private static final String TAG = "AddEditMoodActivity";
+
     private static final int PICK_IMAGE = 1;
     private static final int PICK_LOCATION = 2;
+    private static final int TAKE_IMAGE = 4;
+    protected static final int VIEW_LOCATION = 5;
 
-    private DatePicker datePicker;
-    private TimePicker timePicker;
+    private int requestCode;
+
+    // views
+    private TextView titleTextView;
     private Spinner moodSpinner;
-    private EditText reasonInput;
     private Spinner socialSituationSpinner;
-    private Button addEditSubmitButton;
-    private ImageView testImage;
+    private EditText reasonEditText;
+    private TextView selectedTimeTextView;
+    private TextView selectedDateTextView;
+    private BottomNavigationView navigationView;
 
+    // buttons
+    private Button cameraButton;
+    private Button galleryButton;
+    private Button photoViewButton;
+
+    // mood attributes
+    private String moodId;
     private String moodEmotion;
     private long moodDate;
     private String moodReason;
     private String moodSocialSituation;
     private Location moodLocation = null;
     private Bitmap moodImage = null;
+    private boolean moodHasImage = false;
+    private boolean uploadedImage = false;
+    private String moodIcon;
+    private String moodColor;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
+    /**
+     * onCreate
+     * Overrides onCreate. Gets the activity ready. Runs when activity is created.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_mood);
 
         if (!firebaseController.userAuthenticated()) {
-            startActivityNoHistory(MainActivity.class);
+            startActivityNoHistory(LoginActivity.class);
         }
 
         // find views
-        datePicker = findViewById(R.id.addEditDatePicker);
-        timePicker = findViewById(R.id.addEditTimePicker);
+        titleTextView = findViewById(R.id.addEditTitleTextView);
         moodSpinner = findViewById(R.id.addEditMoodSpinner);
-        reasonInput = findViewById(R.id.addEditReasonEditText);
         socialSituationSpinner = findViewById(R.id.addEditSocialSituationSpinner);
-        addEditSubmitButton = findViewById(R.id.addEditSubmitButton);
-        testImage = findViewById(R.id.testImageView);
+        reasonEditText = findViewById(R.id.addEditReasonEditText);
+        selectedTimeTextView = findViewById(R.id.addEditSelectedTimeTextView);
+        selectedDateTextView = findViewById(R.id.addEditSelectedDateTextView);
+        navigationView = findViewById(R.id.bottom_navigation);
+        galleryButton = findViewById(R.id.uploadPhotoButton);
+        cameraButton = findViewById(R.id.takePhotoButton);
+        photoViewButton = findViewById(R.id.addEditViewImageButton);
 
+        navigationView.getMenu().getItem(1).setChecked(true);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        updateCurrentLocation();
+
+        // extract mood info from intent
+        Intent intent = getIntent();
+
+        requestCode = intent.getIntExtra("requestCode", ADD_MOOD);
+
+        if (requestCode == ADD_MOOD) {
+            titleTextView.setText(R.string.add_mood_title);
+
+            moodId = UUID.randomUUID().toString();
+
+            // set date and time pickers to the mood's date and time
+            Date date = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            moodDate = calendar.getTime().getTime();
+
+            updateDate();
+
+        } else if (requestCode == EDIT_MOOD) {
+            titleTextView.setText(R.string.edit_mood_title);
+
+            Mood mood = intent.getParcelableExtra("mood");
+
+            // set widgets to match the mood event
+            if (mood != null) {
+                fillWithMoodEvent(mood);
+            } else {
+                Log.e(TAG, "Mood is null in AddEditMoodActivity");
+                finish();
+            }
+        }
+
+        updatePhotoButtons();
 
         // change moodEmotion according to the mood spinner
         moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String mood = (String) moodSpinner.getItemAtPosition(i);
-                moodEmotion = mood;
-                Log.i(TAG, moodEmotion);
+                moodEmotion = (String) moodSpinner.getItemAtPosition(i);
+                moodEmotion = moodEmotion.substring(3);
             }
 
             @Override
@@ -103,9 +171,7 @@ public class AddEditMoodActivity extends MoodCompatActivity {
         socialSituationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String socialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
-                moodSocialSituation = socialSituation;
-                Log.i(TAG, moodSocialSituation);
+                moodSocialSituation = (String) socialSituationSpinner.getItemAtPosition(i);
             }
 
             @Override
@@ -113,6 +179,133 @@ public class AddEditMoodActivity extends MoodCompatActivity {
                 Log.e(TAG, "This shouldn't happen (empty social situation spinner)");
             }
         });
+    }
+
+    /**
+     * fillWithMoodEvents
+     * Sets the View with a given mood event
+     * @param mood Mood - mood to fill View with
+     */
+    public void fillWithMoodEvent(Mood mood) {
+        moodId = mood.getId();
+        moodDate = mood.getDate();
+        moodReason = mood.getReason();
+        moodLocation = mood.getLocation();
+        moodSocialSituation = mood.getSocialSituation();
+        moodEmotion = mood.getMood();
+        moodHasImage = mood.hasImage();
+        moodIcon = mood.getIcon();
+        moodColor = mood.getColor();
+
+        // set date and time pickers to the mood's date and time
+        Date date = new Date(moodDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        updateDate();
+
+        // set mood spinner to mood's emotion
+        ArrayAdapter<CharSequence> oldAdapter = ArrayAdapter.createFromResource(this, R.array.moods_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.moods_icons_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moodSpinner.setAdapter(adapter);
+        if (moodEmotion != null) {
+            int spinnerPosition = oldAdapter.getPosition(moodEmotion);
+            moodSpinner.setSelection(spinnerPosition);
+        }
+
+        // set social situation spinner to mood's social situation
+        adapter = ArrayAdapter.createFromResource(this, R.array.situations_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        socialSituationSpinner.setAdapter(adapter);
+        if (moodSocialSituation != null) {
+            int spinnerPosition = adapter.getPosition(moodSocialSituation);
+            socialSituationSpinner.setSelection(spinnerPosition);
+        }
+
+        // set reason input text to mood's reason
+        reasonEditText.setText(moodReason);
+    }
+
+    /**
+     * onUploadPhotoClicked
+     * Starts activity to get image
+     * @param view View
+     */
+    // start android image selection
+    public void onUploadPhotoClicked(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
+    }
+
+    /**
+     * onTakePhotoClicked
+     * Starts activity to take photo
+     * @param view View
+     */
+    public void onTakePhotoClicked(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_IMAGE);
+    }
+
+    /**
+     * onActivityResult
+     * handle the result of selecting images and locations
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            try {
+                moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                moodHasImage = true;
+                uploadedImage = true;
+                updatePhotoButtons();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if(requestCode == TAKE_IMAGE && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90);
+            Bitmap raw = (Bitmap) extras.get("data");
+            Bitmap rawPhoto = Bitmap.createScaledBitmap(raw,700,700,false);
+            moodImage = Bitmap.createBitmap(rawPhoto, 0, 0, rawPhoto.getWidth(), rawPhoto.getHeight(), matrix, true);
+            moodHasImage = true;
+            uploadedImage = true;
+            updatePhotoButtons();
+        } else if (requestCode == PICK_LOCATION && resultCode == RESULT_OK) {
+
+            boolean addedLocation = data.getBooleanExtra("ADDED", false);
+
+            if (addedLocation) {
+                double latitude = data.getDoubleExtra("LAT", 0);
+                double longitude = data.getDoubleExtra("LON", 0);
+                moodLocation = new Location("");
+                moodLocation.setLatitude(latitude);
+                moodLocation.setLongitude(longitude);
+            } else {
+                moodLocation = null;
+            }
+        }
+    }
+
+    /**
+     * onChooseLocaitonPicked
+     * start ChooseLocationActivity
+     * @param view
+     */
+    public void onChooseLocationPicked(View view) {
+        final Intent intent = new Intent(this, ChooseLocationActivity.class);
+        if (moodLocation != null) {
+            intent.putExtra("HAS_LOCATION", true);
+            intent.putExtra("location", moodLocation);
+        } else {
+            intent.putExtra("HAS_LOCATION", false);
+        }
+        startActivityForResult(intent, PICK_LOCATION);
     }
 
     private void updateCurrentLocation() {
@@ -128,48 +321,57 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             public void onSuccess(Location location) {
                 if (location != null) {
                     moodLocation = location;
-                    toast("Current Location Added");
+                    toast("Current location added");
                 } else {
                     // https://stackoverflow.com/questions/29441384/fusedlocationapi-getlastlocation-always-null
-                    toast("See updateCurrentLocation() in AddEditMoodActivity.java");
+                    toast("Could not get location");
                 }
             }
         });
     }
 
-    public void onUploadPhotoClicked(View view){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE);
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment(moodDate, new TimePickerCallback() {
+            @Override
+            public void OnCallback(int hourOfDay, int minute) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(moodDate));
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                moodDate = calendar.getTime().getTime();
+                updateDate();
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            try {
-                moodImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                testImage.setImageBitmap(moodImage);
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment(moodDate, new DatePickerCallback() {
+            @Override
+            public void OnCallback(int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(moodDate));
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                moodDate = calendar.getTime().getTime();
+                updateDate();
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if( requestCode == PICK_LOCATION && resultCode == RESULT_OK ) {
-            String longitude = data.getExtras().getString("LONG");
-            String latitude = data.getExtras().getString("LAT");
-            Location l = new Location("dummy");
-            l.setLatitude( Double.parseDouble(latitude) );
-            l.setLongitude(Double.parseDouble(longitude) );
-            moodLocation = l;
-        }
+        });
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void onChooseLocationPicked( View view ) {
-        final Intent intent = new Intent(this, ChooseLocationActivity.class);
-        startActivityForResult(intent, PICK_LOCATION);
+    public void updateDate() {
+        Date date = new Date(moodDate);
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy", Locale.getDefault());
+
+        String timeString = timeFormat.format(date);
+        String dateString = dateFormat.format(date);
+
+        selectedTimeTextView.setText(timeString);
+        selectedDateTextView.setText(dateString);
     }
 
     public void onSubmitClicked(View view) {
@@ -183,34 +385,133 @@ public class AddEditMoodActivity extends MoodCompatActivity {
             return;
         }
 
-        moodReason = reasonInput.getText().toString();
+        moodReason = reasonEditText.getText().toString();
 
-        // Extract date / time from datePicker and timePicker
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, datePicker.getYear());
-        calendar.set(Calendar.MONTH, datePicker.getMonth());
-        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-        calendar.set(Calendar.MINUTE, timePicker.getMinute());
-        calendar.set(Calendar.SECOND, 0);
-        moodDate = calendar.getTime().getTime();
+        Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
 
-        String uuid = UUID.randomUUID().toString();
+        if (uploadedImage) {
+            firebaseController.uploadMoodImageToDB(newMood, moodImage, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    if (bool) {
+                        toast("Image upload successful");
+                        addMoodToDB(newMood);
+                    } else {
+                        toast("Image upload failed");
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+                }
+            });
+        } else {
+            addMoodToDB(newMood);
+        }
+    }
 
-        Mood newMood = moodFactory.createMood(uuid, moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodImage);
-
+    public void addMoodToDB(Mood newMood) {
+        // update the mood event in firebase
         firebaseController.addMoodEventToDB(newMood, new BooleanCallback() {
             @Override
             public void onCallback(boolean success) {
                 if (success) {
-                    toast("Successfully added Mood event");
-                }
-                else {
-                    toast("Failed to add Mood event");
+                    if (requestCode == ADD_MOOD) {
+                        toast(R.string.add_mood_successfully_saved);
+                    } else if (requestCode == EDIT_MOOD) {
+                        toast("Successfully edited Mood event");
+                    }
+
+                    Intent returnIntent = new Intent();
+                    // return the new mood event to the activity that called this
+                    returnIntent.putExtra("mood", newMood);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    if (requestCode == ADD_MOOD) {
+                        toast("Failed to add Mood event");
+                    } else if (requestCode == EDIT_MOOD) {
+                        toast("Failed to edit Mood event");
+                    }
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
                 }
             }
         });
+    }
 
-        finish();
+    public void onViewImageClicked(View view) {
+
+        if (moodHasImage && moodImage == null) {
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, true);
+            new ViewImageFragment(newMood, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    uploadedImage = false;
+                    moodHasImage = false;
+                    moodImage = null;
+                    updatePhotoButtons();
+                }
+            }).show(getSupportFragmentManager(), "VIEW_IMAGE");
+        }
+        if (moodHasImage && moodImage != null) {
+            new ViewImageFragment(moodImage, new BooleanCallback() {
+                @Override
+                public void onCallback(boolean bool) {
+                    uploadedImage = false;
+                    moodHasImage = false;
+                    moodImage = null;
+                    updatePhotoButtons();
+                }
+            }).show(getSupportFragmentManager(), "VIEW_IMAGE");
+        }
+    }
+
+    public void onViewLocationClicked(View view) {
+        if (moodLocation == null) {
+            toast("Choose a location first");
+            return;
+        } else {
+            Mood newMood = moodFactory.createMood(moodId, firebaseController.getCurrentUID(), moodEmotion, moodDate, moodReason, moodLocation, moodSocialSituation, moodHasImage);
+            Intent intent = new Intent(this, ViewLocationActivity.class);
+            intent.putExtra("mood", newMood);
+            startActivityForResult(intent, VIEW_LOCATION);
+        }
+    }
+
+    public void updatePhotoButtons() {
+        if (moodHasImage) {
+            galleryButton.setVisibility(View.INVISIBLE);
+            cameraButton.setVisibility(View.INVISIBLE);
+            photoViewButton.setVisibility(View.VISIBLE);
+        } else{
+            galleryButton.setVisibility(View.VISIBLE);
+            cameraButton.setVisibility(View.VISIBLE);
+            photoViewButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    // We should have a NavBar class for these methods
+    public void onSearchUsersClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UsersActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onAddMoodClicked(MenuItem item) {
+        final Intent intent = new Intent(this, AddEditMoodActivity.class);
+        intent.putExtra("requestCode", ADD_MOOD);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onMoodHistoryClicked(MenuItem item) {
+        final Intent intent = new Intent(this, MoodHistoryActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
+    }
+
+    public void onUserProfileClicked(MenuItem item) {
+        final Intent intent = new Intent(this, UserProfileActivity.class);
+        item.setChecked(true);
+        startActivity(intent);
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigationSearch"
+        android:icon="@drawable/ic_search"
+        android:onClick="onSearchUsersClicked"
+        android:title="Search Users"/>
+
+    <item
+        android:id="@+id/navigationAddMood"
+        android:icon="@drawable/ic_add_mood"
+        android:onClick="onAddMoodClicked"
+        android:title="Add Mood" />
+
+    <item
+        android:id="@+id/navigationMoodHistory"
+        android:icon="@drawable/ic_mood_history"
+        android:onClick="onMoodHistoryClicked"
+        android:title="Mood History"/>
+
+    <item
+        android:id="@+id/navigationHomeProfile"
+        android:icon="@drawable/ic_home_profile"
+        android:onClick="onUserProfileClicked"
+        android:title="My Profile"/>
+</menu>

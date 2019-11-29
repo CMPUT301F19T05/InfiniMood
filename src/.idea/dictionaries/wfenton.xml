@@ -2,6 +2,11 @@
   <dictionary name="wfenton">
     <words>
       <w>firebase</w>
+      <w>followee</w>
+<<<<<<< HEAD
+      <w>navbar</w>
+=======
+>>>>>>> origin/master
       <w>unfollow</w>
     </words>
   </dictionary>

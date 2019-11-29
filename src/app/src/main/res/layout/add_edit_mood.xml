@@ -8,130 +8,286 @@
 
     <!--    android:inputType="date" -->
 
-    <DatePicker
-        android:id="@+id/addEditDatePicker"
-
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/addEditTimePicker"
-        app:layout_constraintEnd_toEndOf="@+id/addEditSocialSituationSpinner"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/addEditSocialSituationSpinner"
-        app:layout_constraintTop_toBottomOf="@+id/addEditTitleTextView" />
-
-    <TimePicker
-        android:id="@+id/addEditTimePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:clipToPadding="true"
-        android:timePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
-        app:layout_constraintEnd_toEndOf="@+id/addEditDatePicker"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/addEditDatePicker"
-        app:layout_constraintTop_toBottomOf="@+id/addEditDatePicker" />
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation" />
 
     <Button
         android:id="@+id/addEditSubmitButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
         android:clickable="false"
         android:onClick="onSubmitClicked"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditReasonEditText" />
-
-    <Button
-        android:id="@+id/uploadPhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:onClick="onUploadPhotoClicked"
-        android:text="@string/Upload_Photo_Button"
-        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addEditImageTextView" />
 
     <Button
         android:id="@+id/chooseLocationButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:onClick="onChooseLocationPicked"
-        android:text="Loc"
-        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationSpinner"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/addEditDatePicker" />
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditViewLocationButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditViewLocationButton" />
 
-    <ImageView
-        android:id="@+id/testImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/uploadPhotoButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="onTakePhotoClicked"
+        android:text="Camera"
+        app:layout_constraintBottom_toBottomOf="@+id/uploadPhotoButton"
+        app:layout_constraintEnd_toStartOf="@+id/uploadPhotoButton"
+        app:layout_constraintTop_toTopOf="@+id/uploadPhotoButton"/>
+
+    <Button
+        android:id="@+id/uploadPhotoButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:onClick="onUploadPhotoClicked"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditImageTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditImageTextView" />
 
     <Spinner
         android:id="@+id/addEditSocialSituationSpinner"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:ems="10"
         android:entries="@array/situations_array"
         android:inputType="text"
         android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@+id/addEditReasonEditText"
-        app:layout_constraintEnd_toEndOf="@+id/addEditReasonEditText"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/addEditReasonEditText"
-        app:layout_constraintTop_toBottomOf="@+id/addEditTimePicker" />
+        app:layout_constraintBottom_toBottomOf="@+id/addEditSocialSituationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditSocialSituationTextView" />
 
     <EditText
         android:id="@+id/addEditReasonEditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="Reason (Optional)"
         android:inputType="text"
         android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@+id/addEditSubmitButton"
-        app:layout_constraintEnd_toEndOf="@+id/addEditSubmitButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/addEditSubmitButton"
-        app:layout_constraintTop_toBottomOf="@+id/addEditSocialSituationSpinner" />
+        app:layout_constraintBottom_toBottomOf="@+id/addEditReasonTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/addEditReasonTextView"
+        app:layout_constraintTop_toTopOf="@+id/addEditReasonTextView" />
 
     <Spinner
         android:id="@+id/addEditMoodSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:entries="@array/emojis_array"
+        android:entries="@array/moods_icons_array"
         android:prompt="@string/emoji_prompt"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditMoodTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addEditTitleTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/addEditMoodTextView" />
 
     <TextView
         android:id="@+id/addEditTitleTextView"
-        android:layout_width="0dp"
+        android:layout_width="249dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="Add/Edit Mood"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/addEditDatePicker"
-        app:layout_constraintEnd_toStartOf="@+id/addEditMoodSpinner"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/addEditMoodTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addEditDatePickerButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:onClick="showDatePickerDialog"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditSelectedDateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditSelectedDateTextView" />
+
+    <Button
+        android:id="@+id/addEditTimePickerButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:onClick="showTimePickerDialog"
+        android:text="Select"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditSelectedTimeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditSelectedTimeTextView" />
+
+    <TextView
+        android:id="@+id/addEditTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Time"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditDateTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditReasonTextView" />
+
+    <TextView
+        android:id="@+id/addEditDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Date"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditLocationTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditTimeTextView" />
+
+    <TextView
+        android:id="@+id/addEditSocialSituationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Social"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditReasonTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditMoodTextView" />
+
+    <TextView
+        android:id="@+id/addEditReasonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Reason"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditTimeTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditSocialSituationTextView" />
+
+    <TextView
+        android:id="@+id/addEditMoodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Mood"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSocialSituationTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditTitleTextView" />
+
+    <TextView
+        android:id="@+id/addEditSelectedDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Selected Date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditDateTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addEditDatePickerButton"
+        app:layout_constraintTop_toTopOf="@+id/addEditDateTextView" />
+
+    <TextView
+        android:id="@+id/addEditSelectedTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Selected Time"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditTimeTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addEditTimePickerButton"
+        app:layout_constraintTop_toTopOf="@+id/addEditTimeTextView" />
+
+    <TextView
+        android:id="@+id/addEditLocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Location"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditImageTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditDateTextView" />
+
+    <TextView
+        android:id="@+id/addEditImageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Image"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addEditSubmitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addEditLocationTextView" />
+
+    <Button
+        android:id="@+id/addEditViewLocationButton"
+        android:textColor="@color/colorButtons"
+        android:background="@drawable/rounded_buttons_hollow"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="onViewLocationClicked"
+        android:text="View"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditLocationTextView"
+        app:layout_constraintEnd_toStartOf="@+id/chooseLocationButton"
+        app:layout_constraintTop_toTopOf="@+id/addEditLocationTextView" />
+
+    <Button
+        android:id="@+id/addEditViewImageButton"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_buttons"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="onViewImageClicked"
+        android:text="View"
+        app:layout_constraintBottom_toBottomOf="@+id/addEditImageTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addEditImageTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

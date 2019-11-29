@@ -6,130 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".view.UserProfileActivity">
 
-    <TextView
-        android:id="@+id/profileWelcomeTextView"
+    <Button
+        android:id="@+id/profileLogoutButton"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/user_profile_welcome"
-        android:textAlignment="center"
-
-        android:textSize="28sp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_buttons"
+        android:onClick="onLogoutClicked"
+        android:text="@string/logout"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline2"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/profileUploadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="74dp"
+        android:background="@drawable/rounded_buttons"
+        android:onClick="onUploadImageClicked"
+        android:text="Upload Image"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintTop_toBottomOf="@+id/profileUsernameTextView" />
+
+    <Button
+        android:id="@+id/profileDeleteImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:background="@drawable/rounded_buttons_hollow"
+        android:onClick="onDeleteImageClicked"
+        android:text="Delete Image"
+        android:textColor="@color/colorButtons"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
+        app:layout_constraintTop_toTopOf="@+id/profileUploadImageButton" />
 
     <ImageView
         android:id="@+id/profileAvatarImageView"
         android:layout_width="0dp"
-        android:layout_height="100sp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profileLogoutButton"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileWelcomeTextView"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="0dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="80dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/profileGuideline2"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/profileGuideline1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/default_profile_picture" />
 
     <TextView
         android:id="@+id/profileUsernameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileAvatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/profileImageView"
         tools:text="@string/username" />
 
-    <Button
-        android:id="@+id/profileAddMoodButton"
-        style="@style/Widget.AppCompat.Button.Small"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="onAddMoodClicked"
-        android:text="@string/goto_add_mood"
-        app:layout_constraintBottom_toBottomOf="@+id/profileMoodHistoryButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileMoodHistoryButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/usersButton"
-        app:layout_constraintTop_toTopOf="@+id/profileMoodHistoryButton" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
 
-    <Button
-        android:id="@+id/profileMoodHistoryButton"
-        style="@style/Widget.AppCompat.Button.Small"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profileGuideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="onMoodHistoryClicked"
-        android:text="@string/goto_mood_history"
-        app:layout_constraintBottom_toBottomOf="@+id/profileLogoutButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileLogoutButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileAddMoodButton"
-        app:layout_constraintTop_toTopOf="@+id/profileLogoutButton" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.67" />
 
-    <Button
-        android:id="@+id/profileLogoutButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:onClick="onLogoutClicked"
-        android:text="@string/logout"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileMoodHistoryButton" />
-
-    <Button
-        android:id="@+id/usersButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="onSearchUsersClicked"
-        android:text="@string/users_button"
-        app:layout_constraintBottom_toBottomOf="@+id/profileAddMoodButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileAddMoodButton"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profileAddMoodButton" />
-
-    <!--
-    <Button
-        android:id="@+id/profilePrintMoodsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:onClick="onPrintMoodsClicked"
-        android:text="Print Moods"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="554dp" />
-
-    <Button
-        android:id="@+id/profileLocationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:onClick="onLocationClicked"
-        android:text="Location"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="554dp" />
-     -->
+        app:menu="@menu/navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

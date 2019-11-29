@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.infinimood">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -12,24 +15,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MoodHistoryActivity" android:parentActivityName=".view.MainActivity"/>
-        <activity android:name=".view.MoodMapActivity" android:parentActivityName=".view.MoodHistoryActivity"/>
+        <activity
+            android:name=".view.MoodHistoryActivity"
+            android:parentActivityName=".view.LoginActivity" />
         <activity android:name=".view.UserProfileActivity" />
-        <activity android:name=".view.CreateAccountActivity" android:parentActivityName=".view.MainActivity"/>
-        <activity android:name=".view.AddEditMoodActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity
+            android:name=".view.CreateAccountActivity"
+            android:parentActivityName=".view.LoginActivity" />
+        <activity android:name=".view.AddEditMoodActivity" />
         <activity android:name=".view.ChooseLocationActivity" />
-        <activity android:name=".view.UsersActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.UsersActivity" />
+        <activity android:name=".view.ViewLocationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC111F8lbHn0gExf00gmqffJLgTcFBKSM8"/>
+            android:value="@string/API_KEY"/>
     </application>
 
 </manifest>
