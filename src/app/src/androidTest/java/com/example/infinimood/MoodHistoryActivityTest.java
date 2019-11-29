@@ -22,6 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import static org.junit.Assert.assertTrue;
+
 @RunWith(AndroidJUnit4.class)
 public class MoodHistoryActivityTest {
 
@@ -51,7 +53,7 @@ public class MoodHistoryActivityTest {
                 new GregorianCalendar(2019, GregorianCalendar.MAY, 15).getTime().getTime(),
                 "<3",
                 null,
-                SocialSituation.WITH_CROWD.getDescription(),
+                SocialSituation.WITH_ONE.getDescription(),
                 false
         ));
         mockController.refreshOtherUserMoodsResult = moods;
@@ -83,7 +85,19 @@ public class MoodHistoryActivityTest {
 
     @Test
     public void testViewMoodHistory() {
-        solo.assertCurrentActivity("Expected add edit mode screen to show", MoodHistoryActivity.class);
+        solo.assertCurrentActivity("Expected mood history screen to show", MoodHistoryActivity.class);
+        assertTrue(solo.waitForText("In Love"));
+        assertTrue(solo.waitForText("May 15 2019 12:00 AM"));
+        assertTrue(solo.waitForText("<3"));
+        assertTrue(solo.waitForText("Angry"));
+        assertTrue(solo.waitForText("April 5 2019 12:00 AM"));
+    }
+
+    @Test
+    public void testExpandMoodHistory() {
+        solo.assertCurrentActivity("Expected mood history screen to show", MoodHistoryActivity.class);
+        solo.clickOnText("May 15 2019 12:00 AM");
+        assertTrue(solo.waitForText("With one other person"));
     }
 
 }

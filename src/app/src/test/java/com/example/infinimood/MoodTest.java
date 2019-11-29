@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class MoodTest {
+public abstract class MoodTest {
 
     private final static String TEST_ID = "1";
     private final static String TEST_USER_ID = "user1";
