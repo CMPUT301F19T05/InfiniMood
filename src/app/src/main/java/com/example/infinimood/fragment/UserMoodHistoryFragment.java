@@ -44,7 +44,7 @@ import java.util.HashSet;
 public class UserMoodHistoryFragment extends Fragment {
 
     private FirebaseController firebaseController = new FirebaseController();
-
+  
     private User user;
 
     private TextView usernameMoodHistoryTextView;
